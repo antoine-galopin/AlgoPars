@@ -11,8 +11,9 @@ import java.io.FileInputStream;
 public class Programme 
 {
 	private AlgoPars ctrl;
-	private ArrayList<String> lignesFichier;
 	private int ligneActive;
+	private ArrayList<String> lignesFichier;
+
 
 	private boolean executionActive;
 
@@ -32,9 +33,6 @@ public class Programme
 				this.lignesFichier.add( sc.nextLine() );
 		}
 		catch( Exception e ) { e.printStackTrace(); }
-
-
-		this.executerAlgo();
 	}
 
 
@@ -45,12 +43,12 @@ public class Programme
 	/**
 	 * Exécution de l'algorithme.
 	 */
-	private void executerAlgo()
+	public void executerAlgo()
 	{
 		while( this.executionActive )
 		{
+			this.ctrl.afficher();
 			// Remplacer le sysout par l'exécution d'une ligne.
-			System.out.print( this.lignesFichier.get( this.ligneActive ) );
 
 			++this.ligneActive;
 			if ( this.ligneActive == this.lignesFichier.size() ) return;
