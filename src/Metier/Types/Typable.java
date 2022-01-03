@@ -1,9 +1,17 @@
 package AlgoPars.Metier.Types;
 
-public abstract class Typable<T> {
+public class Typable<T> 
+{
 	protected String  nom;
 	protected boolean modifiable;
 	protected T       valeur;
+
+	public Typable(nom String, modifiable boolean, valeur T)
+	{
+		this.nom = nom ;
+		this.modifiable = modifiable ;
+		this.valeur = valeur ;
+	}
 
 	public String getNom() {
 		return this.nom;
