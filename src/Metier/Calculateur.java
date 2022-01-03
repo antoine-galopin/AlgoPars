@@ -1,4 +1,6 @@
-package AlgoPars.src.Metier;
+package AlgoPars.Metier;
+
+
 public class Calculateur
 {
 	public static double calculer( String expr )
