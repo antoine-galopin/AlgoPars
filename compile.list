@@ -7,6 +7,7 @@ src/Metier/Programme.java
 src/Metier/Instruction.java
 src/Metier/Donnee.java
 src/Metier/Primitives.java
+src/Metier/Calculateur.java
 
 src/Metier/Types/Booleen.java
 src/Metier/Types/Caractere.java
