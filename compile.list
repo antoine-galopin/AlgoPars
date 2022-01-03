@@ -4,3 +4,6 @@
 src/AlgoPars.java
 
 src/Metier/Programme.java
+src/Metier/Instruction.java
+src/Metier/Donnee.java
+src/Metier/Primitives.java
