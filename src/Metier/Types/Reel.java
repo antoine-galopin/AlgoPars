@@ -1,8 +1,8 @@
 package AlgoPars.Metier.Types;
 
-public class Reel extends Typable<Double> 
+public class Reel extends Typable<Double>
 {
-	public Reel(String nom , boolean modifiable, double valeur)
+	public Reel(String nom, boolean modifiable, double valeur)
 	{
 		super(nom, modifiable, valeur);
 	}

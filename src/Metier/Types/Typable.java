@@ -6,11 +6,10 @@ public class Typable<T>
 	protected boolean modifiable;
 	protected T       valeur;
 
-	public Typable(String nom ,boolean modifiable ,T valeur)
-	{
-		this.nom = nom ;
-		this.modifiable = modifiable ;
-		this.valeur = valeur ;
+	public Typable(String nom, boolean modifiable, T valeur) {
+		this.nom        = nom;
+		this.modifiable = modifiable;
+		this.valeur     = valeur;
 	}
 
 	public String getNom() {
@@ -22,7 +21,7 @@ public class Typable<T>
 	}
 
 	public void setValeur(T v) {
-		if( this.modifiable )
+		if(this.modifiable)
 			this.valeur = v;
 		else
 			throw new RuntimeException("La valeur d'une constante n'est pas modifiable");
