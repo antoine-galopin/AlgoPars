@@ -6,4 +6,9 @@ public class Booleen extends Typable<Boolean>
 	{
 		super(nom, modifiable, valeur);
 	}
+
+	public String toString()
+	{
+		return (valeur)?"vrai":"faux" ;
+	}
 }
