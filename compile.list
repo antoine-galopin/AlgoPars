@@ -1,1 +1,6 @@
+-d bin
+-encoding utf-8
+
 src/AlgoPars.java
+
+src/Metier/Programme.java
