@@ -10,16 +10,16 @@ import java.io.FileInputStream;
 
 public class Programme 
 {
-	private AlgoPars algoPars;
+	private AlgoPars ctrl;
 	private ArrayList<String> lignesFichier;
 	private int ligneActive;
 
 	private boolean executionActive;
 
 
-	public Programme( AlgoPars algoPars, String cheminFichier )
+	public Programme( AlgoPars ctrl, String cheminFichier )
 	{
-		this.algoPars = algoPars;
+		this.ctrl = ctrl;
 		this.lignesFichier = new ArrayList<String>();
 		this.ligneActive = 0;
 		this.executionActive = true;
