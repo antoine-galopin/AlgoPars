@@ -45,7 +45,9 @@ public class Programme
 	{
 		while( this.executionActive )
 		{
+			// Remplacer le sysout par l'exécution d'une ligne.
 			System.out.print( this.lignesFichier.get( this.ligneActive ) );
+			
 			++this.ligneActive;
 			if ( this.ligneActive == this.lignesFichier.size() ) return;
 			try { new Scanner( System.in ).nextLine(); }
