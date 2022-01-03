@@ -1,5 +1,3 @@
 package AlgoPars.Metier.Types;
 
-public class Booleen {
-
-}
+public class Booleen extends Typable<Boolean> {}
