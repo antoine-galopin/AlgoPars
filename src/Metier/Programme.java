@@ -30,7 +30,7 @@ public class Programme
 			Scanner sc = new Scanner( new FileInputStream( cheminFichier ) );
 			
 			while ( sc.hasNextLine() )
-				this.lignesFichier.add( sc.nextLine() );
+				this.lignesFichier.add( sc.nextLine().replace( "\t", "    " ) );
 		}
 		catch( Exception e ) { e.printStackTrace(); }
 	}

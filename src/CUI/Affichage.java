@@ -18,8 +18,9 @@ public class Affichage {
 
     public void afficher()
     {
-        System.out.println( this.entete() );
-        System.out.println( this.afficherTraceExecution() );
+        System.out.print( this.entete() );
+        System.out.print( this.corpsAlgo() );
+        System.out.print( this.afficherTraceExecution() );
     }
 
 
@@ -28,9 +29,20 @@ public class Affichage {
         String sret = String.format("%-80s", str) + str + "\n";
         sret += String.format("%-80s", "|  CODE   |") + "| DONNEES |" + "\n";
         sret += "¨".repeat(80) + " " + "¨".repeat(39) + "\n";
-        sret += "|" + String.format("%-79s", this.ctrl.getLignesFichier().get(0)) + "|" + String.format("%8s", "NOM")
-                + String.format("%9s", "|") + String.format("%14s", "VALEUR") + String.format("%8s", "|");
         return sret;
+    }
+
+
+    private String corpsAlgo()
+    {
+        ArrayList<String> fichier = this.ctrl.getLignesFichier();
+        String sRet = "|" + "  0 " + String.format("%-75s", fichier.get(0)) + "|" + String.format("%8s", "NOM")
+                + String.format("%9s", "|") + String.format("%14s", "VALEUR") + String.format("%9s", "|\n");
+        
+        for ( int cpt = 1; cpt < fichier.size(); cpt++ )
+            sRet += "|" + String.format("%3d ", cpt) + String.format("%-75s", fichier.get( cpt )) + "|                |                     |\n";
+        
+        return sRet + "¨".repeat( 120 ) + "\n\n";
     }
 
 
