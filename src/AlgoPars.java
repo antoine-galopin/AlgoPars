@@ -5,9 +5,12 @@ import AlgoPars.Metier.Programme;
 
 public class AlgoPars
 {
+    private Programme prgm;
+
+
     public AlgoPars()
     {
-        new Programme( this, "test.algo" );
+        this.prgm = new Programme( this, "test.algo" );
     }
 
 

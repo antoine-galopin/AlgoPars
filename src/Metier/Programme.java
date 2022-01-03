@@ -38,6 +38,10 @@ public class Programme
 	}
 
 
+	public int getLigneActive() { return this.ligneActive; }
+	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
+
+
 	/**
 	 * Exécution de l'algorithme.
 	 */
@@ -47,7 +51,7 @@ public class Programme
 		{
 			// Remplacer le sysout par l'exécution d'une ligne.
 			System.out.print( this.lignesFichier.get( this.ligneActive ) );
-			
+
 			++this.ligneActive;
 			if ( this.ligneActive == this.lignesFichier.size() ) return;
 			try { new Scanner( System.in ).nextLine(); }
