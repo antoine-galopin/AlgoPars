@@ -2,7 +2,7 @@ package AlgoPars.Metier.Types;
 
 public class Chaine extends Typable<String> 
 {
-	public Chaine(nom String, modifiable boolean, valeur String)
+	public Chaine(String nom ,boolean modifiable ,String valeur )
 	{
 		super(nom, modifiable, valeur);
 	}
