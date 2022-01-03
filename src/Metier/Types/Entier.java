@@ -1,5 +1,5 @@
 package AlgoPars.Metier.Types;
 
-public class Entier {
-
+public class Entier extends Typable {
+    
 }

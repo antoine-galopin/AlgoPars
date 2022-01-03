@@ -1,5 +1,5 @@
 package AlgoPars.Metier.Types;
 
-public class Tableau extends Typable <Typable T> {
+public class Tableau<Typable T> extends Typable {
 
 }
