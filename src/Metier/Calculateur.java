@@ -5,29 +5,32 @@ public class Calculateur
 {
 	public static double calculer( String expr )
 	{
-		if (expr.isEmpty()) {
-			return 0.0 ;
-		}
 		/*
 		if ( (index = expr.indexOf( "|" )) != -1 )
 			{System.out.println(expr);
 		return calculer( expr.substring( index + 1, expr.indexOf( "|", index + 1 ) ) );} */
-
+		System.out.println(expr);
 		int index = 0;
-/*
+
 		if (expr.matches("\\|.+\\|")) {
 			index = expr.indexOf( "|" );
 
-			System.out.println(expr.substring( index + 1, expr.indexOf( "|", index + 1 ) ));
-			System.out.println(expr.substring( expr.indexOf( "|", index + 1 )));
-
-
-	return calculer(
-					String.valueOf(           calculer( expr.substring(         0,expr.indexOf( "|"))))             +
-					String.valueOf( Math.abs( calculer( expr.substring( index + 1,expr.indexOf( "|", index + 1 )))))+ 
-					String.valueOf(			  calculer( expr.substring( expr.indexOf( "|"+1))))
-					);
-		}*/
+			String firstPart = expr.substring(  0,expr.indexOf( "|"));
+			firstPart = (!firstPart.isEmpty())?String.valueOf(calculer(firstPart)):"";
+			
+			String secondPart = expr.substring( expr.indexOf("|",index+1)).replaceFirst("\\|","");
+			secondPart =(!secondPart.isEmpty())?String.valueOf(calculer(secondPart)):"";
+			
+			return calculer(
+							firstPart+
+							String.valueOf(
+											Math.abs( 
+													calculer( expr.substring( index + 1,expr.indexOf( "|", index + 1 )))
+													)
+											)+ 
+							secondPart
+							);
+		}
 
 		/*if (expr.matches("\w+(\w*)"))
 			primitives.find(la foncion)
@@ -45,7 +48,7 @@ public class Calculateur
 		if ( (index = expr.indexOf( "-" )) != -1 )
 		{
 			if ( expr.charAt( 0 ) != '-' )
-				return Math.abs( calculer( expr.substring( 0, index ) ) + calculer( expr.substring( index + 1, expr.length() ) ) );
+/*?*/				return Math.abs( calculer( expr.substring( 0, index ) ) + calculer( expr.substring( index + 1, expr.length() ) ) );
 			else
 				return -calculer( expr.substring( 1, expr.length() ) );
 		}
@@ -75,7 +78,7 @@ public class Calculateur
 		System.out.println( calculer( "20 div 8" ) + " = 2 ?" );
 		System.out.println( calculer( "13 mod 5" ) + " = 3 ?" );
 		System.out.println( calculer( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );
-		System.out.println( calculer( "-5 ^ 2 - 3 × 10" ) + " = 55 ?" );
+		System.out.println( calculer( "|-5 ^ 2|+ 52-2×3+0-3 × 10" ) + " = ?" );
 
 	}
 }
