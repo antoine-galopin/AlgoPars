@@ -62,11 +62,11 @@ public class Programme
 	 */
 	public void executerAlgo()
 	{
+		this.ctrl.afficher();
 		while( this.executionActive )
 		{
-			this.ctrl.afficher();
-
 			this.listeInstructions.get( this.ligneActive ).interpreterLigne();
+			this.ctrl.afficher();
 
 			++this.ligneActive;
 			if ( this.ligneActive == this.lignesFichier.size() ) return;

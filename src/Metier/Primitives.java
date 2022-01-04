@@ -20,7 +20,13 @@ public class Primitives {
    
     public String lire() {
         String msg = "";
-        try { msg = new Scanner(System.in).nextLine(); } catch (Exception e) {}
+        Scanner sc = null;
+        try 
+        { 
+            sc = new Scanner( System.in );
+            msg = sc.nextLine();
+            sc.close(); 
+        } catch (Exception e) {}
         return msg;
     }
 

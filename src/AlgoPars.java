@@ -20,6 +20,7 @@ public class AlgoPars
     }
 
 
+    public int getLigneActive() { return this.prgm.getLigneActive(); }
     public ArrayList<String> getLignesFichier() { return this.prgm.getLignesFichier(); }
 
     public void afficher() { this.cui.afficher(); }
