@@ -26,6 +26,6 @@ public class Primitives {
 
 
     public void ecrire( String msg ) {
-        return this.ctrl.ajouterTraceExecution(msg);
+        this.ctrl.ajouterTraceExecution(msg);
     }
 }
