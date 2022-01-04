@@ -4,6 +4,7 @@
 src/AlgoPars.java
 
 src/CUI/Affichage.java
+src/CUI/ColorationSyntaxique.java
 
 src/Metier/Calculateur.java
 src/Metier/Donnee.java

@@ -25,7 +25,7 @@ public class ColorationSyntaxique
 
 		try
 		{
-			Document doc = new SAXBuilder().build( new File( "coloration.xml" ) );
+			Document doc = new SAXBuilder().build( new File( "../src/CUI/coloration.xml" ) );
 			racine = doc.getRootElement();
 		}
 		catch( Exception e ) { e.printStackTrace(); }
@@ -80,7 +80,7 @@ public class ColorationSyntaxique
 		if ( couleurs.get( mot ).get( 1 ).equals( "true" ) ) 
 			couleur += "\033[1m";
 
-		return couleur + "\033[0m";
+		return couleur + mot + "\033[0m";
 	}
 
 

@@ -31,7 +31,7 @@ public class Programme {
 		this.ligneActive = 0;
 		this.executionActive = true;
 
-		this.donnees = new Donnee(this.lignesFichier);
+		this.donnees = new Donnee();
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {
