@@ -49,12 +49,17 @@ public class Affichage {
 
         int lengthDiff = 0;
         for ( int cpt = posDebut ; cpt <= posDebut + 39; cpt++ )
-        {              
+        {
+            if ( cpt == fichier.size() )
+                break;
+            
             lengthDiff = this.colorerLigne( fichier.get( cpt ) ).length() - fichier.get( cpt ).length();
 
             sRet += "|" + String.format( "%3d", cpt ) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) +
                     String.format( "%-75s", this.colorerLigne( fichier.get( cpt ) ) );
-            sRet += " ".repeat( lengthDiff - 1 );
+            
+            if ( lengthDiff > 0 )
+                sRet += " ".repeat( lengthDiff - 1 );
 
             if ( cpt == posDebut )
             {
