@@ -1,4 +1,4 @@
-package AlgoPars.CUI;
+package AlgoPars.Metier;
 
 import iut.algo.Console;
 import iut.algo.CouleurConsole;
@@ -25,7 +25,7 @@ public class ColorationSyntaxique
 
 		try
 		{
-			Document doc = new SAXBuilder().build( new File( "../src/CUI/coloration.xml" ) );
+			Document doc = new SAXBuilder().build( new File( "../utilisateur/coloration.xml" ) );
 			racine = doc.getRootElement();
 		}
 		catch( Exception e ) { e.printStackTrace(); }
@@ -46,7 +46,20 @@ public class ColorationSyntaxique
 	}
 
 
-	public static String colorerMot( String mot )
+	public static String colorierLigne( String ligne )
+	{
+		String regexTmp = "";
+		for ( String mot : couleurs.keySet() )
+		{
+			regexTmp  =
+			ligne = ligne.replace( "( ?" + mot + " ?)", " " + colorierMot( mot ) + " " );
+		}
+		
+		return ligne;
+	}
+
+
+	public static String colorierMot( String mot )
 	{
 		if ( !couleurs.containsKey( mot ) ) return mot;
 
@@ -90,6 +103,6 @@ public class ColorationSyntaxique
 	{
 		ColorationSyntaxique.chargerCouleurs();
 		for( String key : couleurs.keySet() )
-			System.out.println( key + " " + colorerMot( key ) );
+			System.out.println( key + " " + colorierMot( key ) );
 	}
 }
