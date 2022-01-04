@@ -4,6 +4,8 @@ import AlgoPars.AlgoPars;
 
 import java.util.ArrayList;
 
+import javax.lang.model.util.ElementScanner14;
+
 public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
@@ -53,10 +55,10 @@ public class Affichage {
             {
                 sRet = "|" + "  0 " + String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
                 + String.format( "%9s", "|" ) + String.format( "%14s", "VALEUR" ) + String.format( "%9s", "|\n" );
-                continue;
             }
-            sRet += "|" + String.format("%3d ", cpt) + String.format("%-75s", fichier.get(cpt))
-                    + "|                |                     |\n";
+            else if ( cpt < fichier.size() )
+                sRet += "|" + String.format( "%3d ", cpt ) + String.format( "%-75s", fichier.get( cpt ) )
+                        + "|                |                     |\n";
         }            
 
         return sRet + "¨".repeat(120) + "\n\n";
