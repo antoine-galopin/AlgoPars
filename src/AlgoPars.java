@@ -15,9 +15,7 @@ public class AlgoPars {
         this.prgm.executerAlgo();
     }
 
-    public ArrayList<String> getLignesFichier() {
-        return this.prgm.getLignesFichier();
-    }
+    public ArrayList<String> getLignesFichierColorie() { return this.prgm.getLignesFichierColorie(); }
 
     public int getLigneActive() {
         return this.prgm.getLigneActive();
@@ -30,6 +28,7 @@ public class AlgoPars {
     }
 
     public void affecterValeur(String nom, String valeur) {
+        this.prgm.affecterValeur( nom, valeur );
     }
 
     public void ajouterTraceExecution(String trace) {

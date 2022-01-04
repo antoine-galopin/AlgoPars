@@ -1,9 +1,6 @@
 package AlgoPars.Metier;
 
 import AlgoPars.AlgoPars;
-import AlgoPars.Metier.Donnee;
-import AlgoPars.Metier.Instruction;
-import AlgoPars.Metier.Primitives;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,6 +13,7 @@ public class Programme {
 
 	private int ligneActive;
 	private ArrayList<String> lignesFichier;
+	private ArrayList<String> lignesFichierColorie;
 
 	private Donnee donnees;
 	private ArrayList<Instruction> listeInstructions;
@@ -24,10 +22,14 @@ public class Programme {
 
 
 	public Programme(AlgoPars ctrl, String cheminFichier) {
+        // Important car cela permet de charger le fichier XML des couleurs.
+        ColorationSyntaxique.chargerCouleurs();
+
 		this.ctrl = ctrl;
 		this.primitives = new Primitives(this.ctrl, this);
 
 		this.lignesFichier = new ArrayList<String>();
+		this.lignesFichierColorie = new ArrayList<String>();
 		this.ligneActive = 0;
 		this.executionActive = true;
 
@@ -41,7 +43,8 @@ public class Programme {
 			while (sc.hasNextLine()) {
 				ligne = sc.nextLine().replace("\t", "    ");
 				this.lignesFichier.add(ligne);
-				this.listeInstructions.add(new Instruction(this.primitives, ligne));
+				this.lignesFichierColorie.add( ColorationSyntaxique.colorierLigne( ligne ) );
+				this.listeInstructions.add( new Instruction( this.ctrl, this.primitives, ligne ) );
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,12 +52,14 @@ public class Programme {
 	}
 
 
-	public int getLigneActive() {
-		return this.ligneActive;
-	}
+	public int getLigneActive() { return this.ligneActive; }
+	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
+	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 
-	public ArrayList<String> getLignesFichier() {
-		return this.lignesFichier;
+
+	public void affecterValeur( String nom, String valeur )
+	{
+		this.donnees.affecterValeur( nom, valeur );
 	}
 
 	/**
