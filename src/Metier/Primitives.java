@@ -18,14 +18,14 @@ public class Primitives {
     }
 
    
-    public static String lire() {
+    public String lire() {
         String msg = "";
         try { msg = new Scanner(System.in).nextLine(); } catch (Exception e) {}
         return msg;
     }
 
 
-    public static void ecrire( String msg ) {
+    public void ecrire( String msg ) {
         return this.ctrl.ajouterTraceExecution(msg);
     }
 }
