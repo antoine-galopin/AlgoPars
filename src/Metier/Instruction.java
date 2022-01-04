@@ -35,9 +35,6 @@ public class Instruction {
                 bvariable = false;
                 System.out.println("Debut");
                 break;
-            case "FIN":
-                System.out.println("Fin");
-                break;
             case "ecrire":
                 this.primit.ecrire(this.ligne[1]);
                 break;
