@@ -47,15 +47,19 @@ public class Affichage {
 
         for ( int cpt = posDebut ; cpt <= posDebut + 39; cpt++ )
         {
+            /*
+            if ( cpt == this.ctrl.getLigneActive() ) {
+                sRet += "-->";
+            } */
             if ( cpt == posDebut )
             {
-                sRet = "|" + String.format( "%3d ", cpt ) + String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
+                sRet = "|" + String.format( "%3d", cpt ) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) + String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
                 + String.format( "%9s", "|" ) + String.format( "%14s", "VALEUR" ) + String.format( "%9s", "|\n" );
             }
             else if ( cpt < fichier.size() )
-                sRet += "|" + String.format( "%3d ", cpt ) + String.format( "%-75s", fichier.get( cpt ) )
+                sRet += "|" + String.format( "%3d", cpt ) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) + String.format( "%-75s", fichier.get( cpt ) )
                         + "|                |                     |\n";
-        }            
+        }
 
         return sRet + "¨".repeat(120) + "\n\n";
     }
