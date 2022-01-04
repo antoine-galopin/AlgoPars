@@ -4,7 +4,6 @@ import AlgoPars.AlgoPars;
 
 import java.util.ArrayList;
 
-import javax.lang.model.util.ElementScanner14;
 
 public class Affichage {
     private AlgoPars ctrl;
@@ -14,6 +13,9 @@ public class Affichage {
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
+
+        // Important car cela permet de charger le fichier XML des couleurs.
+        ColorationSyntaxique.chargerCouleurs();
     }
 
 
@@ -45,17 +47,21 @@ public class Affichage {
         String sRet = "";
 
 
+        int lengthDiff = 0;
         for ( int cpt = posDebut ; cpt <= posDebut + 39; cpt++ )
-        {
-            sRet += "|" + String.format( "%3d", cpt ) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " );
+        {              
+            lengthDiff = this.colorerLigne( fichier.get( cpt ) ).length() - fichier.get( cpt ).length();
+
+            sRet += "|" + String.format( "%3d", cpt ) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) +
+                    String.format( "%-75s", this.colorerLigne( fichier.get( cpt ) ) );
+            sRet += " ".repeat( lengthDiff - 1 );
 
             if ( cpt == posDebut )
             {
-                sRet += String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
-                + String.format( "%9s", "|" ) + String.format( "%14s", "VALEUR" ) + String.format( "%9s", "|\n" );
+                sRet += "|     NOM        |        VALEUR       |\n";
             }
             else if ( cpt < fichier.size() )
-                sRet += String.format( "%-75s", fichier.get( cpt ) ) + "|                |                     |\n";
+                sRet += "|                |                     |\n";  // à modifier plus tard pour pouvoir afficher les variables.
         }
 
         return sRet + "¨".repeat(120) + "\n\n";
@@ -75,5 +81,17 @@ public class Affichage {
         
         sRet += "|>" + " ".repeat( 117 ) + "|\n";
         return sRet + "¨".repeat( 120 ) ;
+    }
+
+
+    public String colorerLigne( String ligne )
+    {
+        String[] ligneSplitee = ligne.split( " " );
+        String result = "";
+
+        for ( int cpt = 0; cpt < ligneSplitee.length; cpt++ )
+            result += " " + ColorationSyntaxique.colorerMot( ligneSplitee[cpt] );
+        
+        return result;
     }
 }
