@@ -15,13 +15,21 @@ public class AlgoPars {
         this.prgm.executerAlgo();
     }
 
-    public ArrayList<String> getLignesFichier() { return this.prgm.getLignesFichier(); }
-    public int getLigneActive() { return this.prgm.getLigneActive(); }
+    public ArrayList<String> getLignesFichier() {
+        return this.prgm.getLignesFichier();
+    }
+
+    public int getLigneActive() {
+        return this.prgm.getLigneActive();
+    }
 
     public void afficher() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
         this.cui.afficher();
+    }
+
+    public void affecterValeur(String nom, String valeur) {
     }
 
     public void ajouterTraceExecution(String trace) {
