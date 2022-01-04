@@ -2,13 +2,10 @@ package AlgoPars.Metier.Types;
 
 import java.util.Collection ;
 import java.util.Iterator ;
-/**
- * classe generique tableau -> on peut avoir un tableau de tout les typables
- * tableau par heritage est une liste du type donnee
- */
-public class Tableau<T extends Typable>
-extends Typable<Collection<T>>
-implements Collection<T>
+
+public class Tableau<T extends Typable>	//c'est un generique de typable
+extends Typable<Collection<T>>			//c'est une typable
+implements Collection<T>				//c'est une collection
 {
 	private final int taille ;
 
@@ -39,4 +36,9 @@ implements Collection<T>
     public String toString(){return valeur.toString();}
 
     /*--------------A faire instancié les tableau-------------*/
+/*
+    public static Tableau<Tableau<Tableau>> new_tableau(String nom, boolean modifiable, T[] valeur)
+    {
+
+    }*/
 }
