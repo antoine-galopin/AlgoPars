@@ -7,12 +7,22 @@ import java.util.ArrayList;
 
 public class Affichage {
     private AlgoPars ctrl;
-
     private ArrayList<String> traceExecution;
 
 
     public Affichage( AlgoPars ctrl ) {
         this.ctrl = ctrl;
+        this.traceExecution = new ArrayList<String>();
+        this.traceExecution.add( "etape0" );
+        this.traceExecution.add( "etape1" );
+        this.traceExecution.add( "etape2" );
+        this.traceExecution.add( "etape3" );
+    }
+
+
+    public void ajouterTraceExecution( String trace )
+    {
+        this.traceExecution.add( trace );
     }
 
 
@@ -49,6 +59,15 @@ public class Affichage {
     private String afficherTraceExecution()
     {
         String sRet = "¨".repeat( 11 ) + "\n| CONSOLE |\n" + "¨".repeat( 120 ) + "\n";
-        return sRet;
+        
+        int indexDebut = this.traceExecution.size() > 3 ? this.traceExecution.size() - 3 : 0;
+        for ( ; indexDebut < indexDebut + 3; indexDebut++ )
+        {
+            if ( indexDebut == this.traceExecution.size() ) break;
+            sRet += "|" + String.format( "%-118s", this.traceExecution.get( indexDebut ) ) + "|\n";
+        }
+        
+        sRet += "|>" + " ".repeat( 117 ) + "|\n";
+        return sRet + "¨".repeat( 120 ) ;
     }
 }
