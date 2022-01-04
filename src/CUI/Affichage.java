@@ -14,10 +14,6 @@ public class Affichage {
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
-        this.traceExecution.add( "etape0" );
-        this.traceExecution.add( "etape1" );
-        this.traceExecution.add( "etape2" );
-        this.traceExecution.add( "etape3" );
     }
 
 
@@ -44,16 +40,16 @@ public class Affichage {
     
 
     private String corpsAlgo() {
-        // A revoir probleme d'affichage au dela de 40 lignes. Et non opti
         ArrayList<String> fichier = this.ctrl.getLignesFichier();
-        int posDebut = this.ctrl.getLigneActive() >= fichier.size() ? this.ctrl.getLigneActive() - 40 : 0;
+        int posDebut = this.ctrl.getLigneActive() >= 39 ? this.ctrl.getLigneActive() - 39 : 0;
         String sRet = "";
 
-        for ( int cpt = posDebut ; cpt < posDebut + 40; cpt++ )
+
+        for ( int cpt = posDebut ; cpt <= posDebut + 39; cpt++ )
         {
             if ( cpt == posDebut )
             {
-                sRet = "|" + "  0 " + String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
+                sRet = "|" + String.format( "%3d ", cpt ) + String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
                 + String.format( "%9s", "|" ) + String.format( "%14s", "VALEUR" ) + String.format( "%9s", "|\n" );
             }
             else if ( cpt < fichier.size() )

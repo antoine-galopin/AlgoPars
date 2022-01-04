@@ -1,5 +1,5 @@
 <coloration>
-    <structure couleur="\033[30m" poids="true">
+    <structure idCoul="0" poids="true">
         <mot>ALGORITHME</mot>
         <mot>constante</mot>
         <mot>variable</mot>
@@ -9,15 +9,15 @@
         <mot>retourne</mot>
     </structure>
 
-    <ecrire couleur="\033[34m" poids="false">
+    <ecrire idCoul="1" poids="false">
         <mot>ecrire</mot>
     </ecrire>
 
-    <lire couleur="\033[36m" poids="false">
+    <lire idCoul="2" poids="false">
         <mot>lire</mot>
     </lire>
 
-    <commande couleur="\033[33m" poids="false">
+    <commande idCoul="3" poids="false">
         <mot>si</mot> <!--conditions-->
         <mot>sinon</mot>
         <mot>alors</mot>
@@ -48,17 +48,6 @@
         <mot>xou</mot>
         <mot>non</mot>
 
-        <mot>=</mot> <!--comparateurs logiques-->
-        <mot>/=</mot>
-        <mot><</mot>
-        <mot><=</mot>
-        <mot>></mot>
-        <mot>>=</mot>
-
-        <mot><--</mot> <!--affectations-->
-        <mot>--></mot>
-        <mot>:</mot>
-
         <mot>booleen</mot> <!--types-->
         <mot>entier</mot>
         <mot>reel</mot>
@@ -70,7 +59,7 @@
         <mot>faux</mot>
     </commande>
 
-    <commentaire couleur="\033[90m" poids="false">
+    <commentaire idCoul="4" poids="false">
         <mot>//</mot>
         <mot>/*</mot>
     </commentaire>

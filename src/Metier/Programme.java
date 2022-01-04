@@ -22,6 +22,7 @@ public class Programme {
 
 	private boolean executionActive;
 
+
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		this.ctrl = ctrl;
 		this.primitives = new Primitives(this.ctrl, this);
@@ -47,6 +48,7 @@ public class Programme {
 		}
 	}
 
+
 	public int getLigneActive() {
 		return this.ligneActive;
 	}
@@ -59,19 +61,19 @@ public class Programme {
 	 * Exécution de l'algorithme.
 	 */
 	public void executerAlgo() {
-		this.ctrl.afficher();
-		while (this.executionActive) {
+		
+		do 
+		{
 			this.listeInstructions.get(this.ligneActive).interpreterLigne();
 			this.ctrl.afficher();
 
 			++this.ligneActive;
-			if (this.ligneActive == this.lignesFichier.size())
-				return;
+			
 			try {
 				new Scanner(System.in).nextLine();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
+		}while (this.executionActive && this.ligneActive < this.lignesFichier.size() );
 	}
 }
