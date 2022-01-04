@@ -15,55 +15,23 @@ DEBUT
 	ouiounon <-- vrai
 
 	lire ( var )
+
 	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( var )
-	ecrire ( oui )
+
+	si blabla alors
+		tant que vol xou faire
+			ecrire ( bla )
+			// On test juste
+		ftq
+	sinon OUI alors
+		ecrire ( 42 )
+	fsisi blabla alors
+		tant que vol xou faire
+			ecrire ( bla )
+			// On test juste
+		ftq
+	sinon OUI alors
+		ecrire ( 42 )
+	fsi
+		
 FIN

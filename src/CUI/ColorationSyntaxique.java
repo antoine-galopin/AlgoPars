@@ -46,8 +46,10 @@ public class ColorationSyntaxique
 	}
 
 
-	public static String getCouleurMot( String mot )
+	public static String colorerMot( String mot )
 	{
+		if ( !couleurs.containsKey( mot ) ) return mot;
+
 		String couleur;
 		String id = couleurs.get( mot ).get( 0 );
 		switch ( id ) 
@@ -88,6 +90,6 @@ public class ColorationSyntaxique
 	{
 		ColorationSyntaxique.chargerCouleurs();
 		for( String key : couleurs.keySet() )
-			System.out.println( key + " " + getCouleurMot( key ) );
+			System.out.println( key + " " + colorerMot( key ) );
 	}
 }
