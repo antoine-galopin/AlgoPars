@@ -51,7 +51,7 @@ public class ColorationSyntaxique
 		String regexTmp = "";
 		for ( String mot : couleurs.keySet() )
 		{
-			regexTmp  =
+			regexTmp = 
 			ligne = ligne.replace( "( ?" + mot + " ?)", " " + colorierMot( mot ) + " " );
 		}
 		

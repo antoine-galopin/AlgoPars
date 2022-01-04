@@ -35,6 +35,19 @@ public class AlgoPars {
         this.cui.ajouterTraceExecution(trace);
     }
 
+
+    public void add( String nom, String type, String valeur )
+    {
+        this.prgm.add( nom, type, valeur );
+    }
+
+
+    public void add( String nom, String type )
+    {
+        this.prgm.add( nom, type );
+    }
+
+
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }

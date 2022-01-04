@@ -81,4 +81,16 @@ public class Programme {
 			}
 		}while (this.executionActive && this.ligneActive < this.lignesFichier.size() );
 	}
+
+
+	public void add( String nom, String type, String valeur )
+    {
+        this.donnees.add( nom, type, valeur );
+    }
+
+
+    public void add( String nom, String type )
+    {
+        this.donnees.add( nom, type );
+    }
 }
