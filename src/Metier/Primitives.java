@@ -2,7 +2,6 @@ package AlgoPars.Metier;
 
 import java.util.Scanner;
 
-
 public class Primitives {
 
     public static String Lire() {
@@ -11,6 +10,7 @@ public class Primitives {
         return msg;
     }
 
-    // public static String Ecrire() {
-    // }
+    public static void Ecrire( AlgoPars ctrl, String msg ) {
+        return ctrl.ajouterTraceExecution(msg);
+    }
 }
