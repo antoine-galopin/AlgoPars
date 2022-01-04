@@ -17,7 +17,7 @@ public class Primitives {
     public void lire(String var) {
         System.out.println("Lire:");
         String msg = new Scanner(System.in).nextLine();
-        this.ctrl.ajouterTraceExecution(msg);
+        this.ctrl.affecterValeur(var, msg);
     }
 
     public void ecrire(String msg) {
