@@ -8,6 +8,7 @@ public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
 
+
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
@@ -23,11 +24,13 @@ public class Affichage {
         this.traceExecution.add( trace );
     }
 
+
     public void afficher() {
         System.out.print(this.entete());
         System.out.print(this.corpsAlgo());
         System.out.print(this.afficherTraceExecution());
     }
+
 
     private String entete() {
         String str = "¨".repeat(11);
@@ -36,6 +39,7 @@ public class Affichage {
         sret += "¨".repeat(80) + " " + "¨".repeat(39) + "\n";
         return sret;
     }
+    
 
     private String corpsAlgo() {
         // A revoir probleme d'affichage au dela de 40 lignes. Et non opti
@@ -50,7 +54,7 @@ public class Affichage {
         return sRet + "¨".repeat(120) + "\n\n";
     }
 
-    
+
     private String afficherTraceExecution()
     {
         String sRet = "¨".repeat( 11 ) + "\n| CONSOLE |\n" + "¨".repeat( 120 ) + "\n";

@@ -23,6 +23,9 @@ public class AlgoPars
     public ArrayList<String> getLignesFichier() { return this.prgm.getLignesFichier(); }
 
     public void afficher() { this.cui.afficher(); }
+    public void ajouterTraceExecution( String trace ) {
+        this.cui.ajouterTraceExecution( trace );
+    }
 
 
     public static void main( String[] args )
