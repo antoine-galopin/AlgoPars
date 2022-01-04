@@ -22,7 +22,6 @@ public class Instruction {
 
         switch (this.ligne[0].strip()) {
             case "ALGORITHME":
-                System.out.println("ALGORITHME");
                 break;
             case "constante:":
                 bconstante = true;
@@ -49,10 +48,10 @@ public class Instruction {
                 System.out.println("si");
                 break;
             case "sinon":
-                System.out.println("si");
+                System.out.println("sinon");
                 break;
             case "fsi":
-                System.out.println("si");
+                System.out.println("fsi");
                 break;
         }
     }
