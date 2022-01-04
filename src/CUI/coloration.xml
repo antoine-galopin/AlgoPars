@@ -1,0 +1,77 @@
+<coloration>
+    <structure couleur="\033[30m" poids="true">
+        <mot>ALGORITHME</mot>
+        <mot>constante</mot>
+        <mot>variable</mot>
+        <mot>DEBUT</mot>
+        <mot>FIN</mot>
+        <mot>appel</mot>
+        <mot>retourne</mot>
+    </structure>
+
+    <ecrire couleur="\033[34m" poids="false">
+        <mot>ecrire</mot>
+    </ecrire>
+
+    <lire couleur="\033[36m" poids="false">
+        <mot>lire</mot>
+    </lire>
+
+    <commande couleur="\033[33m" poids="false">
+        <mot>si</mot> <!--conditions-->
+        <mot>sinon</mot>
+        <mot>alors</mot>
+        <mot>fsi</mot>
+
+        <mot>selon</mot>
+        <mot>cas</mot>
+        <mot>autre cas</mot>
+        <mot>fselon</mot>
+
+        <mot>tant que</mot>
+        <mot>tq</mot>
+        <mot>faire</mot>
+        <mot>repeter</mot>
+        <mot>fois</mot>
+        <mot>frepeter</mot>
+
+        <mot>jusqu'a</mot>
+
+        <mot>pour</mot>
+        <mot>de</mot>
+        <mot>a</mot>
+        <mot>pas</mot>
+        <mot>fpour</mot>
+
+        <mot>ou</mot> <!--connecteurs logiques-->
+        <mot>et</mot>
+        <mot>xou</mot>
+        <mot>non</mot>
+
+        <mot>=</mot> <!--comparateurs logiques-->
+        <mot>/=</mot>
+        <mot><</mot>
+        <mot><=</mot>
+        <mot>></mot>
+        <mot>>=</mot>
+
+        <mot><--</mot> <!--affectations-->
+        <mot>--></mot>
+        <mot>:</mot>
+
+        <mot>booleen</mot> <!--types-->
+        <mot>entier</mot>
+        <mot>reel</mot>
+        <mot>caractere</mot>
+        <mot>chaine de caractere</mot>
+        <mot>tableau de</mot>
+
+        <mot>vrai</mot> <!--booléens-->
+        <mot>faux</mot>
+    </commande>
+
+    <commentaire couleur="\033[90m" poids="false">
+        <mot>//</mot>
+        <mot>/*</mot>
+    </commentaire>
+</coloration>

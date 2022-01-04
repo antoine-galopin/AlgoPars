@@ -16,11 +16,13 @@ public class Primitives {
 
     public String lire(String var) {
         String msg = "";
+        Scanner sc = null;
         try {
-            msg = new Scanner(System.in).nextLine();
+            sc = new Scanner(System.in);
+            msg = sc.nextLine();
+            sc.close();
         } catch (Exception e) {
         }
-        System.out.println(msg);
         return msg;
     }
 
