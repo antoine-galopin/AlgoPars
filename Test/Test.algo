@@ -3,12 +3,17 @@ ALGORITHME Test
 constante:
 	PI:reel<--3.14
 variable:
-	var:entier<--25
-	coco:chaine<--"ouije"
-	salopette:caractere<--'u'
-	ouiounon:booleen<--vrai
+	var:entier
+	coco:chaine
+	salopette:caractere
+	ouiounon:booleen
 
 DEBUT
+	var <-- 25
+	coco <-- "ouije"
+	salopette <-- 'u'
+	ouiounon <-- vrai
+
 	lire ( var )
 	ecrire ( var )	
 FIN
