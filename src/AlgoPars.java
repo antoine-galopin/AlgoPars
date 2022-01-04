@@ -9,9 +9,9 @@ public class AlgoPars {
     private Programme prgm;
     private Affichage cui;
 
-    public AlgoPars() {
+    public AlgoPars(String chemin) {
         this.cui = new Affichage(this);
-        this.prgm = new Programme(this, "../Test/Test.algo");
+        this.prgm = new Programme(this, "../utilisateur/" + chemin + ".algo");
         this.prgm.executerAlgo();
     }
 
@@ -29,6 +29,6 @@ public class AlgoPars {
     }
 
     public static void main(String[] args) {
-        new AlgoPars();
+        new AlgoPars(args[0]);
     }
 }

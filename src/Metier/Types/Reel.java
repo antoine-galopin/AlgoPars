@@ -9,6 +9,6 @@ public class Reel extends Typable<Double>
 
 	public String toString()
 	{
-		return valeur.toString().replace(".",",");
+		return valeur.toString().replace(".", ",");
 	}
 }

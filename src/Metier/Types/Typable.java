@@ -27,8 +27,7 @@ public class Typable<T>
 			throw new RuntimeException("La valeur d'une constante n'est pas modifiable");
 	}
 
-	public String toString()
-	{
+	public String toString() {
 		return valeur.toString();
 	}
 }

@@ -34,5 +34,13 @@ public class Donnee
     	((Caractere)(donnees.get(1))).setValeur('o');
 
     	System.out.println(donnees);
+
+        ArrayList<Booleen> list = new ArrayList<Booleen>();
+        list.add(new Booleen("b2",true,true  ));
+        list.add(new Booleen("b2",true,false ));
+
+        System.out.println(
+            new Tableau<Booleen> ("t1",true,list)
+        );
     }
 }

@@ -37,4 +37,6 @@ implements Collection<T>
 	public <T> T[]		toArray(T[] a)						{return valeur.toArray(a);	}
 
     public String toString(){return valeur.toString();}
+
+    /*--------------A faire instancié les tableau-------------*/
 }
