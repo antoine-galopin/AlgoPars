@@ -10,9 +10,7 @@ import java.util.Scanner;
 
 import java.io.FileInputStream;
 
-
-public class Programme 
-{
+public class Programme {
 	private AlgoPars ctrl;
 	private Primitives primitives;
 
@@ -24,54 +22,56 @@ public class Programme
 
 	private boolean executionActive;
 
-
-	public Programme( AlgoPars ctrl, String cheminFichier )
-	{
+	public Programme(AlgoPars ctrl, String cheminFichier) {
 		this.ctrl = ctrl;
-		this.primitives = new Primitives( this.ctrl, this );
+		this.primitives = new Primitives(this.ctrl, this);
 
 		this.lignesFichier = new ArrayList<String>();
 		this.ligneActive = 0;
 		this.executionActive = true;
 
-		this.donnees = new Donnee( this.lignesFichier );
+		this.donnees = new Donnee(this.lignesFichier);
 		this.listeInstructions = new ArrayList<Instruction>();
 
-		try
-		{
-			Scanner sc = new Scanner( new FileInputStream( cheminFichier ) );
-			
+		try {
+			Scanner sc = new Scanner(new FileInputStream(cheminFichier));
+
 			String ligne = "";
-			while ( sc.hasNextLine() )
-			{
-				ligne = sc.nextLine().replace( "\t", "    " );
-				this.lignesFichier.add( ligne );
-				this.listeInstructions.add( new Instruction( this.primitives, ligne ) );
+			while (sc.hasNextLine()) {
+				ligne = sc.nextLine().replace("\t", "    ");
+				this.lignesFichier.add(ligne);
+				this.listeInstructions.add(new Instruction(this.primitives, ligne));
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch( Exception e ) { e.printStackTrace(); }
 	}
 
+	public int getLigneActive() {
+		return this.ligneActive;
+	}
 
-	public int getLigneActive() { return this.ligneActive; }
-	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
-
+	public ArrayList<String> getLignesFichier() {
+		return this.lignesFichier;
+	}
 
 	/**
 	 * Exécution de l'algorithme.
 	 */
-	public void executerAlgo()
-	{
+	public void executerAlgo() {
 		this.ctrl.afficher();
-		while( this.executionActive )
-		{
-			this.listeInstructions.get( this.ligneActive ).interpreterLigne();
+		while (this.executionActive) {
+			this.listeInstructions.get(this.ligneActive).interpreterLigne();
 			this.ctrl.afficher();
 
 			++this.ligneActive;
-			if ( this.ligneActive == this.lignesFichier.size() ) return;
-			try { new Scanner( System.in ).nextLine(); }
-			catch( Exception e ) { e.printStackTrace(); }
+			if (this.ligneActive == this.lignesFichier.size())
+				return;
+			try {
+				new Scanner(System.in).nextLine();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

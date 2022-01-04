@@ -42,7 +42,7 @@ public class Instruction {
                 this.primit.ecrire(this.ligne[1]);
                 break;
             case "lire":
-                // this.primit.lire(this.ligne[1]);
+                this.primit.lire(this.ligne[1]);
                 break;
             case "si":
                 System.out.println("si");

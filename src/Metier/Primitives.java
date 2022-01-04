@@ -14,16 +14,10 @@ public class Primitives {
         this.prgm = prgm;
     }
 
-    public String lire(String var) {
-        String msg = "";
-        Scanner sc = null;
-        try {
-            sc = new Scanner(System.in);
-            msg = sc.nextLine();
-            sc.close();
-        } catch (Exception e) {
-        }
-        return msg;
+    public void lire(String var) {
+        System.out.println("Lire:");
+        String msg = new Scanner(System.in).nextLine();
+        this.ctrl.ajouterTraceExecution(msg);
     }
 
     public void ecrire(String msg) {
