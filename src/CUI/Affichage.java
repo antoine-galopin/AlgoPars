@@ -44,12 +44,20 @@ public class Affichage {
     private String corpsAlgo() {
         // A revoir probleme d'affichage au dela de 40 lignes. Et non opti
         ArrayList<String> fichier = this.ctrl.getLignesFichier();
-        String sRet = "|" + "  0 " + String.format("%-75s", fichier.get(0)) + "|" + String.format("%8s", "NOM")
-                + String.format("%9s", "|") + String.format("%14s", "VALEUR") + String.format("%9s", "|\n");
+        int posDebut = this.ctrl.getLigneActive() >= fichier.size() ? this.ctrl.getLigneActive() - 40 : 0;
+        String sRet = "";
 
-        for (int cpt = 1; cpt < fichier.size(); cpt++)
+        for ( int cpt = posDebut ; cpt < posDebut + 40; cpt++ )
+        {
+            if ( cpt == posDebut )
+            {
+                sRet = "|" + "  0 " + String.format( "%-75s", fichier.get( cpt ) ) + "|" + String.format( "%8s", "NOM" )
+                + String.format( "%9s", "|" ) + String.format( "%14s", "VALEUR" ) + String.format( "%9s", "|\n" );
+                continue;
+            }
             sRet += "|" + String.format("%3d ", cpt) + String.format("%-75s", fichier.get(cpt))
                     + "|                |                     |\n";
+        }            
 
         return sRet + "¨".repeat(120) + "\n\n";
     }
