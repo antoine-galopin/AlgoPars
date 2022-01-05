@@ -9,15 +9,27 @@ public class Affichage {
     private ArrayList<String> traceExecution;
 
 
+    /**
+     * Constructeur de la classe Affichage
+     * Chaque Affichage a un controleur et une trace d'execution propre
+     * @param ctrl
+     */
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
     }
 
 
+    /**
+     * Méthode pour ajouter une nouvelle ligne à la trace d'execution
+     * @param trace
+     */
     public void ajouterTraceExecution( String trace ) { this.traceExecution.add( trace ); }
 
 
+    /**
+     * Méthode qui lance l'affichage global ( entete + corps + trace d'execution )
+     */
     public void afficher() {
         System.out.print(this.entete());
         System.out.print(this.corpsAlgo());
@@ -25,15 +37,24 @@ public class Affichage {
     }
 
 
+    /**
+     * Méthode de création de l'entete commun à chaque affichage
+     * @return String
+     */
     private String entete() {
         String str = "¨".repeat(11);
-        String sret = String.format("%-80s", str) + str + "\n";
-        sret += String.format("%-80s", "|  CODE   |") + "| DONNEES |" + "\n";
-        sret += "¨".repeat(80) + " " + "¨".repeat(39) + "\n";
-        return sret;
+        String sRet = String.format("%-80s", str) + str + "\n";
+        sRet += String.format("%-80s", "|  CODE   |") + "| DONNEES |" + "\n";
+        sRet += "¨".repeat(80) + " " + "¨".repeat(39) + "\n";
+        return sRet;
     }
 
 
+    /**
+     * Méthode de création du corps de l'affichage
+     * Le corps évolue en fonction de l'indice de la ligne courante
+     * @return String
+     */
     private String corpsAlgo() {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int posDebut = this.ctrl.getLigneActive() >= 39 ? this.ctrl.getLigneActive() - 39 : 0;
@@ -55,6 +76,10 @@ public class Affichage {
     }
 
 
+    /**
+     * Méthode de création de la trace d'execution ( Partie "console" de l'affichage )
+     * @return
+     */
     private String afficherTraceExecution() {
         String sRet = "¨".repeat( 11 ) + "\n| CONSOLE |\n" + "¨".repeat( 120 ) + "\n";
 
@@ -63,7 +88,7 @@ public class Affichage {
             if( indexDebut == this.traceExecution.size() ) break;
             sRet += "|" + String.format( "%-118s", this.traceExecution.get(indexDebut) ) + "|\n";
         }
-        
+
         sRet += "|>" + " ".repeat( 117 ) + "|\n";
         return sRet + "¨".repeat( 120 );
     }
