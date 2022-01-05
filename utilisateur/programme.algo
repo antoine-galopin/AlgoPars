@@ -19,12 +19,12 @@ DEBUT
 
 pour k de 50 a 100 faire
 	pour k de 50 a 100 faire
-		ecrire ( ez )
+		ecrire ( "ez" )
 	fpour
 
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
@@ -32,7 +32,7 @@ pour k de 50 a 100 faire
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
@@ -40,7 +40,7 @@ pour k de 50 a 100 faire
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
@@ -48,7 +48,7 @@ pour k de 50 a 100 faire
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
