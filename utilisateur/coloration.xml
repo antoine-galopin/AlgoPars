@@ -27,6 +27,12 @@
         <mot>cas</mot>
         <mot>autre cas</mot>
         <mot>fselon</mot>
+        
+        <mot>pour</mot>
+        <mot>de</mot>
+        <mot>a</mot>
+        <mot>pas</mot>
+        <mot>fpour</mot>
 
         <mot>tant que</mot>
         <mot>tq</mot>
@@ -37,12 +43,6 @@
         <mot>frepeter</mot>
 
         <mot>jusqu'a</mot>
-
-        <mot>pour</mot>
-        <mot>de</mot>
-        <mot>a</mot>
-        <mot>pas</mot>
-        <mot>fpour</mot>
 
         <mot>ou</mot> <!--connecteurs logiques-->
         <mot>et</mot>

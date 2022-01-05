@@ -77,13 +77,10 @@ public class ColorationSyntaxique
 		{
 			matcher = regPatterns.get( mot ).matcher( ligne );
 			if ( matcher.find() )
-			{
-				System.out.println( mot );
 				debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
-			}
 		}
 		
-		
+		System.out.println( );
 		return debutLigne + finLigne + " ".repeat( 75 - ligneLengthDebut );
 	}
 
