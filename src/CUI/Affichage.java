@@ -42,11 +42,9 @@ public class Affichage {
      * @return String
      */
     private String entete() {
-        String str = "¨".repeat(11);
-        String sRet = String.format("%-80s", str) + str + "\n";
-        sRet += String.format("%-80s", "|  CODE   |") + "| DONNEES |" + "\n";
-        sRet += "¨".repeat(80) + " " + "¨".repeat(39) + "\n";
-        return sRet;
+        return String.format("%-80s", "¨".repeat(11)) + "¨".repeat(11) + "\n" // ligne 1
+            + String.format("%-80s", "|  CODE   |") + "| DONNEES |" + "\n" // ligne 2
+            + "¨".repeat(80) + " " + "¨".repeat(39) + "\n"; // ligne 3
     }
 
 
@@ -58,18 +56,17 @@ public class Affichage {
     private String corpsAlgo() {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int posDebut = this.ctrl.getLigneActive() >= 39 ? this.ctrl.getLigneActive() - 39 : 0;
+
         String sRet = "";
 
         for( int cpt = posDebut; cpt <= posDebut + 39; cpt++ ) {
-            if( cpt == fichier.size() ) break;
+            if( cpt == fichier.size() ) break; // pas de changement si l'on est déjà à la dernière ligne
 
-            sRet += "|" + String.format( "%3d", cpt ) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) +
-                    String.format( "%-75s", fichier.get( cpt ) );
+            sRet += "|" + String.format("%3d", cpt) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) + // barre gauche + index ligne + curseur sur nécéssaire
+                    String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
-            if( cpt == posDebut )
-                sRet += "|     NOM        |        VALEUR       |\n";
-            else if( cpt < fichier.size() )
-                sRet += "|                |                     |\n";  // à modifier plus tard pour pouvoir afficher la trace des variables.
+            if( cpt == posDebut ) sRet += "|     NOM        |        VALEUR       |\n";
+            else                  sRet += "|                |                     |\n";  // à modifier plus tard pour pouvoir afficher la trace des variables.
         }
 
         return sRet + "¨".repeat(120) + "\n\n";
@@ -78,18 +75,23 @@ public class Affichage {
 
     /**
      * Méthode de création de la trace d'execution ( Partie "console" de l'affichage )
-     * @return
+     * @return String
      */
     private String afficherTraceExecution() {
-        String sRet = "¨".repeat( 11 ) + "\n| CONSOLE |\n" + "¨".repeat( 120 ) + "\n";
+        String sRet = "¨".repeat( 11 ) + "\n" // ligne 1
+                    + "| CONSOLE |\n" // ligne 2
+                    + "¨".repeat( 120 ) + "\n"; // ligne 3
 
-        int indexDebut = this.traceExecution.size() > 3 ? this.traceExecution.size() - 3 : 0;
-        for( ; indexDebut < indexDebut + 3; indexDebut++ ) {
-            if( indexDebut == this.traceExecution.size() ) break;
-            sRet += "|" + String.format( "%-118s", this.traceExecution.get(indexDebut) ) + "|\n";
+        // affichage des 3 dernières lignes de la trace
+        int index = this.traceExecution.size() > 3 ? this.traceExecution.size() - 3 : 0;
+
+        for( ; index < index + 3; index++ ) {
+            if( index == this.traceExecution.size() ) break; // si on est arrivé au boût de la trace, on quitte
+
+            sRet += "|" + String.format("%-118s", this.traceExecution.get(index)) + "|\n";
         }
 
-        sRet += "|>" + " ".repeat( 117 ) + "|\n";
-        return sRet + "¨".repeat( 120 );
+        return sRet += "|>" + " ".repeat( 117 ) + "|\n" // avant dernière ligne de la "console"
+            + "¨".repeat( 120 ); // dernière ligne de la "console" ( et de l'affichage global )
     }
 }
