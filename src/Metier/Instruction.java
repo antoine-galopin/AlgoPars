@@ -45,7 +45,7 @@ public class Instruction {
                     bvariable = false;
                     break;
                 case "ecrire":
-                    this.primit.ecrire(this.ligne[1]);
+                    this.primit.ecrire(this.ctrl.getValeur(this.ligne[1]));
                     break;
                 case "lire":
                     this.primit.lire(this.ligne[1]);
@@ -125,6 +125,7 @@ public class Instruction {
         valeur = this.ligne[1];
 
         for (String variable : var) {
+            System.out.println(variable + " " + valeur);
             this.ctrl.affecterValeur(variable, valeur);
         }
 
@@ -159,10 +160,14 @@ public class Instruction {
      * @return String
      */
     private String suppEspace(String ligne) {
-        while ((ligne.indexOf("\"") > ligne.indexOf(" ") && ligne.indexOf(" ") != -1)
-                || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1)) {
-            ligne = ligne.replaceFirst(" ", "");
-            ligne = ligne.replaceFirst("\t", "");
+        if (ligne.contains("\"")) {
+            while ((ligne.indexOf("\"") > ligne.indexOf(" ") && ligne.indexOf(" ") != -1)
+                    || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1)) {
+                ligne = ligne.replaceFirst(" ", "");
+                ligne = ligne.replaceFirst("\t", "");
+            }
+        } else {
+            ligne = ligne.strip();
         }
 
         return ligne;
