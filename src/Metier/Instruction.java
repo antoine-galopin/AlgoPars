@@ -12,51 +12,23 @@ public class Instruction {
     private AlgoPars ctrl;
     private Primitives primit;
     private String[] ligne;
-    private String[] var;
-    private String type;
-    private String valeur;
+    private String ligneComplete;
 
     public Instruction(AlgoPars ctrl, Primitives primit, String ligne) {
         this.ctrl = ctrl;
         this.primit = primit;
+        this.ligneComplete = ligne;
 
         if (ligne.contains("ecrire") || ligne.contains("lire")) {
             this.ligne = ligne.split("\\(");
             this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
-        } else if (ligne.contains(":") && !(ligne.contains( "constante" ) || ligne.contains( "variable" ) ) ) {
-            this.ligne = ligne.strip().split(":");
-
-            if (this.ligne[0].contains(",")) {
-                this.var = this.ligne[0].split(",");
-            } else {
-                this.var = new String[] { this.ligne[0] };
-            }
-            if (this.ligne[1].contains("<--")) {
-                this.ligne = this.ligne[1].split("<--");
-                this.type = this.ligne.length == 2 ? this.ligne[0] : null;
-                this.valeur = this.ligne[this.ligne.length-1];
-            }
-            else
-            {
-                this.type = this.ligne[1];
-            }
-        } else if (ligne.contains("<--")) {
-            this.ligne = ligne.strip().split("<--");
-            if (this.ligne[0].contains(",")) {
-                this.var = this.ligne[0].split(",");
-            } else {
-                this.var = new String[] { this.ligne[0] };
-            }
-            this.valeur = this.ligne[1];
-        }
-        else
-        {
-            this.ligne = ligne.strip().split( " " );
+        } else {
+            this.ligne = ligne.strip().split(" ");
         }
     }
 
     public void interpreterLigne() {
-        if (  this.ligne[0] != "" ){
+        if (this.ligne[0] != "") {
 
             switch (this.ligne[0].strip()) {
                 case "ALGORITHME":
@@ -95,21 +67,106 @@ public class Instruction {
         }
     }
 
-    public void declare() {
+    private void declare() {
         if (bvariable) {
-            for (String var : this.var) {
-                this.ctrl.add(var, this.type);
-            }
+            this.declareVar();
         } else if (bconstante) {
-            for (String var : this.var) {
-                this.ctrl.add(var, this.type, this.valeur);
-            }
+            this.declareConst();
+        } else if (this.ligneComplete.contains("<--")) {
+            this.affecterValeur();
         }
-        else if ( this.ligne[0] != "" )
-        {
-            for (String var : this.var) {
-                this.ctrl.affecterValeur(var, this.valeur);
-            }
+    }
+
+    private void declareVar() {
+        String[] var;
+        String type;
+
+        this.ligne = this.suppEspace(this.ligneComplete).split(":");
+
+        var = this.separeVirgule(this.ligne[0]);
+
+        type = this.ligne[1];
+
+        for (String variable : var) {
+            this.ctrl.add(variable, type);
         }
+    }
+
+    private void declareConst() {
+        String[] var;
+        String type;
+        String valeur;
+
+        this.ligneComplete = this.suppEspace(this.ligneComplete);
+
+        if (this.ligneComplete.contains(":")) {
+            this.ligne = this.ligneComplete.split(":");
+            var = this.separeVirgule(this.ligne[0]);
+            this.ligne = this.separeAffectation(this.ligne[1]);
+            type = this.ligne[0];
+        } else {
+            type = null;
+            this.ligne = this.separeAffectation(this.ligneComplete);
+            var = this.separeVirgule(this.ligne[0]);
+        }
+        valeur = this.ligne[1];
+
+        for (String variable : var) {
+            this.ctrl.add(variable, type, valeur);
+        }
+    }
+
+    private void affecterValeur() {
+        String[] var;
+        String valeur;
+
+        this.ligneComplete = this.suppEspace(this.ligneComplete);
+        this.ligne = this.separeAffectation(this.ligneComplete);
+        var = this.separeVirgule(this.ligne[0]);
+        valeur = this.ligne[1];
+
+        for (String variable : var) {
+            this.ctrl.affecterValeur(variable, valeur);
+        }
+
+    }
+
+    /**
+     * @param ligne
+     * @return String[]
+     */
+    private String[] separeVirgule(String ligne) {
+        if (ligne.contains(",")) {
+            return ligne.split(",");
+        } else {
+            return new String[] { ligne };
+        }
+    }
+
+    /**
+     * @param ligne
+     * @return String[]
+     */
+    private String[] separeAffectation(String ligne) {
+        if (ligne.contains("<--")) {
+            return ligne.split("<--");
+        } else {
+            return new String[] { ligne };
+        }
+    }
+
+    /**
+     * @param ligne
+     * @return String
+     */
+    private String suppEspace(String ligne) {
+        while ((ligne.indexOf("\"") > ligne.indexOf(" ") && ligne.indexOf(" ") != -1)
+                || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1)) {
+            ligne = ligne.replaceFirst(" ", "");
+            ligne = ligne.replaceFirst("\t", "");
+            System.out.println(ligne + "" + ligne.indexOf(" ") + "\"" + ligne.indexOf("\""));
+        }
+
+        return ligne;
     }
 }
