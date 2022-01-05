@@ -40,13 +40,13 @@ public class Programme {
 			Scanner sc = new Scanner(new FileInputStream(cheminFichier));
 
 			String ligne = "";
-			while (sc.hasNextLine()) {
+			while(sc.hasNextLine()) {
 				ligne = sc.nextLine().replace("\t", "    ");
 				this.lignesFichier.add(ligne);
-				this.lignesFichierColorie.add( ColorationSyntaxique.colorierLigne( ligne ) );
-				this.listeInstructions.add( new Instruction( this.ctrl, this.primitives, ligne ) );
+				this.lignesFichierColorie.add( ColorationSyntaxique.colorierLigne(ligne) );
+				this.listeInstructions.add(new Instruction(this.ctrl, this.primitives, ligne));
 			}
-		} catch (Exception e) {
+		} catch( Exception e ) {
 			e.printStackTrace();
 		}
 	}
@@ -56,26 +56,35 @@ public class Programme {
 	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
 	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 
+	public String getValeur(String nom) {
+		return this.donnees.rechercheParNom(nom).getValeur();
+	}
 
-	public void affecterValeur( String nom, String valeur )
+	public void affecterValeur(String nom, String valeur)
 	{
-		this.donnees.affecterValeur( nom, valeur );
+		this.donnees.affecterValeur(nom, valeur);
 	}
 
 	/**
 	 * Exécution de l'algorithme.
 	 */
 	public void executerAlgo() {
-		
 		do 
 		{
 			this.listeInstructions.get(this.ligneActive).interpreterLigne();
 			this.ctrl.afficher();
-
-			++this.ligneActive;
 			
 			try {
-				new Scanner(System.in).nextLine();
+				Scanner sc = new Scanner(System.in); // ouverture du Scanne
+				
+				String msg = sc.nextLine();
+
+				switch(msg) {
+					case "b": this.ligneActive = this.ligneActive-2; // on recule d'une ligne
+					case "" : ++this.ligneActive; // on avance d'une ligne
+				}
+				
+				//sc.close(); // fermeture du Scanner
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -83,14 +92,8 @@ public class Programme {
 	}
 
 
-	public void add( String nom, String type, String valeur )
-    {
-        this.donnees.add( nom, type, valeur );
-    }
+	public void add(String nom, String type, String valeur) { this.donnees.add(nom, type, valeur); }
 
 
-    public void add( String nom, String type )
-    {
-        this.donnees.add( nom, type );
-    }
+    public void add(String nom, String type) { this.donnees.add(nom, type); }
 }
