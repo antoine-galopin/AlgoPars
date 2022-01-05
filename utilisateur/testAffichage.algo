@@ -1,0 +1,14 @@
+ALGORITHME Test
+
+constante:
+	PI:reel<--3.14
+variable:
+	var:entier
+	coco:chaine
+	salopette:caractere
+	ouiounon:booleen
+
+DEBUT
+	var <-- 25
+	coco <-- "ouije"
+	salopette <-- 'u'

@@ -12,7 +12,7 @@ public class Affichage {
     /**
      * Constructeur de la classe Affichage
      * Chaque Affichage a un controleur et une trace d'execution propre
-     * @param ctrl
+     * @param ctrl contrôleur de l'instance d'Affichage
      */
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
@@ -22,7 +22,7 @@ public class Affichage {
 
     /**
      * Méthode pour ajouter une nouvelle ligne à la trace d'execution
-     * @param trace
+     * @param trace ligne à ajouter à la trace d'execution
      */
     public void ajouterTraceExecution( String trace ) { this.traceExecution.add( trace ); }
 
