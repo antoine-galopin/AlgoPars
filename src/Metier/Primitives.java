@@ -21,6 +21,12 @@ public class Primitives {
     }
 
     public void ecrire(String msg) {
-        this.ctrl.ajouterTraceExecution(msg);
+        if (msg.contains("\"")) {
+            this.ctrl.ajouterTraceExecution(msg.replaceAll("\"", ""));
+        } else if (msg.matches("^[0-9]+") || msg.equals("")) {
+            this.ctrl.ajouterTraceExecution(msg);
+        } else {
+            this.ctrl.ajouterTraceExecution(this.ctrl.getValeur(msg));
+        }
     }
 }

@@ -21,13 +21,18 @@ DEBUT
 	/*
 
 pour k de 50 a 100 faire
+<<<<<<< HEAD
+	pour k de 50 a 100 faire
+		ecrire ( "ez" )
+=======
 	pour k de 50 a 100 faire // test pour
 		ecrire ( ez )
+>>>>>>> 23c104345a242056e70a352d48d678a42d6a6a91
 	fpour
 
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
@@ -35,7 +40,7 @@ pour k de 50 a 100 faire
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
@@ -43,7 +48,7 @@ pour k de 50 a 100 faire
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
@@ -51,7 +56,7 @@ pour k de 50 a 100 faire
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( bla )
+			ecrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors

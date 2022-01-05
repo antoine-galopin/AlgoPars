@@ -45,7 +45,7 @@ public class Instruction {
                     bvariable = false;
                     break;
                 case "ecrire":
-                    this.primit.ecrire(this.ctrl.getValeur(this.ligne[1]));
+                    this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":
                     this.primit.lire(this.ligne[1]);
@@ -172,4 +172,5 @@ public class Instruction {
 
         return ligne;
     }
+
 }
