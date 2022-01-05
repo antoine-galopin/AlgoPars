@@ -57,7 +57,7 @@ public class Programme {
 	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 
 	public String getValeur(String nom) {
-		return this.donnees.rechercheParNom(nom).getValeur();
+		return String.valueOf(this.donnees.rechercheParNom(nom).getValeur());
 	}
 
 	public void affecterValeur(String nom, String valeur)
