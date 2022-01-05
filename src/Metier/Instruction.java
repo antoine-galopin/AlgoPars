@@ -43,7 +43,6 @@ public class Instruction {
                 case "DEBUT":
                     bconstante = false;
                     bvariable = false;
-                    System.out.println("Debut");
                     break;
                 case "ecrire":
                     this.primit.ecrire(this.ligne[1]);
@@ -164,7 +163,6 @@ public class Instruction {
                 || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1)) {
             ligne = ligne.replaceFirst(" ", "");
             ligne = ligne.replaceFirst("\t", "");
-            System.out.println(ligne + "" + ligne.indexOf(" ") + "\"" + ligne.indexOf("\""));
         }
 
         return ligne;
