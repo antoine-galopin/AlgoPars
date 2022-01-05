@@ -55,15 +55,23 @@ public class Affichage {
      */
     private String corpsAlgo() {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
-        int posDebut = this.ctrl.getLigneActive() >= 39 ? this.ctrl.getLigneActive() - 39 : 0;
+
+        int margeAffichage = 10; // Variable qui gère la marge de l'affichage
+        int posDebut;
+
+        if( this.ctrl.getLigneActive() <= 39 - margeAffichage ) posDebut = 0;
+        else {
+            if( this.ctrl.getLignesFichierColorie().size() > this.ctrl.getLigneActive() + margeAffichage ) posDebut = this.ctrl.getLigneActive() - 39 + margeAffichage;
+            else posDebut = this.ctrl.getLignesFichierColorie().size() - 39 - 1;
+        }
 
         String sRet = "";
 
         for( int cpt = posDebut; cpt <= posDebut + 39; cpt++ ) {
-            if( cpt == fichier.size() ) break; // pas de changement si l'on est déjà à la dernière ligne
+            sRet += "|" + String.format("%3d", cpt) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
 
-            sRet += "|" + String.format("%3d", cpt) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ) + // barre gauche + index ligne + curseur sur nécéssaire
-                    String.format("%-75s", fichier.get(cpt)); // code de la ligne
+            if( cpt < fichier.size() )
+                sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
             if( cpt == posDebut ) sRet += "|     NOM        |        VALEUR       |\n";
             else                  sRet += "|                |                     |\n";  // à modifier plus tard pour pouvoir afficher la trace des variables.
