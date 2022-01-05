@@ -10,17 +10,22 @@ import org.jdom2.input.SAXBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.io.File;
 
 
 public class ColorationSyntaxique
 {
 	public static HashMap<String, ArrayList<String>> couleurs;
+	public static HashMap<String, Pattern> regPatterns;
 
 
 	public static void chargerCouleurs()
 	{
 		couleurs = new HashMap<String, ArrayList<String>>();
+		regPatterns = new HashMap<String, Pattern>();
 		Element racine = null;
 
 		try
@@ -41,6 +46,7 @@ public class ColorationSyntaxique
 				alTmp.add( e.getAttribute( "poids" ).getValue() );
 
 				couleurs.put( child.getText(), alTmp );
+				regPatterns.put( child.getText(), Pattern.compile( "\\b" +child.getText() + "\\b" ) );
 			}
 		}
 	}
@@ -48,14 +54,19 @@ public class ColorationSyntaxique
 
 	public static String colorierLigne( String ligne )
 	{
-		String regexTmp = "";
+		int ligneLengthDebut = ligne.length();
+		Matcher matcher = null;
 		for ( String mot : couleurs.keySet() )
 		{
-			regexTmp = 
-			ligne = ligne.replace( "( ?" + mot + " ?)", " " + colorierMot( mot ) + " " );
+			matcher = regPatterns.get( mot ).matcher( ligne );
+			if ( matcher.find() )
+				ligne = ligne.replace( mot, colorierMot( mot ) );
 		}
+
+		System.out.println( ligne );
 		
-		return ligne;
+		
+		return ligne + " ".repeat( 75 - ligneLengthDebut );
 	}
 
 
