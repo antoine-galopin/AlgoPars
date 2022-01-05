@@ -10,6 +10,7 @@ variable:
 
 DEBUT
 	var <-- 25
+	coco <-- "ouije"
 	salopette <-- 'u'
 	ouiounon <-- vrai
 
@@ -17,8 +18,10 @@ DEBUT
 
 	ecrire ( var )
 
+	/*
+
 pour k de 50 a 100 faire
-	pour k de 50 a 100 faire
+	pour k de 50 a 100 faire // test pour
 		ecrire ( ez )
 	fpour
 

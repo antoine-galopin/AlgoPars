@@ -18,8 +18,8 @@ import java.io.File;
 
 public class ColorationSyntaxique
 {
-	public static HashMap<String, ArrayList<String>> couleurs;
-	public static HashMap<String, Pattern> regPatterns;
+	private static HashMap<String, ArrayList<String>> couleurs;
+	private static HashMap<String, Pattern> regPatterns;
 
 
 	public static void chargerCouleurs()
@@ -55,18 +55,36 @@ public class ColorationSyntaxique
 	public static String colorierLigne( String ligne )
 	{
 		int ligneLengthDebut = ligne.length();
+		String debutLigne = ""; // Utilisée pour éviter de colorer des keywords dans les commentaires.
+		String finLigne = "";
+
+		if ( ligne.contains( "//" ) )
+		{
+			int indexDebutCom = ligne.indexOf( "//" );
+
+			if ( indexDebutCom == 0 ) ligne = CouleurConsole.VERT.getFont() + ligne + "\033[0m";
+			else
+			{
+				debutLigne = ligne.substring( 0, indexDebutCom );
+				finLigne = CouleurConsole.VERT.getFont() + ligne.substring( indexDebutCom, ligne.length() ) + "\033[0m";
+			}
+		}
+		else
+			debutLigne = ligne;
+
 		Matcher matcher = null;
 		for ( String mot : couleurs.keySet() )
 		{
 			matcher = regPatterns.get( mot ).matcher( ligne );
 			if ( matcher.find() )
-				ligne = ligne.replace( mot, colorierMot( mot ) );
+			{
+				System.out.println( mot );
+				debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
+			}
 		}
-
-		System.out.println( ligne );
 		
 		
-		return ligne + " ".repeat( 75 - ligneLengthDebut );
+		return debutLigne + finLigne + " ".repeat( 75 - ligneLengthDebut );
 	}
 
 
