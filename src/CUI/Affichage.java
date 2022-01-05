@@ -55,26 +55,29 @@ public class Affichage {
      */
     private String corpsAlgo() {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
+        int numLigne              = this.ctrl.getLigneActive();
 
-        int margeAffichage = 10; // Variable qui gère la marge de l'affichage
+        int tailleAffichage = 39; // Variable qui gère le nombre de lignes de l'affichage
+        int margeAffichage  = 8;  // Variable qui gère la marge de l'affichage
+
         int posDebut;
 
-        if( this.ctrl.getLigneActive() <= 39 - margeAffichage ) posDebut = 0;
-        else {
-            if( this.ctrl.getLignesFichierColorie().size() > this.ctrl.getLigneActive() + margeAffichage ) posDebut = this.ctrl.getLigneActive() - 39 + margeAffichage;
-            else posDebut = this.ctrl.getLignesFichierColorie().size() - 39 - 1;
+        if( numLigne < tailleAffichage - margeAffichage ) posDebut = 0; // cas où l'on n'a pas encore atteint la marge
+        else { // cas où l'on a atteint la marge
+            if( fichier.size() > numLigne + margeAffichage ) posDebut = numLigne - tailleAffichage + margeAffichage; // il reste des lignes cachées entre la marge et la fin du code ( posDebut évolue )
+            else posDebut = fichier.size() > tailleAffichage ? fichier.size() - tailleAffichage - 1 : 0; // on voit la fin du programme ( posDebut stagne )
         }
 
         String sRet = "";
 
-        for( int cpt = posDebut; cpt <= posDebut + 39; cpt++ ) {
-            sRet += "|" + String.format("%3d", cpt) + ( cpt == this.ctrl.getLigneActive() ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
+        for( int cpt = posDebut; cpt <= ( fichier.size() > tailleAffichage ? posDebut + tailleAffichage : fichier.size() - 1 ); cpt++ ) {
+            sRet += "|" + String.format("%3d", cpt) + ( cpt == numLigne ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
 
             if( cpt < fichier.size() )
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
             if( cpt == posDebut ) sRet += "|     NOM        |        VALEUR       |\n";
-            else                  sRet += "|                |                     |\n";  // à modifier plus tard pour pouvoir afficher la trace des variables.
+            else                  sRet += "|                |                     |\n"; // à modifier plus tard pour pouvoir afficher la trace des variables.
         }
 
         return sRet + "¨".repeat(120) + "\n\n";
