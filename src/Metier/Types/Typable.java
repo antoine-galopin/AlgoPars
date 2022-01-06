@@ -6,28 +6,48 @@ public class Typable<T>
 	protected boolean modifiable;
 	protected T       valeur;
 
+
+	/**
+	 * Constructeur de la classe Typable
+	 * @param nom
+	 * @param modifiable
+	 * @param valeur
+	 */
 	public Typable(String nom, boolean modifiable, T valeur) {
 		this.nom        = nom;
 		this.modifiable = modifiable;
 		this.valeur     = valeur;
 	}
 
-	public String getNom() {
-		return this.nom;
-	}
 
-	public T getValeur() {
-		return this.valeur;
-	}
+	/**
+	 * Méthode renvoyant le nom du Typable courant
+	 * @return
+	 */
+	public String getNom() { return this.nom; }
 
+
+	/**
+	 * Méthode renvoyant la valeur du Typable courant, quel qu'en soit le type
+	 * @return T
+	 */
+	public T getValeur() { return this.valeur; }
+
+
+	/**
+	 * Méthode qui change la valeur du Typable courant
+	 * @param v
+	 */
 	public void setValeur(T v) {
-		if(this.modifiable)
+		if( this.modifiable )
 			this.valeur = v;
 		else
 			throw new RuntimeException("La valeur d'une constante n'est pas modifiable");
 	}
 
-	public String toString() {
-		return valeur.toString();
-	}
+
+	/**
+	 * Méthode renvoyant la valeur du Typable courant sous forme de String
+	 */
+	public String toString() { return valeur.toString(); }
 }

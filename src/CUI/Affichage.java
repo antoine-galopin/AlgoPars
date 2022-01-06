@@ -9,7 +9,7 @@ public class Affichage {
     private ArrayList<String> traceExecution;
     private ArrayList<String> variablesSuivies;
 
-    private int tailleAffichage = 50; // Variable qui gère le nombre de lignes de l'affichage du programme
+    private int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
     private int margeAffichage  = 8;  // Variable qui gère la marge de l'affichage du programme
     private int posDebut        = 1;  // Variable qui gère la première ligne de l'affichage du programme
 
@@ -81,7 +81,7 @@ public class Affichage {
             if( cpt < fichier.size() )
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
-            if( cpt == posDebut )          sRet += "│      NOM       │        VALEUR       │\n";
+            if     ( cpt == posDebut     ) sRet += "│      NOM       │        VALEUR       │\n";
             else if( cpt == posDebut + 1 ) sRet += "├────────────────┼─────────────────────┤\n";
             else
                 if( cpt - posDebut - 1 <= variablesSuivies.size() ) {

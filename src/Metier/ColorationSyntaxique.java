@@ -22,14 +22,18 @@ public class ColorationSyntaxique
 	private static HashMap<String, Pattern> regPatterns;
 
 
+	/**
+	 * Méthode qui charge la couleur des textes via un fichier xml
+	 */
 	public static void chargerCouleurs()
 	{
-		couleurs = new HashMap<String, ArrayList<String>>();
+		// TODO revoir l'utilisation de la hashmap couleurs
+		couleurs    = new HashMap<String, ArrayList<String>>();
 		regPatterns = new HashMap<String, Pattern>();
+
 		Element racine = null;
 
-		try
-		{
+		try {
 			Document doc = new SAXBuilder().build( new File( "../utilisateur/coloration.xml" ) );
 			racine = doc.getRootElement();
 		}
@@ -37,9 +41,9 @@ public class ColorationSyntaxique
 
 
 		ArrayList<String> alTmp = null;
-		for ( Element e: racine.getChildren() )
+		for( Element e: racine.getChildren() )
 		{
-			for ( Element child: e.getChildren() )
+			for( Element child: e.getChildren() )
 			{
 				alTmp = new ArrayList<String>();
 				alTmp.add( e.getAttribute( "idCoul" ).getValue() );
@@ -52,6 +56,11 @@ public class ColorationSyntaxique
 	}
 
 
+	/**
+	 * Méthode qui colorie la ligne passée en paramètre
+	 * @param ligne
+	 * @return
+	 */
 	public static String colorierLigne( String ligne )
 	{
 		int ligneLengthDebut = ligne.length();
@@ -90,6 +99,11 @@ public class ColorationSyntaxique
 	}
 
 
+	/**
+	 * Méthode qui colorie le mot passé en paramètre
+	 * @param mot
+	 * @return
+	 */
 	private static String colorierMot( String mot )
 	{
 		if ( !couleurs.containsKey( mot ) ) return mot;
