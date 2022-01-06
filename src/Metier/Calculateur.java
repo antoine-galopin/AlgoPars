@@ -1,11 +1,11 @@
 package AlgoPars.Metier;
 
-
 public class Calculateur
 {
 	public static double calculer( String expr )
 	{
 		expr=Calculateur.nettoyer(expr);
+		System.out.println(expr);
 
 		/*-----------Remplasser les variables nommée par leur valeurs------------*/
 
@@ -37,29 +37,23 @@ public class Calculateur
 
 		/*---------------valeur absolue-----------------*/
 		/*prioritaire car considéré comme des parenthese*/
-		/*----------------------------------------------*/
+		/*----------------------------------------------
 		if ( (index = expr.indexOf( "|" )) != -1 )
 		{
-			int index2 =0 ;
+			int index2 = trouver2ndPipe(expr);
 
 			System.out.println("valeur absolue trouvé");
 
 			String firstPart  = expr.substring(  0,index);//ouvrante
 
-			index2=expr.indexOf( "|" , index+1);
-
-			while (	!Character.isDigit(expr.charAt(index2)) && expr.charAt(index2) != ')'   ) {
+			//si on est pas du coté fermant de l'expressions
+			while (	!Character.isDigit(expr.charAt(index2-1)) && expr.charAt(index2-1) != ')'   ) {
 				index2++ ;
-				System.out.println(index2);
 			}
-			
-			String secondPart = expr.substring(index2);
-
-			System.out.println(secondPart);
 
 			String milieu = expr.substring(index+1,index2);
 
-			System.out.println(milieu);
+			String secondPart = expr.substring(index2+1);
 			
 			return calculer(
 							firstPart+
@@ -70,7 +64,7 @@ public class Calculateur
 										  )
 							+secondPart
 							);
-		}
+		}*/
 
 		/*if (expr.matches("\w+(\w*)"))
 			primitives.find(la foncion)
@@ -107,13 +101,9 @@ public class Calculateur
 						expr.charAt(index2) != '('   &&
 						expr.charAt(index2) != '/'   &&
 						expr.charAt(index2) != '^'   &&
+						expr.charAt(index2) != ' '   && //c'est un modulo ou un div
 						index2<expr.length()-1)
 			{
-				if (expr.substring(expr.length())>=5) {
-					if (!expr.substring(index2,index2+5).equals(" mod ") &&
-						!expr.substring(index2,index2+5).equals(" div ") )
-						break ;
-				}
 				index2++ ;
 			}
 
@@ -156,6 +146,18 @@ public class Calculateur
 		return Double.parseDouble( expr );
 	}
 
+	/*public int trouver2ndPipe(String s,int debut)
+	{
+		int index = expr.indexOf( "|" , debut);
+
+		while (	!Character.isDigit(expr.charAt(index2-1)) &&
+								   expr.charAt(index2-1) != ')'   ) {
+			index++ ;
+		}
+
+		return index ;
+	}*/
+
 	/**
 	 *Fonction qui nettoie la chaine pour eviter d'avoir a traité les chaine vide
 	 */
@@ -166,7 +168,12 @@ public class Calculateur
 				 .replaceAll(" *- *"  ,"-")
 				 .replaceAll(" *× *"  ,"×")
 				 .replaceAll(" *\\/ *","/")
-				 .replaceAll(" *\\^ *","^");
+				 .replaceAll(" *\\^ *","^")
+				 .replaceAll(" +mod +"," mod ")
+				 .replaceAll(" +div +"," div ")
+				 .replaceAll(" +$","")
+				 .replaceAll("^ +","");
+
 	}
 
 	public static void main(String[] args) 
@@ -178,10 +185,9 @@ public class Calculateur
 		System.out.println( calculer( "20 / 8" ) + " = 2.5 ?" );
 		System.out.println( calculer( "20 div 8" ) + " = 2 ?" );
 		System.out.println( calculer( "13 mod 5" ) + " = 3 ?" );
-		System.out.println( calculer( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );*/
+		System.out.println( calculer( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );
 		System.out.println( calculer( "((45-(2))+5)" ) + " = 30?" );
 		System.out.println( calculer( "5-\\/¯(25)+5"));
-		System.out.println( calculer( "|5|"));
-
+		System.out.println( calculer( "|-|-5|+5|"));*/
 	}
 }
