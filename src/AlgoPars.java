@@ -1,6 +1,7 @@
 package AlgoPars;
 
 import AlgoPars.Metier.Programme;
+import AlgoPars.Metier.Types.Typable;
 import AlgoPars.CUI.Affichage;
 
 import java.util.ArrayList;
@@ -38,6 +39,11 @@ public class AlgoPars {
     public int getLigneActive() {
         return this.prgm.getLigneActive();
     }
+
+
+	public ArrayList<Typable> getVariablesSuivies() {
+		return this.prgm.getVariablesSuivies();
+	}
 
     /**
      * Méthode qui nettoie la console et affiche la nouvelle étape de
