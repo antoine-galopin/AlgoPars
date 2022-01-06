@@ -81,9 +81,9 @@ public class Affichage {
             if( cpt == posDebut ) sRet += "│      NOM       │        VALEUR       │\n";
             else
                 sRet += "│ "
-                     + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut + 1).getNom() )
+                     + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut + 1) )
                      + " │ "
-                     + String.format( "%-19s", this.variablesSuivies.get(cpt - posDebut + 1).toString() )
+                     + String.format( "%-19s", this.ctrl.getValeur( this.variablesSuivies.get(cpt - posDebut + 1)) )
                      + " │";
         }
 

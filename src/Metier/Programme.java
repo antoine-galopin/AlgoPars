@@ -17,7 +17,7 @@ public class Programme {
 	private ArrayList<String> lignesFichierColorie;
 
 	private Donnee donnees;
-	private ArrayList<Typable> listeVarSuivies;
+	private ArrayList<String> listeNomVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
 
 	private boolean executionActive;
@@ -36,7 +36,7 @@ public class Programme {
 		this.executionActive = true;
 
 		this.donnees = new Donnee();
-		this.listeVarSuivies = new ArrayList<Typable>();
+		this.listeNomVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {
@@ -57,7 +57,7 @@ public class Programme {
 			sc = new Scanner( new FileInputStream( "../utilisateur/variables.var" ), "UTF-8" );
 
 			while ( sc.hasNextLine() )
-				this.listeVarSuivies.add( this.donnees.rechercheParNom( sc.next().strip() ) );
+				this.listeNomVarSuivies.add( sc.next().strip() );
 
 	
 		} catch( Exception e ) {
@@ -70,7 +70,7 @@ public class Programme {
 	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
 	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 	
-	public ArrayList<Typable> getVariablesSuivies() { return this.listeVarSuivies; }
+	public ArrayList<String> getVariablesSuivies() { return this.listeNomVarSuivies; }
 
 	public String getValeur(String nom) {
 		return this.donnees.rechercheParNom(nom).getValeur().toString();
