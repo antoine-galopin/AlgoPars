@@ -1,6 +1,7 @@
 package AlgoPars.CUI;
 
 import AlgoPars.AlgoPars;
+import AlgoPars.Metier.Types.Typable;
 
 import java.util.ArrayList;
 
@@ -9,7 +10,7 @@ import javax.lang.model.util.ElementScanner6;
 public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
-    private ArrayList<Typable> variablesSuivies;
+    private ArrayList<String> variablesSuivies;
 
     private int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
     private int margeAffichage  = 2;  // Variable qui gère la marge de l'affichage du programme
@@ -23,7 +24,6 @@ public class Affichage {
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
-        this.variablesSuivies = ctrl.getVariablesSuivies();
     }
 
 
@@ -42,6 +42,8 @@ public class Affichage {
         System.out.print(this.corpsAlgo());
         System.out.print(this.afficherTraceExecution());
     }
+
+    public void initialiserValriablesSuivies() { this.variablesSuivies = this.ctrl.getVariablesSuivies(); }
 
 
     /**
@@ -78,13 +80,20 @@ public class Affichage {
             if( cpt < fichier.size() )
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
-            if( cpt == posDebut ) sRet += "│      NOM       │        VALEUR       │\n";
+            if( cpt == posDebut )          sRet += "│      NOM       │        VALEUR       │\n";
+            else if( cpt == posDebut + 1 ) sRet += "├────────────────┼─────────────────────┤\n";
             else
-                sRet += "│ "
-                     + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut + 1).getNom() )
-                     + " │ "
-                     + String.format( "%-19s", this.variablesSuivies.get(cpt - posDebut + 1).toString() )
-                     + " │";
+                if( cpt - posDebut - 1 <= variablesSuivies.size() ) {
+                    if( this.ctrl.getValeur(this.variablesSuivies.get(cpt - posDebut - 2)) != null ) {
+                        sRet += "│ "
+                            + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut - 2) )
+                            + " │ "
+                            + String.format( "%-19s", this.ctrl.getValeur(this.variablesSuivies.get(cpt - posDebut - 2)) )
+                            + " │\n";
+                    }
+                    else sRet += "│                │                     │\n";
+                }
+                else sRet += "│                │                     │\n";
         }
 
         return sRet + "└" + "─".repeat(79) + "┴" + "─".repeat(16) + "┴" + "─".repeat(21) + "┘\n\n";

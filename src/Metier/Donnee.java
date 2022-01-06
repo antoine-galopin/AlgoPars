@@ -14,7 +14,7 @@ public class Donnee {
     public void add(String nom, String type) {
         switch (type) {
             case "booleen" -> this.donnees.add(new Booleen(nom, true, false));
-            case "caractere" -> this.donnees.add(new Caractere(nom, true, '\0'));
+            case "caractere" -> this.donnees.add(new Caractere(nom, true, ' '));
             case "chaine" -> this.donnees.add(new Chaine(nom, true, ""));
             case "entier" -> this.donnees.add(new Entier(nom, true, 0));
             case "reel" -> this.donnees.add(new Reel(nom, true, 0.0));
@@ -75,7 +75,7 @@ public class Donnee {
             return;
         }
         if (valeur.matches("\"[^\\\"]*\"")) {
-            ((Chaine) (var)).setValeur(valeur);
+            ((Chaine) (var)).setValeur(valeur.substring(1, valeur.length()-1));
             return;
         }
         if (valeur.matches(",")) {

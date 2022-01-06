@@ -1,7 +1,6 @@
 package AlgoPars.Metier;
 
 import AlgoPars.AlgoPars;
-import AlgoPars.Metier.Types.Typable;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,7 +16,7 @@ public class Programme {
 	private ArrayList<String> lignesFichierColorie;
 
 	private Donnee donnees;
-	private ArrayList<Typable> listeVarSuivies;
+	private ArrayList<String> listeVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
 
 	private boolean executionActive;
@@ -36,7 +35,7 @@ public class Programme {
 		this.executionActive = true;
 
 		this.donnees = new Donnee();
-		this.listeVarSuivies = new ArrayList<Typable>();
+		this.listeVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {
@@ -57,7 +56,7 @@ public class Programme {
 			sc = new Scanner( new FileInputStream( "../utilisateur/variables.var" ), "UTF-8" );
 
 			while ( sc.hasNextLine() )
-				this.listeVarSuivies.add( this.donnees.rechercheParNom( sc.next().strip() ) );
+				this.listeVarSuivies.add( sc.next().strip() );
 
 	
 		} catch( Exception e ) {
@@ -70,10 +69,12 @@ public class Programme {
 	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
 	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 	
-	public ArrayList<Typable> getVariablesSuivies() { return this.listeVarSuivies; }
+	public ArrayList<String> getVariablesSuivies() { return this.listeVarSuivies; }
 
 	public String getValeur(String nom) {
-		return this.donnees.rechercheParNom(nom).getValeur().toString();
+		if( this.donnees.rechercheParNom(nom) != null )
+			return this.donnees.rechercheParNom(nom).getValeur().toString();
+		return null;
 	}
 
 	public void affecterValeur(String nom, String valeur) {
