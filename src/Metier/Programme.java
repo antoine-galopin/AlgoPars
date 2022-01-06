@@ -16,11 +16,7 @@ public class Programme {
 	private ArrayList<String> lignesFichierColorie;
 
 	private Donnee donnees;
-<<<<<<< HEAD
 	private ArrayList<String> listeVarSuivies;
-=======
-	private ArrayList<String> listeNomVarSuivies;
->>>>>>> 4cfb2e90f82936f2f0f2ee42f7d69dca6034b7a2
 	private ArrayList<Instruction> listeInstructions;
 
 	private boolean executionActive;
@@ -39,11 +35,7 @@ public class Programme {
 		this.executionActive = true;
 
 		this.donnees = new Donnee();
-<<<<<<< HEAD
 		this.listeVarSuivies = new ArrayList<String>();
-=======
-		this.listeNomVarSuivies = new ArrayList<String>();
->>>>>>> 4cfb2e90f82936f2f0f2ee42f7d69dca6034b7a2
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {

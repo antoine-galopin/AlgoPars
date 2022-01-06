@@ -9,8 +9,8 @@ public class Affichage {
     private ArrayList<String> traceExecution;
     private ArrayList<String> variablesSuivies;
 
-    private int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
-    private int margeAffichage  = 2;  // Variable qui gère la marge de l'affichage du programme
+    private int tailleAffichage = 50; // Variable qui gère le nombre de lignes de l'affichage du programme
+    private int margeAffichage  = 8;  // Variable qui gère la marge de l'affichage du programme
     private int posDebut        = 1;  // Variable qui gère la première ligne de l'affichage du programme
 
     /**
@@ -25,7 +25,7 @@ public class Affichage {
 
 
     /**
-     *  Méthode d'initialisation 
+     *  Méthode d'initialisation de l'ArrayList contenant les noms des variables suivies
      */
 	public void initialiserVariablesSuivies() { this.variablesSuivies = ctrl.getVariablesSuivies(); }
 
@@ -45,8 +45,6 @@ public class Affichage {
         System.out.print(this.corpsAlgo());
         System.out.print(this.afficherTraceExecution());
     }
-
-    public void initialiserValriablesSuivies() { this.variablesSuivies = this.ctrl.getVariablesSuivies(); }
 
 
     /**
