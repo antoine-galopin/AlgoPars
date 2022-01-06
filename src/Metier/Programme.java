@@ -103,7 +103,7 @@ public class Programme {
 
 				switch (msg) {
 					case "b": {
-						if (this.ligneActive != 0)
+						if( this.ligneActive != 0 )
 							--this.ligneActive; // on recule d'une ligne si possible
 						break;
 					}
