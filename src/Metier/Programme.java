@@ -72,7 +72,7 @@ public class Programme {
 	
 	public ArrayList<String> getVariablesSuivies() { return this.listeNomVarSuivies; }
 
-	public String getValeur(String nom) {
+	public String getValeur(String nom) { // TODO ajouter verif quand la var est nulle.
 		return this.donnees.rechercheParNom(nom).getValeur().toString();
 	}
 

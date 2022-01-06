@@ -9,7 +9,7 @@ import javax.lang.model.util.ElementScanner6;
 public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
-    private ArrayList<Typable> variablesSuivies;
+    private ArrayList<String> variablesSuivies;
 
     private int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
     private int margeAffichage  = 2;  // Variable qui gère la marge de l'affichage du programme
@@ -23,9 +23,11 @@ public class Affichage {
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
-        this.variablesSuivies = ctrl.getVariablesSuivies();
     }
 
+	public void initialiserVariablesSuivies() {
+        this.variablesSuivies = ctrl.getVariablesSuivies();
+	}
 
     /**
      * Méthode pour ajouter une nouvelle ligne à la trace d'execution
@@ -80,11 +82,20 @@ public class Affichage {
 
             if( cpt == posDebut ) sRet += "│      NOM       │        VALEUR       │\n";
             else
-                sRet += "│ "
-                     + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut + 1) )
-                     + " │ "
-                     + String.format( "%-19s", this.ctrl.getValeur( this.variablesSuivies.get(cpt - posDebut + 1)) )
-                     + " │";
+			{
+				if( cpt - posDebut >= variablesSuivies.size() ) {
+                    System.out.println(this.variablesSuivies);
+                    if( this.ctrl.getValeur( this.variablesSuivies.get(cpt - posDebut - 1)) != null )
+					{
+						sRet += "│ "
+							+ String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut - 1) )
+							+ " │ "
+							+ String.format( "%-19s", this.ctrl.getValeur( this.variablesSuivies.get(cpt - posDebut - 1)) )
+							+ " │";
+					}
+				}
+                else sRet += "│                │                    │\n";
+			}
         }
 
         return sRet + "└" + "─".repeat(79) + "┴" + "─".repeat(16) + "┴" + "─".repeat(21) + "┘\n\n";
