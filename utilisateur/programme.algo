@@ -4,7 +4,7 @@ constante:
 	PI:reel<--3.14
 variable:
 	var:entier
-	coco:chaine
+	coco,	pizza:chaine
 	salopette:caractere
 	ouiounon:booleen
 
@@ -18,16 +18,16 @@ DEBUT
 
 	ecrire ( var )
 
+	pizza, coco <-- "guccamole"
+
+	ecrire(pizza)
+	ecrire(coco)
+
 	/*
 
 pour k de 50 a 100 faire
-<<<<<<< HEAD
 	pour k de 50 a 100 faire
 		ecrire ( "ez" )
-=======
-	pour k de 50 a 100 faire // test pour
-		ecrire ( ez )
->>>>>>> 23c104345a242056e70a352d48d678a42d6a6a91
 	fpour
 
 	si blabla alors

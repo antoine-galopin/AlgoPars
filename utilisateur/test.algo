@@ -4,7 +4,7 @@ constante:
 	PI:reel<--3.14
 variable:
 	var:entier
-	coco:chaine
+	coco, pizza:chaine
 	salopette:caractere
 	ouiounon:booleen
 

@@ -80,6 +80,7 @@ public class Instruction {
         String[] var;
         String type;
 
+
         this.ligne = this.suppEspace(this.ligneComplete).split(":");
 
         var = this.separeVirgule(this.ligne[0]);
@@ -167,7 +168,8 @@ public class Instruction {
                 ligne = ligne.replaceFirst("\t", "");
             }
         } else {
-            ligne = ligne.strip();
+            ligne = ligne.replaceAll("\\s", "");
+        
         }
 
         return ligne;

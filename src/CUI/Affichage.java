@@ -10,9 +10,9 @@ public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
 
-    int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
-    int margeAffichage  = 8;  // Variable qui gère la marge de l'affichage du programme
-    int posDebut = 1;         // Variable qui gère la première ligne de l'affichage du programme
+    private int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
+    private int margeAffichage  = 2;  // Variable qui gère la marge de l'affichage du programme
+    private int posDebut = 1;         // Variable qui gère la première ligne de l'affichage du programme
 
     /**
      * Constructeur de la classe Affichage
@@ -47,9 +47,9 @@ public class Affichage {
      * @return String
      */
     private String entete() {
-        return String.format("%-80s", "¨".repeat(11)) + "¨".repeat(11) + "\n" // ligne 1
-            + String.format("%-80s", "|  CODE   |") + "| DONNEES |" + "\n" // ligne 2
-            + "¨".repeat(80) + " " + "¨".repeat(39) + "\n"; // ligne 3
+        return String.format("%-80s", "┌" + "─".repeat(9) + "┐") + "┌" + "─".repeat(9) + "┐\n" // ligne 1
+            + String.format("%-80s", "│  CODE   │") + "│ DONNEES │" + "\n" // ligne 2
+            + "├" + "─".repeat(9) + "┴" + "─".repeat(69) +"┼" + "─".repeat(9) + "┴" + "─".repeat(6) + "┬" + "─".repeat(21) + "┐\n"; // ligne 3
     }
 
 
@@ -71,16 +71,16 @@ public class Affichage {
         String sRet = "";
 
         for( int cpt = posDebut; cpt <= ( fichier.size() > tailleAffichage ? posDebut + tailleAffichage : fichier.size() - 1 ); cpt++ ) {
-            sRet += "|" + String.format("%3d", cpt) + ( cpt == numLigne ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
+            sRet += "│" + String.format("%3d", cpt) + ( cpt == numLigne ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
 
             if( cpt < fichier.size() )
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
-            if( cpt == posDebut ) sRet += "|      NOM       |        VALEUR       |\n";
-            else                  sRet += "|                |                     |\n"; // à modifier plus tard pour pouvoir afficher la trace des variables.
+            if( cpt == posDebut ) sRet += "│      NOM       │        VALEUR       │\n";
+            else                  sRet += "│                │                     │\n"; // à modifier plus tard pour pouvoir afficher la trace des variables.
         }
 
-        return sRet + "¨".repeat(120) + "\n\n";
+        return sRet + "└" + "─".repeat(79) + "┴" + "─".repeat(16) + "┴" + "─".repeat(21) + "┘\n\n";
     }
 
 
@@ -89,9 +89,9 @@ public class Affichage {
      * @return String
      */
     private String afficherTraceExecution() {
-        String sRet = "¨".repeat( 11 ) + "\n" // ligne 1
-                    + "| CONSOLE |\n" // ligne 2
-                    + "¨".repeat( 120 ) + "\n"; // ligne 3
+        String sRet = "┌" + "─".repeat(9) + "┐\n" // ligne 1
+                    + "│ CONSOLE │\n" // ligne 2
+                    + "├" + "─".repeat(9) + "┴" + "─".repeat(108) + "┐\n"; // ligne 3
 
         // affichage des 3 dernières lignes de la trace
         int index = this.traceExecution.size() > 3 ? this.traceExecution.size() - 3 : 0;
@@ -99,10 +99,10 @@ public class Affichage {
         for( ; index < index + 3; index++ ) {
             if( index == this.traceExecution.size() ) break; // si on est arrivé au boût de la trace, on quitte
 
-            sRet += "|" + String.format("%-118s", this.traceExecution.get(index)) + "|\n";
+            sRet += "│" + String.format("%-118s", this.traceExecution.get(index)) + "│\n";
         }
 
-        return sRet += "|>" + " ".repeat( 117 ) + "|\n" // avant dernière ligne de la "console"
-            + "¨".repeat( 120 ); // dernière ligne de la "console" ( et de l'affichage global )
+        return sRet += "│>" + " ".repeat( 117 ) + "│\n" // avant dernière ligne de la "console"
+            + "└" + "─".repeat(118) + "┘"; // dernière ligne de la "console" ( et de l'affichage global )
     }
 }

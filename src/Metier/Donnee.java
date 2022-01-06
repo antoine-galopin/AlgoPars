@@ -75,6 +75,7 @@ public class Donnee {
             return;
         }
         if (valeur.matches("\"[^\\\"]*\"")) {
+            System.out.println(var + " " + valeur);
             ((Chaine) (var)).setValeur(valeur);
             return;
         }
