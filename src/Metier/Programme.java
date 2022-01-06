@@ -36,7 +36,7 @@ public class Programme {
 		this.executionActive = true;
 
 		this.donnees = new Donnee();
-		this.listeVarSuivies = new ArrayList<String>();
+		this.listeVarSuivies = new ArrayList<Typable>();
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {
