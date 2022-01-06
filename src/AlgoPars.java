@@ -18,11 +18,7 @@ public class AlgoPars {
     public AlgoPars(String chemin) {
         this.cui = new Affichage(this);
         this.prgm = new Programme(this, "../utilisateur/" + chemin + ".algo");
-<<<<<<< HEAD
         this.cui.initialiserValriablesSuivies();
-=======
-		this.cui.initialiserVariablesSuivies();
->>>>>>> 4cfb2e90f82936f2f0f2ee42f7d69dca6034b7a2
         this.prgm.executerAlgo();
     }
 

@@ -1,14 +1,11 @@
 package AlgoPars.CUI;
 
 import AlgoPars.AlgoPars;
-import AlgoPars.Metier.Types.Typable;
 
 import java.util.ArrayList;
 
-import javax.lang.model.util.ElementScanner6;
-
 public class Affichage {
-    private AlgoPars ctrl;
+    private AlgoPars          ctrl;
     private ArrayList<String> traceExecution;
     private ArrayList<String> variablesSuivies;
 
@@ -26,9 +23,12 @@ public class Affichage {
         this.traceExecution = new ArrayList<String>();
     }
 
-	public void initialiserVariablesSuivies() {
-        this.variablesSuivies = ctrl.getVariablesSuivies();
-	}
+
+    /**
+     *  Méthode d'initialisation 
+     */
+	public void initialiserVariablesSuivies() { this.variablesSuivies = ctrl.getVariablesSuivies(); }
+
 
     /**
      * Méthode pour ajouter une nouvelle ligne à la trace d'execution

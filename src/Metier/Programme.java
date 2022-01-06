@@ -64,11 +64,7 @@ public class Programme {
 			sc = new Scanner( new FileInputStream( "../utilisateur/variables.var" ), "UTF-8" );
 
 			while ( sc.hasNextLine() )
-<<<<<<< HEAD
 				this.listeVarSuivies.add( sc.next().strip() );
-=======
-				this.listeNomVarSuivies.add( sc.next().strip() );
->>>>>>> 4cfb2e90f82936f2f0f2ee42f7d69dca6034b7a2
 
 	
 		} catch( Exception e ) {
@@ -81,19 +77,12 @@ public class Programme {
 	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
 	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 	
-<<<<<<< HEAD
 	public ArrayList<String> getVariablesSuivies() { return this.listeVarSuivies; }
 
 	public String getValeur(String nom) {
 		if( this.donnees.rechercheParNom(nom) != null )
 			return this.donnees.rechercheParNom(nom).getValeur().toString();
 		return null;
-=======
-	public ArrayList<String> getVariablesSuivies() { return this.listeNomVarSuivies; }
-
-	public String getValeur(String nom) { // TODO ajouter verif quand la var est nulle.
-		return this.donnees.rechercheParNom(nom).getValeur().toString();
->>>>>>> 4cfb2e90f82936f2f0f2ee42f7d69dca6034b7a2
 	}
 
 	public void affecterValeur(String nom, String valeur) {
