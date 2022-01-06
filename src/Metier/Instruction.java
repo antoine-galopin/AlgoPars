@@ -17,7 +17,7 @@ public class Instruction {
     public Instruction(AlgoPars ctrl, Primitives primit, String ligne) {
         this.ctrl = ctrl;
         this.primit = primit;
-        this.ligneComplete = ligne;
+        this.ligneComplete = this.suppEspace(ligne);
 
         if (ligne.contains("ecrire") || ligne.contains("lire")) {
             this.ligne = ligne.split("\\(");
@@ -80,24 +80,20 @@ public class Instruction {
         String[] var;
         String type;
 
-
-        this.ligne = this.suppEspace(this.ligneComplete).split(":");
+        this.ligne = this.ligneComplete.split(":");
 
         var = this.separeVirgule(this.ligne[0]);
 
         type = this.ligne[1];
 
-        for (String variable : var) {
+        for (String variable : var)
             this.ctrl.add(variable, type);
-        }
     }
 
     private void declareConst() {
         String[] var;
         String type;
         String valeur;
-
-        this.ligneComplete = this.suppEspace(this.ligneComplete);
 
         if (this.ligneComplete.contains(":")) {
             this.ligne = this.ligneComplete.split(":");
@@ -111,26 +107,21 @@ public class Instruction {
         }
         valeur = this.ligne[1];
 
-        for (String variable : var) {
+        for (String variable : var)
             this.ctrl.add(variable, type, valeur);
-        }
     }
 
     private void affecterValeur() {
         String[] var;
         String valeur;
 
-        this.ligneComplete = this.suppEspace(this.ligneComplete);
         this.ligne = this.separeAffectation(this.ligneComplete);
         var = this.separeVirgule(this.ligne[0]);
         valeur = this.ligne[1];
 
-        for (String variable : var) {
+        for (String variable : var)
             this.ctrl.affecterValeur(variable, valeur);
-        }
-
     }
-    
 
     /**
      * @param ligne
@@ -139,9 +130,8 @@ public class Instruction {
     private String[] separeVirgule(String ligne) {
         if (ligne.contains(",")) {
             return ligne.split(",");
-        } else {
+        } else
             return new String[] { ligne };
-        }
     }
 
     /**
@@ -151,9 +141,8 @@ public class Instruction {
     private String[] separeAffectation(String ligne) {
         if (ligne.contains("<--")) {
             return ligne.split("<--");
-        } else {
+        } else
             return new String[] { ligne };
-        }
     }
 
     /**
@@ -167,10 +156,8 @@ public class Instruction {
                 ligne = ligne.replaceFirst(" ", "");
                 ligne = ligne.replaceFirst("\t", "");
             }
-        } else {
+        } else
             ligne = ligne.replaceAll("\\s", "");
-        
-        }
 
         return ligne;
     }
