@@ -37,7 +37,7 @@ public class Programme {
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {
-			Scanner sc = new Scanner(new FileInputStream(cheminFichier));
+			Scanner sc = new Scanner(new FileInputStream(cheminFichier), "UTF-8" );
 
 			String ligne = "";
 			while(sc.hasNextLine()) {

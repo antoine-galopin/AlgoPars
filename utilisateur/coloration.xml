@@ -27,6 +27,12 @@
         <mot>cas</mot>
         <mot>autre cas</mot>
         <mot>fselon</mot>
+        
+        <mot>pour</mot>
+        <mot>de</mot>
+        <mot>a</mot>
+        <mot>pas</mot>
+        <mot>fpour</mot>
 
         <mot>tant que</mot>
         <mot>tq</mot>
@@ -38,12 +44,6 @@
 
         <mot>jusqu'a</mot>
 
-        <mot>pour</mot>
-        <mot>de</mot>
-        <mot>a</mot>
-        <mot>pas</mot>
-        <mot>fpour</mot>
-
         <mot>ou</mot> <!--connecteurs logiques-->
         <mot>et</mot>
         <mot>xou</mot>
@@ -53,7 +53,7 @@
         <mot>entier</mot>
         <mot>reel</mot>
         <mot>caractere</mot>
-        <mot>chaine de caractere</mot>
+        <mot>chaine</mot>
         <mot>tableau de</mot>
 
         <mot>vrai</mot> <!--booléens-->

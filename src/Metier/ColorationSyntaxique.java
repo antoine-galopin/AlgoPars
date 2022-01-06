@@ -10,17 +10,22 @@ import org.jdom2.input.SAXBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.io.File;
 
 
 public class ColorationSyntaxique
 {
-	public static HashMap<String, ArrayList<String>> couleurs;
+	private static HashMap<String, ArrayList<String>> couleurs;
+	private static HashMap<String, Pattern> regPatterns;
 
 
 	public static void chargerCouleurs()
 	{
 		couleurs = new HashMap<String, ArrayList<String>>();
+		regPatterns = new HashMap<String, Pattern>();
 		Element racine = null;
 
 		try
@@ -41,6 +46,7 @@ public class ColorationSyntaxique
 				alTmp.add( e.getAttribute( "poids" ).getValue() );
 
 				couleurs.put( child.getText(), alTmp );
+				regPatterns.put( child.getText(), Pattern.compile( "\\b" +child.getText() + "\\b" ) );
 			}
 		}
 	}
@@ -48,14 +54,34 @@ public class ColorationSyntaxique
 
 	public static String colorierLigne( String ligne )
 	{
-		String regexTmp = "";
+		int ligneLengthDebut = ligne.length();
+		String debutLigne = ""; // Utilisée pour éviter de colorer des keywords dans les commentaires.
+		String finLigne = "";
+
+		if ( ligne.contains( "//" ) )
+		{
+			int indexDebutCom = ligne.indexOf( "//" );
+
+			if ( indexDebutCom == 0 ) ligne = CouleurConsole.VERT.getFont() + ligne + "\033[0m";
+			else
+			{
+				debutLigne = ligne.substring( 0, indexDebutCom );
+				finLigne = CouleurConsole.VERT.getFont() + ligne.substring( indexDebutCom, ligne.length() ) + "\033[0m";
+			}
+		}
+		else
+			debutLigne = ligne;
+
+		Matcher matcher = null;
 		for ( String mot : couleurs.keySet() )
 		{
-			regexTmp = 
-			ligne = ligne.replace( "( ?" + mot + " ?)", " " + colorierMot( mot ) + " " );
+			matcher = regPatterns.get( mot ).matcher( ligne );
+			if ( matcher.find() )
+				debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
 		}
 		
-		return ligne;
+		System.out.println( );
+		return debutLigne + finLigne + " ".repeat( 75 - ligneLengthDebut );
 	}
 
 
