@@ -2,7 +2,7 @@ package AlgoPars.Metier;
 
 public class Calculateur
 {
-	public static double calculerMath( String expr )
+	public static double calculer( String expr )
 	{
 		expr=Calculateur.nettoyer(expr);
 		System.out.println(expr);
@@ -14,23 +14,9 @@ public class Calculateur
 		/*---------------Parenthese-----------------*/
 		if ( (index = expr.indexOf( "(" )) != -1 )
 		{
-			//Ex: ((45*2)+5)
-			int firstParenthese   = index ;
-			// <- 0
-			int secondParenthese  = expr.indexOf(")");//fin du premier groupe le plus encapsuler
-			// <- 9
-			while (expr.indexOf( "(" ,firstParenthese+1) != -1)
-			{
-				firstParenthese = expr.indexOf( "(" ,firstParenthese+1);
-			}
-			String group = expr.substring(firstParenthese+1,secondParenthese);
-
-			String debut = expr.substring(0,firstParenthese );
-			// <- "("
-			String fin   = expr.substring(secondParenthese+1);
-			// <- "+5)"
-
-			return calculerMath(debut + String.valueOf(calculerMath(group)) + fin );
+			return calculer(						groupeParenthese(expr,index)[0]   + 
+							String.valueOf(calculer(groupeParenthese(expr,index)[1])) + 
+														groupeParenthese(expr,index)[2] );
 		}
 
 		/*---------------valeur absolue-----------------*/
@@ -57,11 +43,11 @@ public class Calculateur
 
 			System.out.println("seconde partie"+secondPart);
 			
-			return calculerMath(
+			return calculer(
 							firstPart+
 							String.valueOf(
 									Math.abs( 
-											calculerMath(milieu)
+											calculer(milieu)
 											)
 										  )
 							+secondPart
@@ -77,16 +63,16 @@ public class Calculateur
 		if ( (index = expr.indexOf( "+" )) != -1 )
 		{
 			if ( expr.charAt( 0 ) != '+' )
-				return calculerMath( expr.substring( 0, index ) ) + calculerMath( expr.substring( index + 1, expr.length() ) );
+				return calculer( expr.substring( 0, index ) ) + calculer( expr.substring( index + 1, expr.length() ) );
 			else
-				return calculerMath( expr.substring( 1, expr.length() ) );
+				return calculer( expr.substring( 1, expr.length() ) );
 		}
 		if ( (index = expr.indexOf( "-" )) != -1 )
 		{
 			if ( expr.charAt( 0 ) != '-' )
-	        	return calculerMath( expr.substring( 0, index ) ) - calculerMath( expr.substring( index + 1, expr.length() ) );
+	        	return calculer( expr.substring( 0, index ) ) - calculer( expr.substring( index + 1, expr.length() ) );
 			else
-				return -calculerMath( expr.substring( 1, expr.length() ) );
+				return -calculer( expr.substring( 1, expr.length() ) );
 		}
 
 		/*---------------racine carre---------------*/
@@ -115,11 +101,11 @@ public class Calculateur
 
 			String milieu = expr.substring( index+3,index2+1);
 
-			return calculerMath(
+			return calculer(
 							firstPart+
 							String.valueOf(
 									Math.sqrt( 
-											calculerMath(milieu)
+											calculer(milieu)
 											)
 										  )
 							+secondPart
@@ -128,18 +114,90 @@ public class Calculateur
 
 		// Opérateurs binaires.
 		if ( (index = expr.indexOf( "×" )) != -1 )
-			return calculerMath( expr.substring( 0, index ) ) * calculerMath( expr.substring( index + 1, expr.length() ) );
+			return calculer( expr.substring( 0, index ) ) * calculer( expr.substring( index + 1, expr.length() ) );
 		if ( (index = expr.indexOf( "/" )) != -1 )
-			return calculerMath( expr.substring( 0, index ) ) / calculerMath( expr.substring( index + 1, expr.length() ) );
+			return calculer( expr.substring( 0, index ) ) / calculer( expr.substring( index + 1, expr.length() ) );
 		if ( (index = expr.indexOf( "div" )) != -1 )
-			return (int)( calculerMath( expr.substring( 0, index ) ) / calculerMath( expr.substring( index + 3, expr.length() ) ) );
+			return (int)( calculer( expr.substring( 0, index ) ) / calculer( expr.substring( index + 3, expr.length() ) ) );
 		if ( (index = expr.indexOf( "mod" )) != -1 )
-			return calculerMath( expr.substring( 0, index ) ) % calculerMath( expr.substring( index + 3, expr.length() ) );
+			return calculer( expr.substring( 0, index ) ) % calculer( expr.substring( index + 3, expr.length() ) );
 		if ( (index = expr.indexOf( "^" )) != -1 )
-			return Math.pow( calculerMath( expr.substring( 0, index ) ), calculerMath( expr.substring( index + 1, expr.length() ) ) );
+			return Math.pow( calculer( expr.substring( 0, index ) ), calculer( expr.substring( index + 1, expr.length() ) ) );
+
+/*-----------------------------booleenne--------------------------------*/
+		
+		//0=faux 
+		//1=vrai
+
+		/*---------------ou-----------------*/
+		if ((index = expr.indexOf( " ou " )) != -1) 
+		{
+			return calculer(expr.substring(0,index)) + calculer(expr.substring(index+4)) ;
+		}
+		/*---------------et-----------------*/
+		if ((index = expr.indexOf( " et " )) != -1) 
+		{
+			return calculer(expr.substring(0,index)) * calculer(expr.substring(index+4)) ;
+		}
+		/*---------------Egalité--------------------*/
+		if ((index = expr.indexOf( "=" )) != -1) 
+		{
+			return Math.abs((calculer(expr.substring(0,index)) - calculer(expr.substring(index+1)))-1);
+		}
+		/*---------------Inégalité------------------*/
+		if ((index = expr.indexOf( "/=" )) != -1) 
+		{
+			return calculer(expr.substring(0,index)) - calculer(expr.substring(index+2));
+		}
+		/*---------------non-----------------*/
+		if ((index = expr.indexOf( " non " )) != -1) 
+		{
+			return Math.abs(calculer(expr.substring(index+5))-1);
+		}
+		/*---------------Supriorité/egalité------------------*/
+		if ((index = expr.indexOf( ">=" )) != -1) 
+		{
+			return (calculer(expr.substring(0,index)) >= calculer(expr.substring(index+2)))?1:0 ;
+		}
+		/*---------------Inferiorité/Egalité------------------*/
+		if ((index = expr.indexOf( "<=" )) != -1) 
+		{
+			return (calculer(expr.substring(0,index)) <= calculer(expr.substring(index+2)))?1:0 ;
+		}
+		/*---------------Superiorité-----------------*/
+		if ((index = expr.indexOf( "<" )) != -1) 
+		{
+			return (calculer(expr.substring(0,index)) < calculer(expr.substring(index+1)))?1:0 ;
+		}
+		/*---------------Inferiorité-----------------*/
+		if ((index = expr.indexOf( ">" )) != -1) 
+		{
+			return (calculer(expr.substring(0,index)) > calculer(expr.substring(index+1)))?1:0 ;
+		}
 
 		System.out.println("out:"+expr);
 		return Double.parseDouble( expr );
+	}
+	private static String[] groupeParenthese(String expr ,int index)
+	{
+		String[] retour = new String[3];
+
+		int firstParenthese   = index ;
+		// <- 0
+		int secondParenthese  = expr.indexOf(")");//fin du premier groupe le plus encapsuler
+		// <- 9
+		while (expr.indexOf( "(" ,firstParenthese+1) != -1)
+		{
+			firstParenthese = expr.indexOf( "(" ,firstParenthese+1);
+		}
+
+		retour[0] = expr.substring(0,firstParenthese );
+
+		retour[1] = expr.substring(firstParenthese+1,secondParenthese);
+
+		retour[2] = expr.substring(secondParenthese+1);
+
+		return retour ;
 	}
 
 	private static int trouver1erePipe(String s,int fin)
@@ -158,7 +216,6 @@ public class Calculateur
 
 	/**
 	 * methode qui trouve la pipe la plus ouvrante a partir de debut 
-	 *
 	 */
 	private static int trouver2ndPipe(String s,int debut)
 	{
@@ -190,26 +247,29 @@ public class Calculateur
 				 .replaceAll(" +ou +"," ou ")
 				 .replaceAll(" +xou +"," xou ")
 				 .replaceAll(" +et +"," et ")
-				 .replaceAll(" +non +"," non ")
+				 .replaceAll(" *non +"," non ")
 				 .replaceAll(" += +"," = ")
 				 .replaceAll(" +< +"," < ")
 				 .replaceAll(" +> +"," > ")
 				 .replaceAll(" +>= +"," >= ")
-				 .replaceAll(" +=> +"," >= ");
+				 .replaceAll(" +=> +"," >= ")
+				 .replaceAll(" +vrai *"," 0")
+				 .replaceAll(" +faux *"," 1");
 	}
 
 	public static void main(String[] args) 
 	{
-		System.out.println( calculerMath( "5 × 4 + 3" ) + " = 23 ?" );
-		System.out.println( calculerMath( "5×4+3" ) + " = 23 ?" );
-		System.out.println( calculerMath( "+21" ) + " = 21 ?");
-		System.out.println( calculerMath( "-21" ) + " = -21 ?");
-		System.out.println( calculerMath( "20 / 8" ) + " = 2.5 ?" );
-		System.out.println( calculerMath( "20 div 8" ) + " = 2 ?" );
-		System.out.println( calculerMath( "13 mod 5" ) + " = 3 ?" );
-		System.out.println( calculerMath( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );
-		System.out.println( calculerMath( "(8/(45-(2))+5)" ) + " = 30?" );
-		System.out.println( calculerMath( "5-\\/¯(25)+5"));
-		System.out.println( calculerMath( "|-||9-5+|-5+9||||"));
+		System.out.println( calculer( "5 × 4 + 3" ) + " = 23 ?" );
+		System.out.println( calculer( "5×4+3" ) + " = 23 ?" );
+		System.out.println( calculer( "+21" ) + " = 21 ?");
+		System.out.println( calculer( "-21" ) + " = -21 ?");
+		System.out.println( calculer( "20 / 8" ) + " = 2.5 ?" );
+		System.out.println( calculer( "20 div 8" ) + " = 2 ?" );
+		System.out.println( calculer( "13 mod 5" ) + " = 3 ?" );
+		System.out.println( calculer( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );
+		System.out.println( calculer( "(8/(45-(2))+5)" ) + " = 30?" );
+		System.out.println( calculer( "5-\\/¯(25)+5"));
+		System.out.println( calculer( "|-||9-5+|-5+9||||"));
+		System.out.println( calculer( "non 5<6"));
 	}
 }
