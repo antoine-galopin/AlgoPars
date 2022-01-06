@@ -9,10 +9,11 @@ import javax.lang.model.util.ElementScanner6;
 public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
+    private ArrayList<Typable> variablesSuivies;
 
     private int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
     private int margeAffichage  = 2;  // Variable qui gère la marge de l'affichage du programme
-    private int posDebut = 1;         // Variable qui gère la première ligne de l'affichage du programme
+    private int posDebut        = 1;  // Variable qui gère la première ligne de l'affichage du programme
 
     /**
      * Constructeur de la classe Affichage
@@ -22,6 +23,7 @@ public class Affichage {
     public Affichage(AlgoPars ctrl) {
         this.ctrl = ctrl;
         this.traceExecution = new ArrayList<String>();
+        this.variablesSuivies = ctrl.getVariablesSuivies();
     }
 
 
@@ -77,7 +79,12 @@ public class Affichage {
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
             if( cpt == posDebut ) sRet += "│      NOM       │        VALEUR       │\n";
-            else                  sRet += "│                │                     │\n"; // à modifier plus tard pour pouvoir afficher la trace des variables.
+            else
+                sRet += "│ "
+                     + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut + 1).getNom() )
+                     + " │ "
+                     + String.format( "%-19s", this.variablesSuivies.get(cpt - posDebut + 1).toString() )
+                     + " │";
         }
 
         return sRet + "└" + "─".repeat(79) + "┴" + "─".repeat(16) + "┴" + "─".repeat(21) + "┘\n\n";

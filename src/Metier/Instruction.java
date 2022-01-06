@@ -126,7 +126,6 @@ public class Instruction {
         valeur = this.ligne[1];
 
         for (String variable : var) {
-            System.out.println(variable + " " + valeur);
             this.ctrl.affecterValeur(variable, valeur);
         }
 
