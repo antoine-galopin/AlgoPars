@@ -26,6 +26,9 @@ public class Affichage {
         this.traceExecution = new ArrayList<String>();
     }
 
+	public void initialiserVariablesSuivies() {
+        this.variablesSuivies = ctrl.getVariablesSuivies();
+	}
 
     /**
      * Méthode pour ajouter une nouvelle ligne à la trace d'execution
