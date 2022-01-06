@@ -1,6 +1,7 @@
 package AlgoPars.Metier;
 
 import AlgoPars.AlgoPars;
+import AlgoPars.Metier.Types.Typable;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,6 +17,7 @@ public class Programme {
 	private ArrayList<String> lignesFichierColorie;
 
 	private Donnee donnees;
+	private ArrayList<Typable> listeVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
 
 	private boolean executionActive;
@@ -34,9 +36,11 @@ public class Programme {
 		this.executionActive = true;
 
 		this.donnees = new Donnee();
+		this.listeVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
 
 		try {
+			// Lecture du programme.
 			Scanner sc = new Scanner(new FileInputStream(cheminFichier), "UTF-8" );
 
 			String ligne = "";
@@ -46,6 +50,16 @@ public class Programme {
 				this.lignesFichierColorie.add( ColorationSyntaxique.colorierLigne(ligne) );
 				this.listeInstructions.add(new Instruction(this.ctrl, this.primitives, ligne));
 			}
+
+			sc.close();
+
+			// Lecture du fichier contenant les variables à suivre.
+			sc = new Scanner( new FileInputStream( "../utilisateur/variables.var" ), "UTF-8" );
+
+			while ( sc.hasNextLine() )
+				this.listeVarSuivies.add( this.donnees.rechercheParNom( sc.next().strip() ) );
+
+	
 		} catch( Exception e ) {
 			e.printStackTrace();
 		}
@@ -55,6 +69,8 @@ public class Programme {
 	public int getLigneActive() { return this.ligneActive; }
 	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
 	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
+	
+	public ArrayList<Typable> getVariablesSuivies() { return this.listeVarSuivies; }
 
 	public String getValeur(String nom) {
 		return this.donnees.rechercheParNom(nom).getValeur().toString();

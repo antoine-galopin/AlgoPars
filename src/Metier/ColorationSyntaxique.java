@@ -77,7 +77,12 @@ public class ColorationSyntaxique
 		{
 			matcher = regPatterns.get( mot ).matcher( ligne );
 			if ( matcher.find() )
-				debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
+			{
+				if ( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
+					debutLigne = debutLigne.replaceFirst( mot, colorierMot( mot ) );
+				else
+					debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
+			}
 		}
 		
 		System.out.println( );
@@ -85,7 +90,7 @@ public class ColorationSyntaxique
 	}
 
 
-	public static String colorierMot( String mot )
+	private static String colorierMot( String mot )
 	{
 		if ( !couleurs.containsKey( mot ) ) return mot;
 
