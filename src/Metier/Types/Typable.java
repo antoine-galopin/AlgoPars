@@ -5,7 +5,7 @@ public class Typable<T>
 	protected String  nom;
 	protected boolean modifiable;
 	protected T       valeur;
-
+	protected String  type ;
 
 	/**
 	 * Constructeur de la classe Typable
@@ -17,6 +17,7 @@ public class Typable<T>
 		this.nom        = nom;
 		this.modifiable = modifiable;
 		this.valeur     = valeur;
+		this.type       = this.getClass().getSimpleName();
 	}
 
 
@@ -33,7 +34,15 @@ public class Typable<T>
 	 */
 	public T getValeur() { return this.valeur; }
 
-
+	/**
+	 * Méthode qui renvoie le nom du types courant quel que soit le type 
+	 * @return
+	 */
+	public String getTypes()
+	{
+		return this.type ;
+	}
+	
 	/**
 	 * Méthode qui change la valeur du Typable courant
 	 * @param v
