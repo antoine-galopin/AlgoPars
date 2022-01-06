@@ -4,10 +4,15 @@ import AlgoPars.AlgoPars;
 
 import java.util.ArrayList;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class Affichage {
     private AlgoPars ctrl;
     private ArrayList<String> traceExecution;
 
+    int tailleAffichage = 40; // Variable qui gère le nombre de lignes de l'affichage du programme
+    int margeAffichage  = 8;  // Variable qui gère la marge de l'affichage du programme
+    int posDebut = 1;         // Variable qui gère la première ligne de l'affichage du programme
 
     /**
      * Constructeur de la classe Affichage
@@ -57,16 +62,11 @@ public class Affichage {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int numLigne              = this.ctrl.getLigneActive();
 
-        int tailleAffichage = 39; // Variable qui gère le nombre de lignes de l'affichage
-        int margeAffichage  = 8;  // Variable qui gère la marge de l'affichage
-
-        int posDebut;
-
-        if( numLigne < tailleAffichage - margeAffichage ) posDebut = 0; // cas où l'on n'a pas encore atteint la marge
-        else { // cas où l'on a atteint la marge
-            if( fichier.size() > numLigne + margeAffichage ) posDebut = numLigne - tailleAffichage + margeAffichage; // il reste des lignes cachées entre la marge et la fin du code ( posDebut évolue )
-            else posDebut = fichier.size() > tailleAffichage ? fichier.size() - tailleAffichage - 1 : 0; // on voit la fin du programme ( posDebut stagne )
-        }
+        if( numLigne <= posDebut + margeAffichage ) // Début de l'affichage
+            posDebut = posDebut == 0 ? 0 : posDebut - 1;
+        else
+            if( numLigne > posDebut + tailleAffichage - margeAffichage ) // Fin de l'affichage
+                if( posDebut < fichier.size() - tailleAffichage - 1 ) posDebut++;
 
         String sRet = "";
 
@@ -76,7 +76,7 @@ public class Affichage {
             if( cpt < fichier.size() )
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
 
-            if( cpt == posDebut ) sRet += "|     NOM        |        VALEUR       |\n";
+            if( cpt == posDebut ) sRet += "|      NOM       |        VALEUR       |\n";
             else                  sRet += "|                |                     |\n"; // à modifier plus tard pour pouvoir afficher la trace des variables.
         }
 

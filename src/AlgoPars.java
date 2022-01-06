@@ -76,6 +76,7 @@ public class AlgoPars {
      */
     public void affecterValeur(String nom, String valeur) { this.prgm.affecterValeur( nom, valeur ); }
 
+
     public static void main(String[] args) {
         if(args[0] == null) System.out.println("Le nom du programme à interpréter doit être passé en paramètre");
 

@@ -79,7 +79,11 @@ public class Programme {
 				String msg = sc.nextLine();
 
 				switch(msg) {
-					case "b": this.ligneActive = this.ligneActive-2; // on recule d'une ligne
+					case "b": {
+						if( this.ligneActive != 0 )
+							--this.ligneActive; // on recule d'une ligne si possible
+						break;
+					}
 					case "" : ++this.ligneActive; // on avance d'une ligne
 				}
 				
