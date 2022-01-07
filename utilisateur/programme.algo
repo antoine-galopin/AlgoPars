@@ -27,7 +27,7 @@ DEBUT
 
 pour k de 50 a 100 faire
 	pour k de 50 a 100 faire
-		ecrire ( "ez" )
+		ecrire ( "ez a" )
 	fpour
 
 	si blabla alors
