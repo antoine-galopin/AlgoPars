@@ -26,10 +26,13 @@ DEBUT
 
 	/*
 
-pour k de 50 a 100 faire
-	pour k de 50 a 100 faire
-		ecrire ( "ez a" )
-	fpour
+	tant que 5 < 10 faire
+		ecrire( "premier tant que" )
+	ftq
+
+	faire
+		ecrire( "premier faire tant que" )
+	tant que 4 < 12 
 
 	si blabla alors
 		tant que vol xou faire

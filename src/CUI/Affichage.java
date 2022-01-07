@@ -3,6 +3,8 @@ package AlgoPars.CUI;
 import AlgoPars.AlgoPars;
 
 import java.util.ArrayList;
+import iut.algo.Console;
+
 
 public class Affichage {
     private AlgoPars          ctrl;
@@ -41,9 +43,10 @@ public class Affichage {
      * Méthode qui lance l'affichage global ( entete + corps + trace d'execution )
      */
     public void afficher() {
-        System.out.print(this.entete());
-        System.out.print(this.corpsAlgo());
-        System.out.print(this.afficherTraceExecution());
+        Console.normal();
+        Console.print(this.entete());
+        Console.print(this.corpsAlgo());
+        Console.print(this.afficherTraceExecution());
     }
 
 
