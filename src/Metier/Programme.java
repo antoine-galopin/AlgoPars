@@ -20,6 +20,8 @@ public class Programme {
 	private ArrayList<Instruction> listeInstructions;
 
 	private boolean executionActive;
+	private boolean bConstante;
+	private boolean bVariable;
 
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
@@ -36,6 +38,9 @@ public class Programme {
 		this.donnees = new Donnee();
 		this.listeVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
+
+		this.bConstante = false;
+		this.bVariable = false;
 
 		try {
 			// Lecture du programme.
@@ -60,6 +65,22 @@ public class Programme {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean getBConstante() {
+		return this.bConstante;
+	}
+
+	public boolean getBVariable() {
+		return this.bVariable;
+	}
+
+	public void setBConstante(boolean bConstante) {
+		this.bConstante = bConstante;
+	}
+
+	public void setBVariable(boolean bVariable) {
+		this.bVariable = bVariable;
 	}
 
 	public int getLigneActive() {
@@ -97,13 +118,13 @@ public class Programme {
 			this.ctrl.afficher();
 
 			try {
-				Scanner sc = new Scanner(System.in); // ouverture du Scanne
+				Scanner sc = new Scanner(System.in); // ouverture du Scanner
 
 				String msg = sc.nextLine();
 
 				switch (msg) {
 					case "b": {
-						if( this.ligneActive != 0 )
+						if (this.ligneActive != 0)
 							--this.ligneActive; // on recule d'une ligne si possible
 						break;
 					}
