@@ -3,7 +3,11 @@ package AlgoPars.Metier;
 import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Programme;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.util.Scanner;
+
 
 public class Primitives {
     private AlgoPars ctrl;
@@ -20,13 +24,28 @@ public class Primitives {
         this.ctrl.affecterValeur(var, msg);
     }
 
+
     public void ecrire(String msg) {
-        if (msg.contains("\"")) {
-            this.ctrl.ajouterTraceExecution(msg.replaceAll("\"", ""));
-        } else if (msg.matches("^[0-9]+") || msg.equals("")) {
-            this.ctrl.ajouterTraceExecution(msg);
-        } else {
-            this.ctrl.ajouterTraceExecution(this.ctrl.getValeur(msg));
+        String result = "";
+
+        // Cette regex permet de 
+        Pattern ptrn = Pattern.compile( "(\"(.+?)\")|(\\d+(\\.\\d*)*)|(\\w+)" );
+        Matcher matcher = ptrn.matcher( msg );
+
+        String param = "";
+        while ( matcher.find() )
+        {
+            param = matcher.group();
+            if ( param.contains( "\"" ) )
+                result += param.replace( "\"", "" ) + " ";
+            else if ( param.equals( "vrai" ) || param.equals( "faux" ) )
+                result += param + " ";
+            else if ( this.ctrl.getValeur( param ) != null )
+                result += this.ctrl.getValeur( param ) + " ";
+            else
+                result += param + " ";
         }
+
+        this.ctrl.ajouterTraceExecution( result );
     }
 }

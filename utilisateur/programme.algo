@@ -11,6 +11,8 @@ variable:
 	ouiounon:booleen
 
 DEBUT
+	ecrire( "je mange, et toi ?", oui, faux, 3.45, 6, "non", vrai )
+
 	var <-- 25
 	coco <-- "ouije"
 	salopette <-- 'u'
