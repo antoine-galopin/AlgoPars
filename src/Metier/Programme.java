@@ -22,6 +22,8 @@ public class Programme {
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
+	private boolean[] tabSi;
+	private int nombreSi;
 
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
@@ -39,6 +41,8 @@ public class Programme {
 		this.listeVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
 
+		this.tabSi = null;
+		this.nombreSi = -1;
 		this.bConstante = false;
 		this.bVariable = false;
 
@@ -81,6 +85,14 @@ public class Programme {
 
 	public void setBVariable(boolean bVariable) {
 		this.bVariable = bVariable;
+	}
+
+	public String[] getTabSi() {
+		return this.tabSi;
+	}
+
+	public void setTabSi(boolean[] tabSi) {
+		this.tabSi = tabSi;
 	}
 
 	public int getLigneActive() {

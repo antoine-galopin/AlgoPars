@@ -29,4 +29,16 @@ public class Primitives {
             this.ctrl.ajouterTraceExecution(this.ctrl.getValeur(msg));
         }
     }
+
+    public void si(String msg) {
+        switch (msg) {
+            case "vrai":
+                this.ctrl.setTabSi = this.getTabSi() + new boolean[] { true };
+                break;
+            case "false":
+                this.ctrl.setTabSi = this.getTabSi() + new boolean[] { false };
+                break;
+        }
+
+    }
 }

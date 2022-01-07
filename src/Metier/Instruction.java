@@ -4,6 +4,7 @@ import javax.lang.model.util.ElementScanner14;
 
 import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Primitives;
+import AlgoPars.Metier.Calculateur;
 
 public class Instruction {
     private AlgoPars ctrl;
@@ -48,13 +49,13 @@ public class Instruction {
                     this.primit.lire(this.ligne[1]);
                     break;
                 case "si":
-                    System.out.println("si");
-                    break;
-                case "sinon":
-                    System.out.println("sinon");
+                    this.si();
                     break;
                 case "fsi":
                     System.out.println("fsi");
+                    break;
+                case "sinon":
+                    System.out.println("sinon");
                     break;
                 default:
                     this.declare();
@@ -157,6 +158,11 @@ public class Instruction {
             ligne = ligne.replaceAll("\\s", "");
 
         return ligne;
+    }
+
+    private void si() {
+        this.primit.si(this.ligneComplete.substring(this.ligneComplete.indexOf("si "),
+                this.ligneComplete.indexOf(" alors") - 1));
     }
 
 }
