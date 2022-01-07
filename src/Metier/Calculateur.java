@@ -14,12 +14,12 @@ public class Calculateur
 			expr.contains("vrai")) {
 			
 			if (calculerMath(expr)==1.0)
-				return "faux";
+				return "vrai";
 			else 
 				if (calculerMath(expr)==0.0)
-					return "vrai";
+					return "faux";
 				else
-					throw new RuntimeException("cannot implicit convert to Boolean:"+(expr));
+					throw new RuntimeException("cannot implicit convert to Boolean:"+(expr)+"->"+calculerMath(expr));
 		}
 
 		if (expr.contains(".")) {
@@ -120,6 +120,8 @@ public class Calculateur
 		
 		// faux = 0
 		// vrai = 1
+		if( ( index = expr.indexOf(" xou " ) ) != -1 )
+			return             (calculerMath( expr.substring(0, index ) )+  calculerMath( expr.substring(index + 4)))%2;
 
 		if( ( index = expr.indexOf(" ou " ) ) != -1 )
 			return             calculerMath( expr.substring(0, index ) ) +  calculerMath( expr.substring(index + 4) );
@@ -256,13 +258,13 @@ public class Calculateur
 				 .replaceAll( " +> +"   ," > "   )
 				 .replaceAll( " +>= +"  ," >= "  )
 				 .replaceAll( " +=> +"  ," >= "  )
-				 .replaceAll( " +vrai *"," 1"    )
-				 .replaceAll( " +faux *"," 0"    );
+				 .replaceAll( " *vrai *"," 1 "    )
+				 .replaceAll( " *faux *"," 0 "    );
 	}
 
 	public static void main(String[] args)
 	{
-		/*System.out.println( calculer( "5 × 4 + 3"         ) + " = 23 ?"  );
+		System.out.println( calculer( "5 × 4 + 3"         ) + " = 23 ?"  );
 		System.out.println( calculer( "5×4+3"             ) + " = 23 ?"  );
 		System.out.println( calculer( "+21"               ) + " = 21 ?"  );
 		System.out.println( calculer( "-21"               ) + " = -21 ?" );
@@ -272,7 +274,9 @@ public class Calculateur
 		System.out.println( calculer( "5 ^ 2 + 3 × 10"    ) + " = 55 ?"  );
 		System.out.println( calculer( "(8/(45-(2))+5)"    ) + " = 30?"   );
 		System.out.println( calculer( "5-\\/¯(25)+5"      )              );
-		System.out.println( calculer( "|-||9-5+|-5+9||||" )              );*/
+		System.out.println( calculer( "|-||9-5+|-5+9||||" )              );
 		System.out.println( calculer( "non 5<6"           )              );
+		System.out.println( calculer( "vrai xou vrai"     )              );
+
 	}
 }
