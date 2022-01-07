@@ -78,7 +78,7 @@ public class Affichage {
 
         String sRet = "";
 
-        for( int cpt = posDebut; cpt <= ( fichier.size() > tailleAffichage ? posDebut + tailleAffichage : fichier.size() - 1 ); cpt++ ) {
+        for( int cpt = posDebut; cpt <= ( fichier.size() > tailleAffichage ? posDebut + tailleAffichage - 1 : fichier.size() - 1 ); cpt++ ) {
             sRet += "│" + String.format("%3d", cpt) + ( cpt == numLigne ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
 
             if( cpt < fichier.size() )
