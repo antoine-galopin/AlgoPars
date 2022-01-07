@@ -49,3 +49,6 @@ public class Primitives {
         this.ctrl.ajouterTraceExecution( result );
     }
 }
+
+
+result.add( msg.equals( "vrai" ) );
