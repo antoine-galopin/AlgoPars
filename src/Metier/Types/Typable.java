@@ -6,6 +6,7 @@ public class Typable<T> {
 	protected T valeur;
 	protected String type;
 
+	
 	/**
 	 * Constructeur de la classe Typable
 	 * 
@@ -37,6 +38,7 @@ public class Typable<T> {
 	public T getValeur() {
 		return this.valeur;
 	}
+
 
 	/**
 	 * Méthode qui renvoie le nom du types courant quel que soit le type

@@ -2,56 +2,65 @@ package AlgoPars.Metier;
 
 public class Calculateur
 {
-	public static double calculer( String expr )
+
+	public static String calculer(String expr)
 	{
-		expr=Calculateur.nettoyer(expr);
-		System.out.println(expr);
+		if (expr.contains("<"   ) ||
+			expr.contains(">"   ) ||
+			expr.contains("="   ) ||
+			expr.contains(" et ") ||
+			expr.contains(" ou ") ||
+			expr.contains(" non ")||
+			expr.contains("vrai")) {
+			
+			if (calculerMath(expr)==1.0)
+				return "vrai";
+			else 
+				if (calculerMath(expr)==0.0)
+					return "faux";
+				else
+					throw new RuntimeException("cannot implicit convert to Boolean:"+(expr)+"->"+calculerMath(expr));
+		}
+
+		if (expr.contains(".")) {
+			return String.valueOf(calculerMath(expr));
+		}
+
+		if (expr.contains("(c)")) {
+			return calculerChaine(expr);
+		}
+
+		return (String.valueOf((int)calculerMath(expr)));
+	}
+
+
+	private static double calculerMath(String expr)
+	{
+		expr = Calculateur.nettoyer(expr); // nettoyage de l'expression
 
 		/*-----------Remplasser les variables nommée par leur valeurs------------*/
 
 		int index = 0;
 
-		/*---------------Parenthese-----------------*/
-		if ( (index = expr.indexOf( "(" )) != -1 )
-		{
-			return calculer(						groupeParenthese(expr,index)[0]   + 
-							String.valueOf(calculer(groupeParenthese(expr,index)[1])) + 
-														groupeParenthese(expr,index)[2] );
+		// traitement des parenthèses
+		if( (index = expr.indexOf( "(" )) != -1 ) {
+			return calculerMath(
+										groupeParenthese(expr, index)[0]   +
+				String.valueOf(calculerMath(groupeParenthese(expr, index)[1])) +
+										groupeParenthese(expr, index)[2]
+			);
 		}
 
-		/*---------------valeur absolue-----------------*/
-		/*prioritaire car considéré comme des parenthese*/
-		/*----------------------------------------------*/
-		if ( (index = expr.indexOf( "|" )) != -1 )
-		{
+		// traitement des valeurs absolues ( ordre de priorité similaire aux parenthèses )
+		if( (index = expr.indexOf( "|" )) != -1 ) { // s'il y a un pipe
+			int index2 = Calculateur.trouverDeuxiemePipe(expr, index  + 1);
+			    index  = Calculateur.trouverPremierePipe(expr, index2 - 1);
 
-			int index2 = Calculateur.trouver2ndPipe(expr,index+1);
+			String premierePartie = expr.substring( 0         , index  );
+			String milieu         = expr.substring( index  + 1, index2 );
+			String deuxiemePartie = expr.substring( index2 + 1         );
 
-			//si on est pas du coté fermant de l'expressions
-
-			index = Calculateur.trouver1erePipe(expr,index2-1);
-
-			String firstPart = expr.substring(0,index);
-
-			System.out.println("premiere partie"+firstPart);
-
-			String milieu    = expr.substring(index+1,index2);
-
-			System.out.println("milieu"+milieu);
-
-			String secondPart= expr.substring(index2+1);
-
-			System.out.println("seconde partie"+secondPart);
-			
-			return calculer(
-							firstPart+
-							String.valueOf(
-									Math.abs( 
-											calculer(milieu)
-											)
-										  )
-							+secondPart
-							);
+			return calculerMath( premierePartie + String.valueOf( Math.abs( calculerMath(milieu) ) ) + deuxiemePartie );
 		}
 
 		/*if (expr.matches("\w+(\w*)"))
@@ -59,217 +68,215 @@ public class Calculateur
 		*/
 
 
-		// Opérateurs unaires.
-		if ( (index = expr.indexOf( "+" )) != -1 )
-		{
-			if ( expr.charAt( 0 ) != '+' )
-				return calculer( expr.substring( 0, index ) ) + calculer( expr.substring( index + 1, expr.length() ) );
-			else
-				return calculer( expr.substring( 1, expr.length() ) );
-		}
-		if ( (index = expr.indexOf( "-" )) != -1 )
-		{
-			if ( expr.charAt( 0 ) != '-' )
-	        	return calculer( expr.substring( 0, index ) ) - calculer( expr.substring( index + 1, expr.length() ) );
-			else
-				return -calculer( expr.substring( 1, expr.length() ) );
-		}
+		// Opérateurs unaires
+		char[] tabCar = new char[] {'+', '-'};
+		int [] tabOpe = new int [] { 1 , -1 };
 
-		/*---------------racine carre---------------*/
-		/*le symbole racine si sans parenthese 		*/
-		/*s'arrete ou prochain symbole				*/
-		/*------------------------------------------*/
-
-		if ( (index = expr.indexOf( "\\/¯" ) ) != -1 )
-		{
-			int index2 = index+3 ;
-
-			while(		expr.charAt(index2) != '+'   &&
-						expr.charAt(index2) != '-'   &&
-						expr.charAt(index2) != '('   &&
-						expr.charAt(index2) != '/'   &&
-						expr.charAt(index2) != '^'   &&
-						expr.charAt(index2) != ' '   && //c'est un modulo ou un div
-						index2<expr.length()-1)
-			{
-				index2++ ;
+		for( int i = 0; i < tabCar.length; i++ ) {
+			if( ( index = expr.indexOf(tabCar[i]) ) != -1 ) {
+				if( expr.charAt(0) != tabCar[i] )
+					return calculerMath( expr.substring( 0, index ) ) + tabOpe[i] * calculerMath( expr.substring( index + 1, expr.length() ) );
+				else
+					return tabOpe[i] * calculerMath( expr.substring( 1, expr.length() ) );
 			}
-
-			String firstPart = expr.substring(  0,index);
-			
-			String secondPart = expr.substring( index2+1);
-
-			String milieu = expr.substring( index+3,index2+1);
-
-			return calculer(
-							firstPart+
-							String.valueOf(
-									Math.sqrt( 
-											calculer(milieu)
-											)
-										  )
-							+secondPart
-							);
 		}
 
-		// Opérateurs binaires.
-		if ( (index = expr.indexOf( "×" )) != -1 )
-			return calculer( expr.substring( 0, index ) ) * calculer( expr.substring( index + 1, expr.length() ) );
-		if ( (index = expr.indexOf( "/" )) != -1 )
-			return calculer( expr.substring( 0, index ) ) / calculer( expr.substring( index + 1, expr.length() ) );
-		if ( (index = expr.indexOf( "div" )) != -1 )
-			return (int)( calculer( expr.substring( 0, index ) ) / calculer( expr.substring( index + 3, expr.length() ) ) );
-		if ( (index = expr.indexOf( "mod" )) != -1 )
-			return calculer( expr.substring( 0, index ) ) % calculer( expr.substring( index + 3, expr.length() ) );
-		if ( (index = expr.indexOf( "^" )) != -1 )
-			return Math.pow( calculer( expr.substring( 0, index ) ), calculer( expr.substring( index + 1, expr.length() ) ) );
+		// traitement des racines carrées ( on considère que tout est dans la racine jusqu'au prochain symbole )
+		if( (index = expr.indexOf( "\\/¯" )) != -1 ) {
+			int index2 = index + 3;
+
+			while( expr.charAt(index2) != '+' &&
+				   expr.charAt(index2) != '-' &&
+				   expr.charAt(index2) != '(' &&
+				   expr.charAt(index2) != '/' &&
+				   expr.charAt(index2) != '^' &&
+				   expr.charAt(index2) != ' ' && //c'est un modulo ou un div
+				   index2 < expr.length() - 1 ) { index2++; }
+
+			String premierePartie = expr.substring( 0         , index      );
+			String milieu         = expr.substring( index  + 3, index2 + 1 );
+			String deuxiemePartie = expr.substring( index2 + 1             );
+
+			return calculerMath( premierePartie + String.valueOf( Math.sqrt( calculerMath(milieu) ) ) + deuxiemePartie );
+		}
+
+		// Opérateurs binaires
+		if( ( index = expr.indexOf("×"  ) ) != -1 )
+			return           calculerMath( expr.substring( 0, index ) ) * calculerMath( expr.substring( index + 1, expr.length() ) );
+
+		if( ( index = expr.indexOf("/"  ) ) != -1 )
+			return           calculerMath( expr.substring( 0, index ) ) / calculerMath( expr.substring( index + 1, expr.length() ) );
+
+		if( ( index = expr.indexOf("div") ) != -1 )
+			return (int)(    calculerMath( expr.substring( 0, index ) ) / calculerMath( expr.substring( index + 3, expr.length() ) ) );
+
+		if( ( index = expr.indexOf("mod") ) != -1 )
+			return           calculerMath( expr.substring( 0, index ) ) % calculerMath( expr.substring( index + 3, expr.length() ) );
+
+		if( ( index = expr.indexOf("^"  ) ) != -1 )
+			return Math.pow( calculerMath( expr.substring( 0, index ) ) , calculerMath( expr.substring( index + 1, expr.length() ) ) );
 
 /*-----------------------------booleenne--------------------------------*/
 		
-		//0=faux 
-		//1=vrai
+		// faux = 0
+		// vrai = 1
+		if( ( index = expr.indexOf(" xou " ) ) != -1 )
+			return             (calculerMath( expr.substring(0, index ) )+  calculerMath( expr.substring(index + 4)))%2;
 
-		/*---------------ou-----------------*/
-		if ((index = expr.indexOf( " ou " )) != -1) 
-		{
-			return calculer(expr.substring(0,index)) + calculer(expr.substring(index+4)) ;
-		}
-		/*---------------et-----------------*/
-		if ((index = expr.indexOf( " et " )) != -1) 
-		{
-			return calculer(expr.substring(0,index)) * calculer(expr.substring(index+4)) ;
-		}
-		/*---------------Egalité--------------------*/
-		if ((index = expr.indexOf( "=" )) != -1) 
-		{
-			return Math.abs((calculer(expr.substring(0,index)) - calculer(expr.substring(index+1)))-1);
-		}
-		/*---------------Inégalité------------------*/
-		if ((index = expr.indexOf( "/=" )) != -1) 
-		{
-			return calculer(expr.substring(0,index)) - calculer(expr.substring(index+2));
-		}
-		/*---------------non-----------------*/
-		if ((index = expr.indexOf( " non " )) != -1) 
-		{
-			return Math.abs(calculer(expr.substring(index+5))-1);
-		}
-		/*---------------Supriorité/egalité------------------*/
-		if ((index = expr.indexOf( ">=" )) != -1) 
-		{
-			return (calculer(expr.substring(0,index)) >= calculer(expr.substring(index+2)))?1:0 ;
-		}
-		/*---------------Inferiorité/Egalité------------------*/
-		if ((index = expr.indexOf( "<=" )) != -1) 
-		{
-			return (calculer(expr.substring(0,index)) <= calculer(expr.substring(index+2)))?1:0 ;
-		}
-		/*---------------Superiorité-----------------*/
-		if ((index = expr.indexOf( "<" )) != -1) 
-		{
-			return (calculer(expr.substring(0,index)) < calculer(expr.substring(index+1)))?1:0 ;
-		}
-		/*---------------Inferiorité-----------------*/
-		if ((index = expr.indexOf( ">" )) != -1) 
-		{
-			return (calculer(expr.substring(0,index)) > calculer(expr.substring(index+1)))?1:0 ;
-		}
+		if( ( index = expr.indexOf(" ou " ) ) != -1 )
+			return             calculerMath( expr.substring(0, index ) ) +  calculerMath( expr.substring(index + 4) );
 
-		System.out.println("out:"+expr);
+		if( ( index = expr.indexOf(" et " ) ) != -1 )
+			return             calculerMath( expr.substring(0, index ) ) *  calculerMath( expr.substring(index + 4) );
+
+		if( ( index = expr.indexOf("="    ) ) != -1 )
+			return Math.abs( ( calculerMath( expr.substring(0, index ) ) -  calculerMath( expr.substring(index + 1) ) ) -1 );
+
+		if( ( index = expr.indexOf("/="   ) ) != -1 )
+			return             calculerMath( expr.substring(0, index ) ) -  calculerMath( expr.substring(index + 2) );
+
+		if( ( index = expr.indexOf(" non ") ) != -1 )
+			return Math.abs(   calculerMath( expr.substring(index + 5) ) -1 );
+
+		if( ( index = expr.indexOf(">="   ) ) != -1 )
+			return         (   calculerMath( expr.substring(0, index ) ) >= calculerMath( expr.substring(index + 2) ) ) ? 1 : 0;
+
+		if( ( index = expr.indexOf("<="   ) ) != -1 )
+			return         (   calculerMath( expr.substring(0, index ) ) <= calculerMath( expr.substring(index + 2) ) ) ? 1 : 0;
+
+		if( ( index = expr.indexOf("<"    ) ) != -1 )
+			return         (   calculerMath( expr.substring(0, index ) ) <  calculerMath( expr.substring(index + 1) ) ) ? 1 : 0;
+
+		if( ( index = expr.indexOf(">"    ) ) != -1 )
+			return         (   calculerMath( expr.substring(0, index ) ) >  calculerMath( expr.substring(index + 1) ) ) ? 1 : 0;
+
+		System.out.println("out:" + expr);
 		return Double.parseDouble( expr );
 	}
-	private static String[] groupeParenthese(String expr ,int index)
-	{
-		String[] retour = new String[3];
+/*--------------------------------------------------------------------------*/
 
-		int firstParenthese   = index ;
-		// <- 0
-		int secondParenthese  = expr.indexOf(")");//fin du premier groupe le plus encapsuler
-		// <- 9
-		while (expr.indexOf( "(" ,firstParenthese+1) != -1)
-		{
-			firstParenthese = expr.indexOf( "(" ,firstParenthese+1);
-		}
+	public static String calculerChaine(String expr)
+	{/*
+		expr = expr.replaceAll("^ *","").replaceAll(" *$","");
 
-		retour[0] = expr.substring(0,firstParenthese );
+		int firstQuote = 0;
+		int secondQuote = 0 ;
+		int index=0 ;
 
-		retour[1] = expr.substring(firstParenthese+1,secondParenthese);
+		firstQuote=expr.indexOf("\"");
+		
+			secondQuote=indexOf("\"",index++);
 
-		retour[2] = expr.substring(secondParenthese+1);
+			while () {
+				
+			}
+		}*/
 
-		return retour ;
+		return expr ;
 	}
-
-	private static int trouver1erePipe(String s,int fin)
-	{
-		s=s.substring(0,fin);
-
-		int index = fin-1;
-
-		while (	s.charAt(index) !='|' ) {
-			index-- ;
-		}
-
-		return index ;
-	}
-
-
+	
 	/**
-	 * methode qui trouve la pipe la plus ouvrante a partir de debut 
+	 * Méthode qui renvoitle groupe de parenthèse le plus profond dans l'expression passée en paramètre
+	 * @param expr
+	 * @param index
+	 * @return String[]
 	 */
-	private static int trouver2ndPipe(String s,int debut)
+	private static String[] groupeParenthese(String expr, int index)
 	{
-		int index = s.indexOf( "|" , debut);
+		int premiereParenthese = index;
+		int deuxiemeParenthese = expr.indexOf(")"); //fin du groupe le plus encapsulé
 
-		//on arrette si "5|"
-		while (	!(Character.isDigit(s.charAt(index-1)) && s.charAt(index) == '|' )  ) {
-			index++ ;
+		while( expr.indexOf( "(", premiereParenthese + 1 ) != -1 ) {
+			premiereParenthese = expr.indexOf( "(", premiereParenthese + 1 ); // recherche de la prochaine parenthèse ouvrante
 		}
 
-		return index ;
+		return new String[] {
+			expr.substring( 0                      , premiereParenthese ), // avant la parenthèse
+			expr.substring( premiereParenthese + 1 , deuxiemeParenthese ), // dans la parenthèse
+			expr.substring( deuxiemeParenthese + 1                      )  // après la parenthèse
+		};
 	}
 
+
 	/**
-	 *Fonction qui nettoie la chaine pour eviter d'avoir a traité les chaine vide
+	 * Méthode qui renvoit l'indice de la pipe ouvrante la plus encapsuler d'un chaine passée en paramètre
+	 * @param s
+	 * @param fin
+	 * @return int
+	 */
+	private static int trouverPremierePipe(String s, int fin)
+	{
+		s = s.substring( 0, fin );
+
+		int index = fin - 1;
+
+		while( s.charAt(index) !='|' ) { index--; }
+
+		return index;
+	}
+
+
+	/**
+	 * Méthode qui renvoit l'indice de la pipe fermante la plus encapsuler d'un chaine passée en paramètre
+	 * @param s
+	 * @param debut
+	 * @return int
+	 */
+	private static int trouverDeuxiemePipe(String s, int debut)
+	{
+		int index = s.indexOf( "|", debut );
+
+		while( !(Character.isDigit(s.charAt(index-1)) && s.charAt(index) == '|' ) ) { index++; }
+
+		return index;
+	}
+
+
+	/**
+	 * Fonction qui nettoie une chaine avant de la traiter plus simplement
+	 * @param s
+	 * @return String
 	 */
 	private static String nettoyer(String s)
 	{
-		return  s.replaceAll(" *\\+ *","+")
-				 .replaceAll(" *- *"  ,"-")
-				 .replaceAll(" *× *"  ,"×")
-				 .replaceAll(" *\\/ *","/")
-				 .replaceAll(" *\\^ *","^")
-				 .replaceAll(" +mod +"," mod ")
-				 .replaceAll(" +div +"," div ")
-				 .replaceAll(" +$","")
-				 .replaceAll("^ +","")
-
-				 .replaceAll(" +ou +"," ou ")
-				 .replaceAll(" +xou +"," xou ")
-				 .replaceAll(" +et +"," et ")
-				 .replaceAll(" *non +"," non ")
-				 .replaceAll(" += +"," = ")
-				 .replaceAll(" +< +"," < ")
-				 .replaceAll(" +> +"," > ")
-				 .replaceAll(" +>= +"," >= ")
-				 .replaceAll(" +=> +"," >= ")
-				 .replaceAll(" +vrai *"," 0")
-				 .replaceAll(" +faux *"," 1");
+		return  s.replaceAll( " *\\+ *" ,"+"     ) // opérateurs
+				 .replaceAll( " *- *"   ,"-"     )
+				 .replaceAll( " *× *"   ,"×"     )
+				 .replaceAll( " *\\/ *" ,"/"     )
+				 .replaceAll( " *\\^ *" ,"^"     )
+				 .replaceAll( " +mod +" ," mod " )
+				 .replaceAll( " +div +" ," div " )
+				 .replaceAll( " +$"     ,""      )
+				 .replaceAll( "^ +"     ,""      )
+				
+				 .replaceAll( " +ou +"  ," ou "  ) // comparateurs
+				 .replaceAll( " +xou +" ," xou " )
+				 .replaceAll( " +et +"  ," et "  )
+				 .replaceAll( " *non +" ," non " )
+				 .replaceAll( " += +"   ," = "   )
+				 .replaceAll( " +< +"   ," < "   )
+				 .replaceAll( " +> +"   ," > "   )
+				 .replaceAll( " +>= +"  ," >= "  )
+				 .replaceAll( " +=> +"  ," >= "  )
+				 .replaceAll( " *vrai *"," 1 "    )
+				 .replaceAll( " *faux *"," 0 "    );
 	}
 
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
-		System.out.println( calculer( "5 × 4 + 3" ) + " = 23 ?" );
-		System.out.println( calculer( "5×4+3" ) + " = 23 ?" );
-		System.out.println( calculer( "+21" ) + " = 21 ?");
-		System.out.println( calculer( "-21" ) + " = -21 ?");
-		System.out.println( calculer( "20 / 8" ) + " = 2.5 ?" );
-		System.out.println( calculer( "20 div 8" ) + " = 2 ?" );
-		System.out.println( calculer( "13 mod 5" ) + " = 3 ?" );
-		System.out.println( calculer( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );
-		System.out.println( calculer( "(8/(45-(2))+5)" ) + " = 30?" );
-		System.out.println( calculer( "5-\\/¯(25)+5"));
-		System.out.println( calculer( "|-||9-5+|-5+9||||"));
-		System.out.println( calculer( "non 5<6"));
+		System.out.println( calculer( "5 × 4 + 3"         ) + " = 23 ?"  );
+		System.out.println( calculer( "5×4+3"             ) + " = 23 ?"  );
+		System.out.println( calculer( "+21"               ) + " = 21 ?"  );
+		System.out.println( calculer( "-21"               ) + " = -21 ?" );
+		System.out.println( calculer( "20 / 8"            ) + " = 2.5 ?" );
+		System.out.println( calculer( "20 div 8"          ) + " = 2 ?"   );
+		System.out.println( calculer( "13 mod 5"          ) + " = 3 ?"   );
+		System.out.println( calculer( "5 ^ 2 + 3 × 10"    ) + " = 55 ?"  );
+		System.out.println( calculer( "(8/(45-(2))+5)"    ) + " = 30?"   );
+		System.out.println( calculer( "5-\\/¯(25)+5"      )              );
+		System.out.println( calculer( "|-||9-5+|-5+9||||" )              );
+		System.out.println( calculer( "non 5<6"           )              );
+		System.out.println( calculer( "vrai xou vrai"     )              );
+
 	}
 }

@@ -10,6 +10,8 @@ variable:
 	ouiounon:booleen
 
 DEBUT
+	ecrire( "je mange, et toi ?", oui, faux, 3.45, 6, "non", vrai )
+
 	var <-- 25
 	coco <-- "ouije"
 	salopette <-- 'u'
@@ -26,10 +28,13 @@ DEBUT
 
 	/*
 
-pour k de 50 a 100 faire
-	pour k de 50 a 100 faire
-		ecrire ( "ez" )
-	fpour
+	tant que 5 < 10 faire
+		ecrire( "premier tant que" )
+	ftq
+
+	faire
+		ecrire( "premier faire tant que" )
+	tant que 4 < 12 
 
 	si blabla alors
 		tant que vol xou faire
