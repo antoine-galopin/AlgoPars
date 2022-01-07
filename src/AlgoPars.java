@@ -41,10 +41,9 @@ public class AlgoPars {
         return this.prgm.getLigneActive();
     }
 
-
-	public ArrayList<String> getVariablesSuivies() {
-		return this.prgm.getVariablesSuivies();
-	}
+    public ArrayList<String> getVariablesSuivies() {
+        return this.prgm.getVariablesSuivies();
+    }
 
     /**
      * Méthode qui nettoie la console et affiche la nouvelle étape de
@@ -100,6 +99,21 @@ public class AlgoPars {
         return this.prgm.getValeur(nom);
     }
 
+    public boolean getBConstante() {
+        return this.prgm.getBConstante();
+    }
+
+    public boolean getBVariable() {
+        return this.prgm.getBVariable();
+    }
+
+    public void setBConstante(boolean bConstante) {
+        this.prgm.setBConstante(bConstante);
+    }
+
+    public void setBVariable(boolean bVariable) {
+        this.prgm.setBVariable(bVariable);
+    }
 
     public static void main(String[] args) {
         if (args[0] == null)

@@ -6,9 +6,6 @@ import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Primitives;
 
 public class Instruction {
-    public static boolean bconstante = false;
-    public static boolean bvariable = false;
-
     private AlgoPars ctrl;
     private Primitives primit;
     private String[] ligne;
@@ -34,15 +31,15 @@ public class Instruction {
                 case "ALGORITHME":
                     break;
                 case "constante:":
-                    bconstante = true;
+                    this.ctrl.setBConstante(true);
                     break;
                 case "variable:":
-                    bconstante = false;
-                    bvariable = true;
+                    this.ctrl.setBConstante(false);
+                    this.ctrl.setBVariable(true);
                     break;
                 case "DEBUT":
-                    bconstante = false;
-                    bvariable = false;
+                    this.ctrl.setBConstante(false);
+                    this.ctrl.setBVariable(false);
                     break;
                 case "ecrire":
                     this.primit.ecrire(this.ligne[1]);
@@ -67,9 +64,9 @@ public class Instruction {
     }
 
     private void declare() {
-        if (bvariable) {
+        if (this.ctrl.getBVariable()) {
             this.declareVar();
-        } else if (bconstante) {
+        } else if (this.ctrl.getBConstante()) {
             this.declareConst();
         } else if (this.ligneComplete.contains("<--")) {
             this.affecterValeur();
