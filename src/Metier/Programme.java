@@ -44,7 +44,7 @@ public class Programme {
 
 		try {
 			// Lecture du programme.
-			Scanner sc = new Scanner(new FileInputStream(cheminFichier), "UTF-8");
+			Scanner sc = new Scanner(new FileInputStream( "../utilisateur/" + cheminFichier + ".algo" ), "UTF-8");
 
 			String ligne = "";
 			while (sc.hasNextLine()) {
@@ -57,7 +57,7 @@ public class Programme {
 			sc.close();
 
 			// Lecture du fichier contenant les variables à suivre.
-			sc = new Scanner(new FileInputStream("../utilisateur/variables.var"), "UTF-8");
+			sc = new Scanner(new FileInputStream("../utilisateur/" + cheminFichier + ".var"), "UTF-8");
 
 			while (sc.hasNextLine())
 				this.listeVarSuivies.add(sc.next().strip());
