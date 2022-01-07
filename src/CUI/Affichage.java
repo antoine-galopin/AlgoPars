@@ -70,11 +70,13 @@ public class Affichage {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int numLigne              = this.ctrl.getLigneActive();
 
-        if( numLigne <= posDebut + margeAffichage ) // Début de l'affichage
+        if( numLigne < posDebut + margeAffichage ) // Début de l'affichage
             posDebut = posDebut == 0 ? 0 : posDebut - 1;
         else
-            if( numLigne > posDebut + tailleAffichage - margeAffichage ) // Fin de l'affichage
-                if( posDebut < fichier.size() - tailleAffichage - 1 ) posDebut++;
+            if( numLigne > posDebut + tailleAffichage - margeAffichage - 1 ) // Fin de l'affichage
+                if( posDebut < fichier.size() - tailleAffichage ) posDebut++;
+            
+            // if()
 
         String sRet = "";
 
@@ -87,7 +89,7 @@ public class Affichage {
             if     ( cpt == posDebut     ) sRet += "│      NOM       │        VALEUR       │\n";
             else if( cpt == posDebut + 1 ) sRet += "├────────────────┼─────────────────────┤\n";
             else
-                if( cpt - posDebut - 1 <= variablesSuivies.size() ) {
+                if( cpt - posDebut <= variablesSuivies.size() ) {
                     if( this.ctrl.getValeur(this.variablesSuivies.get(cpt - posDebut - 2)) != null ) {
                         sRet += "│ "
                             + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut - 2) )
@@ -123,6 +125,6 @@ public class Affichage {
         }
 
         return sRet += "│>" + " ".repeat( 117 ) + "│\n" // avant dernière ligne de la "console"
-            + "└" + "─".repeat(118) + "┘"; // dernière ligne de la "console" ( et de l'affichage global )
+            + "└" + "─".repeat(118) + "┘\n"; // dernière ligne de la "console" ( et de l'affichage global )
     }
 }
