@@ -3,6 +3,7 @@ ALGORITHME Test
 constante:
 	PI:reel<--3.14
 	PIA<--3,14
+
 variable:
 	var:entier
 	coco,	pizza:chaine
