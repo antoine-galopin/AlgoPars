@@ -70,13 +70,20 @@ public class Affichage {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int numLigne              = this.ctrl.getLigneActive();
 
-        if( numLigne < posDebut + margeAffichage ) // Début de l'affichage
-            posDebut = posDebut == 0 ? 0 : posDebut - 1;
-        else
-            if( numLigne > posDebut + tailleAffichage - margeAffichage - 1 ) // Fin de l'affichage
-                if( posDebut < fichier.size() - tailleAffichage ) posDebut++;
-            
-            // if()
+        if( numLigne < posDebut + margeAffichage ) { // Début de l'affichage ( de la ligne [0] à la ligne [posDebut + margeAffichage] )
+            int i = margeAffichage + posDebut - numLigne;
+
+            for( int cpt = 0; cpt < i; cpt++ )
+                posDebut = posDebut == 0 ? 0 : posDebut - 1;
+        }
+        else {
+            if( numLigne > posDebut + tailleAffichage - margeAffichage - 1 ) { // Fin de l'affichage ( de la ligne [tailleAffichage - margeAffichage] à la ligne [fichier.size()] )
+                int j = Math.abs(posDebut + tailleAffichage - margeAffichage - 1 - numLigne);
+
+                for( int cpt = 0; cpt < j; cpt++ )
+                    if( posDebut < fichier.size() - tailleAffichage ) posDebut++;
+            }
+        }
 
         String sRet = "";
 

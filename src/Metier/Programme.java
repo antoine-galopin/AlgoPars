@@ -124,12 +124,14 @@ public class Programme {
 
 				if( msg.matches("^L\\d+") ) {
 					int ecart = this.ligneActive - Integer.parseInt(msg.substring(1));
-					int x = ecart / Math.abs(ecart);
 
 					int i = Math.abs(ecart);
 
+					int x = ecart / i;
+
 					for( int cpt = 0; cpt < i; cpt++ ) {
 						this.ligneActive = this.ligneActive - x;
+						
 						if( x < 0 ) this.listeInstructions.get(this.ligneActive).interpreterLigne();
 					}
 				}
