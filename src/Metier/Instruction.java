@@ -161,8 +161,22 @@ public class Instruction {
     }
 
     private void si() {
-        this.primit.si(this.ligneComplete.substring(this.ligneComplete.indexOf("si "),
-                this.ligneComplete.indexOf(" alors") - 1));
+        // Pattern ptrn = Pattern.compile( "TA_REGEX" );
+        // Matcher matcher = ptrn.matcher( "TA_STRING" );
+
+        // while ( matcher.find() ) System.out.println( matcher.group() );
+        String str = this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
+                this.ligneComplete.indexOf("alors"));
+
+        if (str.contains("\"")) {
+            this.ligneComplete.indexOf("\""
+        } else if (str.contains("[0-9]+")) {
+
+        } else if (str.contains("[A-Za-z]+")) {
+
+        }
+        this.primit.si(this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
+                this.ligneComplete.indexOf("alors")));
     }
 
 }

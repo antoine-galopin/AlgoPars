@@ -22,7 +22,7 @@ public class Programme {
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
-	private boolean[] tabSi;
+	private ArrayList<Boolean> alSi;
 	private int nombreSi;
 
 	public Programme(AlgoPars ctrl, String cheminFichier) {
@@ -41,14 +41,14 @@ public class Programme {
 		this.listeVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
 
-		this.tabSi = null;
+		this.alSi = null;
 		this.nombreSi = -1;
 		this.bConstante = false;
 		this.bVariable = false;
 
 		try {
 			// Lecture du programme.
-			Scanner sc = new Scanner(new FileInputStream( "../utilisateur/" + cheminFichier + ".algo" ), "UTF-8");
+			Scanner sc = new Scanner(new FileInputStream("../utilisateur/" + cheminFichier + ".algo"), "UTF-8");
 
 			String ligne = "";
 			while (sc.hasNextLine()) {
@@ -87,12 +87,12 @@ public class Programme {
 		this.bVariable = bVariable;
 	}
 
-	public String[] getTabSi() {
-		return this.tabSi;
+	public ArrayList<Boolean> getAlSi() {
+		return this.alSi;
 	}
 
-	public void setTabSi(boolean[] tabSi) {
-		this.tabSi = tabSi;
+	public void setAlSi(ArrayList<Boolean> alSi) {
+		this.alSi = alSi;
 	}
 
 	public int getLigneActive() {

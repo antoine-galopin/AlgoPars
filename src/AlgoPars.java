@@ -17,7 +17,7 @@ public class AlgoPars {
      */
     public AlgoPars(String chemin) {
         this.cui = new Affichage(this);
-        this.prgm = new Programme(this, chemin );
+        this.prgm = new Programme(this, chemin);
         this.cui.initialiserVariablesSuivies();
         this.prgm.executerAlgo();
     }
@@ -50,8 +50,9 @@ public class AlgoPars {
      * l'interprétation
      */
     public void afficher() {
-        System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
-        System.out.flush();
+        // System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la
+        // console
+        // System.out.flush();
         this.cui.afficher();
     }
 
@@ -113,6 +114,14 @@ public class AlgoPars {
 
     public void setBVariable(boolean bVariable) {
         this.prgm.setBVariable(bVariable);
+    }
+
+    public void setAlSi(ArrayList<Boolean> alSi) {
+        this.prgm.setAlSi(alSi);
+    }
+
+    public ArrayList<Boolean> getAlSi() {
+        return this.prgm.getAlSi();
     }
 
     public static void main(String[] args) {
