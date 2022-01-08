@@ -47,6 +47,7 @@ public class Affichage {
         Console.print(this.entete());
         Console.print(this.corpsAlgo());
         Console.print(this.afficherTraceExecution());
+        Console.print(this.ctrl.getListeBreakPoints());
     }
 
 

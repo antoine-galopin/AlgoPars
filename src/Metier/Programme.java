@@ -148,19 +148,38 @@ public class Programme {
 					}
 				} else
 
-				// Méthode : "+ bk" + numLigne ( ajout d'un breakpoint )
+				// Méthode : "+ bk" + numLigne ( ajout d'un point d'arrêt )
 				if( msg.matches("^\\+ bk \\d+") ) {
 					int val = Integer.parseInt(msg.substring(5));
 
 					if( !this.listeBreakPoints.contains(val) && val < this.lignesFichier.size() )
 						this.listeBreakPoints.add(val);
+					
+					this.listeBreakPoints.sort(null); // tri
 				} else
 
-				// Méthode : "- bk" + numLigne ( suppression d'un breakpoint )
+				// Méthode : "- bk" + numLigne ( suppression d'un point d'arrêt )
 				if( msg.matches("^\\- bk \\d+") ) {
 					int indice = this.listeBreakPoints.indexOf(Integer.parseInt(msg.substring(5)));
 					this.listeBreakPoints.remove(indice);
 				} else
+
+				// Méthode : "go bk" ( déplacement jusqu'au prochain point d'arrêt )
+				if( msg.equals("go bk") ) {
+					int prochainBK = this.lignesFichier.size() - 1;
+
+					for( int i : this.listeBreakPoints )
+						if( i > this.ligneActive ) {
+							prochainBK = i;
+							break;
+						}
+
+					if( prochainBK == this.lignesFichier.size() - 1 )
+						System.out.println("Pas de point d'arrêt trouvé après votre position. Vous êtes envoyés au bout du programme");
+
+					for( int cpt = this.ligneActive; cpt < prochainBK; cpt++ )
+						this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+				}
 
 				switch(msg) {
 					case "b": { // Méthode : "b" + Entrée ( reculer d'une ligne )
