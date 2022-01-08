@@ -5,6 +5,8 @@ import AlgoPars.AlgoPars;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner6;
+
 import java.io.FileInputStream;
 
 public class Programme {
@@ -18,6 +20,8 @@ public class Programme {
 	private Donnee donnees;
 	private ArrayList<String> listeVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
+
+	private ArrayList<Integer> listeBreakPoints;
 
 	private boolean executionActive;
 	private boolean bConstante;
@@ -38,6 +42,8 @@ public class Programme {
 		this.donnees = new Donnee();
 		this.listeVarSuivies = new ArrayList<String>();
 		this.listeInstructions = new ArrayList<Instruction>();
+
+		this.listeBreakPoints = new ArrayList<Integer>();
 
 		this.bConstante = false;
 		this.bVariable = false;
@@ -99,6 +105,10 @@ public class Programme {
 		return this.listeVarSuivies;
 	}
 
+	public ArrayList<Integer> getListeBreakPoints() {
+		return this.listeBreakPoints;
+	}
+
 	public String getValeur(String nom) {
 		if (this.donnees.rechercheParNom(nom) != null)
 			return this.donnees.rechercheParNom(nom).getValeur().toString();
@@ -122,6 +132,8 @@ public class Programme {
 
 				String msg = sc.nextLine();
 
+
+				// Méthode : "L" + numLigne + Entrée ( aller à la ligne numLigne )
 				if( msg.matches("^L\\d+") ) {
 					int ecart = this.ligneActive - Integer.parseInt(msg.substring(1));
 
@@ -134,17 +146,29 @@ public class Programme {
 						
 						if( x < 0 ) this.listeInstructions.get(this.ligneActive).interpreterLigne();
 					}
-				}
+				} else
 
-				switch (msg) {
-					case "b": {
-						if( this.ligneActive != 0 )
-							--this.ligneActive; // on recule d'une ligne si possible
+				// Méthode : "+ bk" + numLigne ( ajout d'un breakpoint )
+				if( msg.matches("^\\+ bk \\d+") ) {
+					int val = Integer.parseInt(msg.substring(5));
+
+					if( !this.listeBreakPoints.contains(val) && val < this.lignesFichier.size() )
+						this.listeBreakPoints.add(val);
+				} else
+
+				// Méthode : "- bk" + numLigne ( suppression d'un breakpoint )
+				if( msg.matches("^\\- bk \\d+") ) {
+					int indice = this.listeBreakPoints.indexOf(Integer.parseInt(msg.substring(5)));
+					this.listeBreakPoints.remove(indice);
+				} else
+
+				switch(msg) {
+					case "b": { // Méthode : "b" + Entrée ( reculer d'une ligne )
+						this.ligneActive = this.ligneActive == 0 ? 0 : this.ligneActive - 1;
 						break;
 					}
-					case "": {
-						++this.ligneActive; // on avance d'une ligne
-						this.listeInstructions.get(this.ligneActive).interpreterLigne();
+					case "": { // Méthode : Entrée ( avancer d'une ligne )
+						this.listeInstructions.get(++this.ligneActive).interpreterLigne();
 					}
 				}
 

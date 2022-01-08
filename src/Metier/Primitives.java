@@ -51,4 +51,4 @@ public class Primitives {
 }
 
 
-result.add( msg.equals( "vrai" ) );
+//result.add( msg.equals( "vrai" ) );
