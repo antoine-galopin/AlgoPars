@@ -1,6 +1,8 @@
 package AlgoPars.Metier;
 
 import AlgoPars.AlgoPars;
+import AlgoPars.Metier.Types.*;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,6 +10,8 @@ import java.util.Scanner;
 import javax.lang.model.util.ElementScanner6;
 
 import java.io.FileInputStream;
+
+import java.lang.reflect.Method ;
 
 public class Programme {
 	private AlgoPars ctrl;
@@ -71,6 +75,11 @@ public class Programme {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+/*test 
+		System.out.println(executerFonction("aujourdhui",null));
+		System.out.println(executerFonction("ord",new Typable[]{new Caractere("i",true,'b')}));
+*/
 	}
 
 	public boolean getBConstante() {
@@ -204,5 +213,28 @@ public class Programme {
 
 	public void add(String nom, String type) {
 		this.donnees.add(nom, type);
+	}
+
+/*----------------------------------------------------------------------------------*/
+	/**
+	 * Methode qui renvoie le resultat d'une methode de primitives executer 
+	 * 
+	 * @param nomFonction nom de la methodes a executer
+	 * @param parametre   parametre que la methode prend habituellement
+	 * @return Object que la fonction renvoie normalement
+	 */
+	public Object executerFonction(String nomFonction,Typable[] parametre)
+	{
+
+		for(Method m : primitives.listePrimitives)
+		{
+			if (m.getName().equals(nomFonction)) {
+				try{
+					return m.invoke(primitives, (Object[])parametre);					
+				}catch(Exception e){e.printStackTrace();}
+			}
+		}
+
+		return null ;
 	}
 }

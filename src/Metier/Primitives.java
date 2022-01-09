@@ -16,27 +16,15 @@ import java.lang.reflect.Method ;
 public class Primitives {
     private AlgoPars ctrl;
     private Programme prgm;
-    public String[] listePrimitives ;
+    public Method[] listePrimitives ;
 
     public Primitives(AlgoPars ctrl, Programme prgm) {
         this.ctrl = ctrl;
         this.prgm = prgm;
 
-        /*------------------le tableau des nom de toute les primitives----------------*/
-        //on prend la classe, on prend toute ses primitives et on retient la taille
-        listePrimitives = new String[this.getClass().getDeclaredMethods().length];
-
-        int cpt=0 ;
-
-        //on prend tout les noms 
-        for (Method m : this.getClass().getDeclaredMethods()) {
-            listePrimitives[cpt]=m.getName();
-            cpt++ ;
-        }
-        /*
-        for (String s : listePrimitives) {
-            System.out.print(s+"\n");
-        }*/
+        /*------------------le tableau de toute les primitives----------------*/
+        //on prend la classe et on prend toute ses primitives
+        listePrimitives = this.getClass().getDeclaredMethods();
     }
 
     public void lire(String var) {
@@ -150,10 +138,10 @@ public class Primitives {
     {
         return (int)(Math.random() * entier.getValeur());
     }
-
+/*
     public static void main(String[] args) {
         System.out.println(Primitives.aujourdhui());
         System.out.println(Primitives.plafond(new Reel("r1",false,2.1)));
 
-    }
+    }*/
 }
