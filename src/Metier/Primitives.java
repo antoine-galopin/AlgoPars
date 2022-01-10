@@ -24,10 +24,12 @@ public class Primitives {
         this.listePrimitives = this.getClass().getDeclaredMethods();
     }
 
-    public void lire(String var) {
-        System.out.println("Lire " + var + " : " );
-        String msg = new Scanner(System.in).nextLine();
-        this.ctrl.affecterValeur(var, msg);
+    public void lire(String nom) {
+        System.out.println("Lire " + nom + " : ");
+
+        String valeur = new Scanner(System.in).nextLine();
+
+        this.ctrl.affecterValeur(nom, valeur);
     }
 
 
