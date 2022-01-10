@@ -221,26 +221,23 @@ public class Programme {
 		this.donnees.add(nom, type);
 	}
 
-/*----------------------------------------------------------------------------------*/
+	
 	/**
-	 * Methode qui renvoie le resultat d'une methode de primitives executer 
+	 * Méthode qui renvoie le resultat d'une méthode de primitive executée
 	 * 
-	 * @param nomFonction nom de la methodes a executer
-	 * @param parametre   parametre que la methode prend habituellement
-	 * @return Object que la fonction renvoie normalement
+	 * @param nomFonction nom de la méthode à executer
+	 * @param parametre   paramètres que la méthode prend
+	 * @return Object que la fonction renvoie
 	 */
-	public Object executerFonction(String nomFonction,Typable[] parametre)
-	{
-
-		for(Method m : primitives.listePrimitives)
-		{
-			if (m.getName().equals(nomFonction)) {
-				try{
-					return m.invoke(primitives, (Object[])parametre);					
-				}catch(Exception e){e.printStackTrace();}
+	public Object executerFonction(String nomFonction, Typable[] parametres) {
+		for(Method m : primitives.listePrimitives) {
+			if(m.getName().equals(nomFonction)) {
+				try {
+					return m.invoke(primitives, (Object[])parametres);					
+				} catch(Exception e){e.printStackTrace();}
 			}
 		}
 
-		return null ;
+		return null;
 	}
 }

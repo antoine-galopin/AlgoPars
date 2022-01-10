@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 
 public class Primitives {
     private AlgoPars ctrl;
-    public Method[] listePrimitives ;
+    public Method[] listePrimitives;
 
     public Primitives(AlgoPars ctrl) {
         this.ctrl = ctrl;
