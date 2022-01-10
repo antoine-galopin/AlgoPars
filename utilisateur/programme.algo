@@ -11,7 +11,7 @@ variable:
 	ouiounon:booleen
 
 DEBUT
-	ecrire( "je mange, et toi ?", oui, faux, 3.45, 6, "non", vrai )
+	écrire( "je mange, et toi ?", oui, faux, 3.45, 6, "non", vrai )
 
 	var <-- 25
 	coco <-- "ouije"
@@ -20,54 +20,57 @@ DEBUT
 
 	lire ( var )
 
-	ecrire ( var )
+	écrire ( var )
+
+	lire( coco, salopette, var, ouiounon )
+	écrire( coco, salopette, var, ouiounon )
 
 	pizza, coco <-- "guccamole"
 
-	ecrire(pizza)
-	ecrire(coco)
+	écrire(pizza)
+	écrire(coco)
 
 	/*
 
 	tant que 5 < 10 faire
-		ecrire( "premier tant que" )
+		écrire( "premier tant que" )
 	ftq
 
 	faire
-		ecrire( "premier faire tant que" )
+		écrire( "premier faire tant que" )
 	tant que 4 < 12 
 
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( "bla" )
+			écrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
-		ecrire ( 42 )
+		écrire ( 42 )
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( "bla" )
+			écrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
-		ecrire ( 42 )
+		écrire ( 42 )
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( "bla" )
+			écrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
-		ecrire ( 42 )
+		écrire ( 42 )
 	fsi
 	si blabla alors
 		tant que vol xou faire
-			ecrire ( "bla" )
+			écrire ( "bla" )
 			// On test juste
 		ftq
 	sinon OUI alors
-		ecrire ( 42 )
+		écrire ( 42 )
 	fsi
 		
 FIN
