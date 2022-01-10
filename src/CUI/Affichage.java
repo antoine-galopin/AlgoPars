@@ -4,6 +4,7 @@ import AlgoPars.AlgoPars;
 
 import java.util.ArrayList;
 import iut.algo.Console;
+import iut.algo.CouleurConsole;
 
 
 public class Affichage {
@@ -47,7 +48,6 @@ public class Affichage {
         Console.print(this.entete());
         Console.print(this.corpsAlgo());
         Console.print(this.afficherTraceExecution());
-        Console.print(this.ctrl.getListeBreakPoints());
     }
 
 
@@ -70,6 +70,7 @@ public class Affichage {
     private String corpsAlgo() {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int numLigne              = this.ctrl.getLigneActive();
+        ArrayList<Integer> listeBk = this.ctrl.getListeBreakPoints();        
 
         if( numLigne < posDebut + margeAffichage ) { // Début de l'affichage ( de la ligne [0] à la ligne [posDebut + margeAffichage] )
             int i = margeAffichage + posDebut - numLigne;
@@ -89,7 +90,10 @@ public class Affichage {
         String sRet = "";
 
         for( int cpt = posDebut; cpt <= ( fichier.size() > tailleAffichage ? posDebut + tailleAffichage - 1 : fichier.size() - 1 ); cpt++ ) {
-            sRet += "│" + String.format("%3d", cpt) + ( cpt == numLigne ? ">" : " " ); // barre gauche + index ligne + curseur sur nécéssaire
+            sRet += "│"; // barre gauche + index ligne + curseur sur nécéssaire
+            if ( listeBk.contains( cpt ) ) sRet += CouleurConsole.ROUGE.getFont() + String.format("%3d", cpt) + "\033[0m";
+            else sRet += String.format("%3d", cpt);
+            sRet += ( cpt == numLigne ? ">" : " " );
 
             if( cpt < fichier.size() )
                 sRet += String.format("%-75s", fichier.get(cpt)); // code de la ligne
