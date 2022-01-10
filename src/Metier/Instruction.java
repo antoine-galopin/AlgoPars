@@ -13,18 +13,18 @@ public class Instruction {
     private String     ligneComplete;
 
     public Instruction(AlgoPars ctrl, Primitives primit, String ligne) {
-        this.ctrl = ctrl;
-        this.primit = primit;
+        this.ctrl          = ctrl;
+        this.primit        = primit;
         this.ligneComplete = this.suppEspace(ligne);
 
-        Pattern ptrn = Pattern.compile( "\\w+ ?\\(" );
-        Matcher matcher = ptrn.matcher( ligne );
+        Pattern pattern = Pattern.compile( "\\w+ ?\\(" );
+        Matcher matcher = pattern.matcher( ligne       );
+
         if( matcher.find() ) {
             this.ligne = ligne.split("\\(");
             this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
-        } else {
+        } else
             this.ligne = ligne.strip().split(" ");
-        }
     }
 
     public void interpreterLigne() {
@@ -129,14 +129,14 @@ public class Instruction {
      * @return String
      */
     private String suppEspace(String ligne) {
-        if (ligne.contains("\"")) {
-            while ((ligne.indexOf("\"") > ligne.indexOf(" ") && ligne.indexOf(" ") != -1)
-                    || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1)) {
-                ligne = ligne.replaceFirst(" ", "");
+        if( ligne.contains("\"") ) {
+            while( (ligne.indexOf("\"") > ligne.indexOf(" " ) && ligne.indexOf(" " ) != -1)
+                || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1) ) {
+
+                ligne = ligne.replaceFirst(" " , "");
                 ligne = ligne.replaceFirst("\t", "");
             }
-        } else
-            ligne = ligne.replaceAll("\\s", "");
+        } else ligne = ligne.replaceAll("\\s", "");
 
         return ligne;
     }
