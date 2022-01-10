@@ -28,7 +28,7 @@ public class Primitives {
     }
 
     public void lire(String var) {
-        System.out.println("Lire:");
+        System.out.println("Lire " + var + " : " );
         String msg = new Scanner(System.in).nextLine();
         this.ctrl.affecterValeur(var, msg);
     }

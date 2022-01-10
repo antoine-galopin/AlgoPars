@@ -119,8 +119,13 @@ public class Programme {
 	}
 
 	public String getValeur(String nom) {
-		if (this.donnees.rechercheParNom(nom) != null)
-			return this.donnees.rechercheParNom(nom).getValeur().toString();
+		Typable var = this.donnees.rechercheParNom( nom );
+		if (var != null)
+		{
+			if ( (var instanceof Booleen) || (var instanceof Reel) || (var instanceof Tableau) )
+				return var.toString();
+			else return var.getValeur().toString();
+		}
 		return null;
 	}
 

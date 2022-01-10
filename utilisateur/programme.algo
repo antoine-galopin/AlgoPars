@@ -22,6 +22,9 @@ DEBUT
 
 	ecrire ( var )
 
+	lire( coco, salopette, var, ouiounon )
+	ecrire( coco, salopette, var, ouiounon )
+
 	pizza, coco <-- "guccamole"
 
 	ecrire(pizza)

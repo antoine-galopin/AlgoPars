@@ -45,7 +45,7 @@ public class Instruction {
                     this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":
-                    this.primit.lire(this.ligne[1]);
+                    this.lire();
                     break;
                 case "si":
                     System.out.println("si");
@@ -117,7 +117,7 @@ public class Instruction {
         valeur = this.ligne[1];
 
         for (String variable : var)
-            this.ctrl.affecterValeur(variable, valeur);
+            this.ctrl.affecterValeur(variable, valeur.replace( "\"", "" ).replace( "'", "" ) );
     }
 
     /**
@@ -159,4 +159,11 @@ public class Instruction {
         return ligne;
     }
 
+
+    private void lire()
+    {
+        String[] vars = this.separeVirgule( this.suppEspace( this.ligne[1] ) );
+        for ( String nomVar: vars )
+            this.primit.lire( nomVar );
+    }
 }
