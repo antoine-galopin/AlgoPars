@@ -28,7 +28,7 @@ public class Donnee {
      * @param type
      */
     public void add(String nom, String type) {
-        switch (type) {
+        switch(type) {
             case "booleen": {
                 this.donnees.add(new Booleen(nom, true, false));
                 break;
@@ -57,15 +57,14 @@ public class Donnee {
 
     /**
      * Méthode qui instancie une constante
-     * 
      * @param nom
      * @param type
      * @param valeur
      */
     public void add(String nom, String type, String valeur) {
-        if (type == null)
-            for (int i = 0; i < tabRegex[0].length; i++)
-                if (valeur.matches(tabRegex[0][i])) {
+        if( type == null )
+            for( int i = 0; i < tabRegex[0].length; i++ )
+                if( valeur.matches(tabRegex[0][i]) ) {
                     add(nom, tabRegex[1][i], valeur);
                     return;
                 }
@@ -103,11 +102,11 @@ public class Donnee {
      * Méthode de recherche d'un Typable par son nom
      * 
      * @param nom
-     * @return
+     * @return Typable
      */
     public Typable rechercheParNom(String nom) {
-        for (Typable t : donnees)
-            if (t.getNom().equals(nom))
+        for( Typable t : donnees )
+            if( t.getNom().equals(nom) )
                 return t;
 
         return null;
@@ -123,28 +122,23 @@ public class Donnee {
     public void affecterValeur(String nom, String valeur) {
         this.var = rechercheParNom(nom);
 
-        if (valeur.matches("'.'")) {
-            ((Caractere) (this.var)).setValeur(valeur.charAt(1));
-            return;
+        if( this.var.getTypes().equals( "Caractere" ) ) {
+            ((Caractere) (this.var)).setValeur(valeur.charAt(0));
         }
-        if (valeur.matches("\"[^\\\"]*\"")) {
-            ((Chaine) (this.var)).setValeur(valeur.substring(1, valeur.length() - 1));
-            return;
+        else if( this.var.getTypes().equals( "Chaine" ) ) {
+            ((Chaine) (this.var)).setValeur(valeur);
         }
-        if (valeur.matches(",")) {
+        else if( this.var.getTypes().equals( "Reel" ) ) {
             ((Reel) (this.var)).setValeur(Double.parseDouble(valeur));
-            return;
         }
-        if (valeur.matches("vrai") || valeur.matches("faux")) {
-            ((Booleen) (this.var)).setValeur(valeur.matches("vrai"));
-            return;
+        else if( this.var.getTypes().equals( "Booleen" ) ) {
+            ((Booleen) (this.var)).setValeur( valeur.matches("vrai") );
         }
-        if (valeur.matches("\\d+")) {
+        else if( this.var.getTypes().equals( "Entier" ) ) {
             ((Entier) (this.var)).setValeur(Integer.parseInt(valeur));
-            return;
         }
 
-        // if (valeur.matches("\w+(\w*)"))
+        // if(valeur.matches("\w+(\w*)"))
         //
 
     }

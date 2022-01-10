@@ -150,7 +150,6 @@ public class Calculateur
 		if( ( index = expr.indexOf(">"    ) ) != -1 )
 			return         (   calculerMath( expr.substring(0, index ) ) >  calculerMath( expr.substring(index + 1) ) ) ? 1 : 0;
 
-		System.out.println("out:" + expr);
 		return Double.parseDouble( expr );
 	}
 /*--------------------------------------------------------------------------*/

@@ -1,6 +1,8 @@
 package AlgoPars.Metier;
 
 import AlgoPars.AlgoPars;
+import AlgoPars.Metier.Types.*;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,6 +10,8 @@ import java.util.Scanner;
 import javax.lang.model.util.ElementScanner6;
 
 import java.io.FileInputStream;
+
+import java.lang.reflect.Method ;
 
 public class Programme {
 	private AlgoPars ctrl;
@@ -34,7 +38,7 @@ public class Programme {
 		ColorationSyntaxique.chargerCouleurs();
 
 		this.ctrl = ctrl;
-		this.primitives = new Primitives(this.ctrl, this);
+		this.primitives = new Primitives(this.ctrl);
 
 		this.lignesFichier = new ArrayList<String>();
 		this.lignesFichierColorie = new ArrayList<String>();
@@ -75,6 +79,11 @@ public class Programme {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+/*test 
+		System.out.println(executerFonction("aujourdhui",null));
+		System.out.println(executerFonction("ord",new Typable[]{new Caractere("i",true,'b')}));
+*/
 	}
 
 	public boolean getBConstante() {
@@ -122,8 +131,13 @@ public class Programme {
 	}
 
 	public String getValeur(String nom) {
-		if (this.donnees.rechercheParNom(nom) != null)
-			return this.donnees.rechercheParNom(nom).getValeur().toString();
+		Typable var = this.donnees.rechercheParNom( nom );
+		if (var != null)
+		{
+			if ( (var instanceof Booleen) || (var instanceof Reel) || (var instanceof Tableau) )
+				return var.toString();
+			else return var.getValeur().toString();
+		}
 		return null;
 	}
 
@@ -200,7 +214,8 @@ public class Programme {
 						break;
 					}
 					case "": { // Méthode : Entrée ( avancer d'une ligne )
-						this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+						if ( ++this.ligneActive < this.listeInstructions.size() )
+							this.listeInstructions.get(this.ligneActive).interpreterLigne();
 					}
 				}
 
@@ -217,5 +232,25 @@ public class Programme {
 
 	public void add(String nom, String type) {
 		this.donnees.add(nom, type);
+	}
+
+	
+	/**
+	 * Méthode qui renvoie le resultat d'une méthode de primitive executée
+	 * 
+	 * @param nomFonction nom de la méthode à executer
+	 * @param parametre   paramètres que la méthode prend
+	 * @return Object que la fonction renvoie
+	 */
+	public Object executerFonction(String nomFonction, Typable[] parametres) {
+		for(Method m : primitives.listePrimitives) {
+			if(m.getName().equals(nomFonction)) {
+				try {
+					return m.invoke(primitives, (Object[])parametres);					
+				} catch(Exception e){e.printStackTrace();}
+			}
+		}
+
+		return null;
 	}
 }

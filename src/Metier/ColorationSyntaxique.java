@@ -46,10 +46,10 @@ public class ColorationSyntaxique
 			{
 				alTmp = new ArrayList<String>();
 				alTmp.add( e.getAttribute( "idCoul" ).getValue() );
-				alTmp.add( e.getAttribute( "poids" ).getValue() );
+				alTmp.add( e.getAttribute( "poids"  ).getValue() );
 
 				couleurs.put( child.getText(), alTmp );
-				regPatterns.put( child.getText(), Pattern.compile( "\\b" +child.getText() + "\\b" ) );
+				regPatterns.put( child.getText(), Pattern.compile( "\\b" + child.getText() + "\\b" ) );
 			}
 		}
 	}
@@ -58,7 +58,7 @@ public class ColorationSyntaxique
 	/**
 	 * Méthode qui colorie la ligne passée en paramètre
 	 * @param ligne
-	 * @return
+	 * @return String
 	 */
 	public static String colorierLigne( String ligne )
 	{
@@ -66,34 +66,32 @@ public class ColorationSyntaxique
 		String debutLigne = ""; // Utilisée pour éviter de colorer des keywords dans les commentaires.
 		String finLigne = "";
 
-		if ( ligne.contains( "//" ) )
+		if( ligne.contains( "//" ) )
 		{
 			int indexDebutCom = ligne.indexOf( "//" );
 
-			if ( indexDebutCom == 0 ) ligne = CouleurConsole.VERT.getFont() + ligne + "\033[0m";
+			if( indexDebutCom == 0 ) ligne = CouleurConsole.VERT.getFont() + ligne + "\033[0m";
 			else
 			{
 				debutLigne = ligne.substring( 0, indexDebutCom );
 				finLigne = CouleurConsole.VERT.getFont() + ligne.substring( indexDebutCom, ligne.length() ) + "\033[0m";
 			}
 		}
-		else
-			debutLigne = ligne;
+		else debutLigne = ligne;
 
 		Matcher matcher = null;
-		for ( String mot : couleurs.keySet() )
+		for( String mot : couleurs.keySet() )
 		{
 			matcher = regPatterns.get( mot ).matcher( ligne );
-			if ( matcher.find() )
+			if( matcher.find() )
 			{
-				if ( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
+				if( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
 					debutLigne = debutLigne.replaceFirst( mot, colorierMot( mot ) );
 				else
 					debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
 			}
 		}
 		
-		System.out.println( );
 		return debutLigne + finLigne + " ".repeat( 75 - ligneLengthDebut );
 	}
 
@@ -101,15 +99,15 @@ public class ColorationSyntaxique
 	/**
 	 * Méthode qui colorie le mot passé en paramètre
 	 * @param mot
-	 * @return
+	 * @return String
 	 */
 	private static String colorierMot( String mot )
 	{
-		if ( !couleurs.containsKey( mot ) ) return mot;
+		if( !couleurs.containsKey( mot ) ) return mot;
 
 		String couleur;
 		String id = couleurs.get( mot ).get( 0 );
-		switch ( id ) 
+		switch( id ) 
 		{
 			case "0": 
 				couleur = CouleurConsole.BLANC.getFont();
@@ -136,14 +134,13 @@ public class ColorationSyntaxique
 				couleur = CouleurConsole.BLANC.getFont();
 		}
 
-		if ( couleurs.get( mot ).get( 1 ).equals( "true" ) ) 
-			couleur += "\033[1m";
+		if( couleurs.get( mot ).get( 1 ).equals( "true" ) ) couleur += "\033[1m";
 
 		return couleur + mot + "\033[0m";
 	}
 
 
-	public static void main( String[] a)
+	public static void main( String[] a )
 	{
 		ColorationSyntaxique.chargerCouleurs();
 		for( String key : couleurs.keySet() )

@@ -1,10 +1,11 @@
 package AlgoPars.Metier;
 
-import javax.lang.model.util.ElementScanner14;
-
 import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Primitives;
 import AlgoPars.Metier.Calculateur;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Instruction {
     private AlgoPars ctrl;
@@ -17,17 +18,18 @@ public class Instruction {
         this.primit = primit;
         this.ligneComplete = this.suppEspace(ligne);
 
-        if (ligne.contains("ecrire") || ligne.contains("lire")) {
+        Pattern pattern = Pattern.compile("\\w+ ?\\(");
+        Matcher matcher = pattern.matcher(ligne);
+
+        if (matcher.find()) {
             this.ligne = ligne.split("\\(");
             this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
-        } else {
+        } else
             this.ligne = ligne.strip().split(" ");
-        }
     }
 
     public void interpreterLigne() {
         if (this.ligne[0] != "") {
-
             switch (this.ligne[0].strip()) {
                 case "ALGORITHME":
                     break;
@@ -42,11 +44,11 @@ public class Instruction {
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(false);
                     break;
-                case "ecrire":
+                case "écrire":
                     this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":
-                    this.primit.lire(this.ligne[1]);
+                    this.lire();
                     break;
                 case "si":
                     this.si();
@@ -74,76 +76,53 @@ public class Instruction {
         }
     }
 
+    /**
+     * Méthode de déclaration des variables
+     */
     private void declareVar() {
-        String[] var;
-        String type;
+        String[] noms = this.ligneComplete.split(":")[0].split(",");
+        String type = this.ligneComplete.split(":")[1];
+
+        for (String nom : noms)
+            this.ctrl.add(nom, type);
+    }
+
+    /**
+     * Méthode de déclaration des constantes
+     */
+    private void declareConst() {
+        String[] noms;
+        String type = null;
+        String valeur = this.ligneComplete.split("<--")[1];
 
         this.ligne = this.ligneComplete.split(":");
 
-        var = this.separeVirgule(this.ligne[0]);
-
-        type = this.ligne[1];
-
-        for (String variable : var)
-            this.ctrl.add(variable, type);
-    }
-
-    private void declareConst() {
-        String[] var;
-        String type;
-        String valeur;
-
-        if (this.ligneComplete.contains(":")) {
-            this.ligne = this.ligneComplete.split(":");
-            var = this.separeVirgule(this.ligne[0]);
-            this.ligne = this.separeAffectation(this.ligne[1]);
-            type = this.ligne[0];
-        } else {
-            type = null;
-            this.ligne = this.separeAffectation(this.ligneComplete);
-            var = this.separeVirgule(this.ligne[0]);
+        if (this.ligne.length != 1) { // avec type
+            noms = this.ligne[0].split(",");
+            type = this.ligne[1].split("<--")[0];
+        } else { // sans type
+            noms = this.ligneComplete.split("<--")[0].split(",");
         }
-        valeur = this.ligne[1];
 
-        for (String variable : var)
-            this.ctrl.add(variable, type, valeur);
+        for (String nom : noms)
+            this.ctrl.add(nom, type, valeur);
     }
 
+    /**
+     * Méthode d'affectation de valeurs aux variables
+     */
     private void affecterValeur() {
-        String[] var;
-        String valeur;
+        String[] noms = this.ligneComplete.split("<--")[0].split(",");
+        String valeur = this.ligneComplete.split("<--")[1].replace("\"", "").replace("'", "");
 
-        this.ligne = this.separeAffectation(this.ligneComplete);
-        var = this.separeVirgule(this.ligne[0]);
-        valeur = this.ligne[1];
-
-        for (String variable : var)
-            this.ctrl.affecterValeur(variable, valeur);
+        for (String nom : noms)
+            this.ctrl.affecterValeur(nom, valeur);
     }
 
     /**
-     * @param ligne
-     * @return String[]
-     */
-    private String[] separeVirgule(String ligne) {
-        if (ligne.contains(",")) {
-            return ligne.split(",");
-        } else
-            return new String[] { ligne };
-    }
-
-    /**
-     * @param ligne
-     * @return String[]
-     */
-    private String[] separeAffectation(String ligne) {
-        if (ligne.contains("<--")) {
-            return ligne.split("<--");
-        } else
-            return new String[] { ligne };
-    }
-
-    /**
+     * Méthode de suppression des espaces sur une ligne
+     * Ne supprime pas les espaces compris dans une chaine de caractère
+     * 
      * @param ligne
      * @return String
      */
@@ -151,6 +130,7 @@ public class Instruction {
         if (ligne.contains("\"")) {
             while ((ligne.indexOf("\"") > ligne.indexOf(" ") && ligne.indexOf(" ") != -1)
                     || (ligne.indexOf("\"") > ligne.indexOf("\t") && ligne.indexOf("\t") != -1)) {
+
                 ligne = ligne.replaceFirst(" ", "");
                 ligne = ligne.replaceFirst("\t", "");
             }
@@ -169,7 +149,7 @@ public class Instruction {
                 this.ligneComplete.indexOf("alors"));
 
         if (str.contains("\"")) {
-            this.ligneComplete.indexOf("\""
+            this.ligneComplete.indexOf("\"");
         } else if (str.contains("[0-9]+")) {
 
         } else if (str.contains("[A-Za-z]+")) {
@@ -179,4 +159,10 @@ public class Instruction {
                 this.ligneComplete.indexOf("alors")));
     }
 
+    private void lire() {
+        String[] vars = this.suppEspace(this.ligne[1]).split(",");
+
+        for (String nomVar : vars)
+            this.primit.lire(nomVar);
+    }
 }
