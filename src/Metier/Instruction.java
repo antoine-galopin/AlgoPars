@@ -1,9 +1,10 @@
 package AlgoPars.Metier;
 
-import javax.lang.model.util.ElementScanner14;
-
 import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Primitives;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Instruction {
     private AlgoPars ctrl;
@@ -16,7 +17,9 @@ public class Instruction {
         this.primit = primit;
         this.ligneComplete = this.suppEspace(ligne);
 
-        if (ligne.contains("ecrire") || ligne.contains("lire")) {
+        Pattern ptrn = Pattern.compile( "\\w+ ?\\(" );
+        Matcher matcher = ptrn.matcher( ligne );
+        if ( matcher.find() ) {
             this.ligne = ligne.split("\\(");
             this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
         } else {
@@ -41,7 +44,7 @@ public class Instruction {
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(false);
                     break;
-                case "ecrire":
+                case "écrire":
                     this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":

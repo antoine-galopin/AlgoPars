@@ -10,7 +10,7 @@
     </structure>
 
     <ecrire idCoul="1" poids="false">
-        <mot>ecrire</mot>
+        <mot>écrire</mot>
     </ecrire>
 
     <lire idCoul="2" poids="false">

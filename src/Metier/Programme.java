@@ -36,7 +36,7 @@ public class Programme {
 		ColorationSyntaxique.chargerCouleurs();
 
 		this.ctrl = ctrl;
-		this.primitives = new Primitives(this.ctrl, this);
+		this.primitives = new Primitives(this.ctrl);
 
 		this.lignesFichier = new ArrayList<String>();
 		this.lignesFichierColorie = new ArrayList<String>();

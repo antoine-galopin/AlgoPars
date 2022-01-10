@@ -17,9 +17,8 @@ public class Primitives {
     private AlgoPars ctrl;
     public Method[] listePrimitives ;
 
-    public Primitives(AlgoPars ctrl, Programme prgm) {
+    public Primitives(AlgoPars ctrl) {
         this.ctrl = ctrl;
-        this.prgm = prgm;
 
         // tableau des méthodes primitives
         this.listePrimitives = this.getClass().getDeclaredMethods();
