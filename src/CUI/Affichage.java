@@ -47,6 +47,7 @@ public class Affichage {
         Console.print(this.entete());
         Console.print(this.corpsAlgo());
         Console.print(this.afficherTraceExecution());
+        Console.print(this.ctrl.getListeBreakPoints());
     }
 
 
@@ -70,11 +71,20 @@ public class Affichage {
         ArrayList<String> fichier = this.ctrl.getLignesFichierColorie();
         int numLigne              = this.ctrl.getLigneActive();
 
-        if( numLigne <= posDebut + margeAffichage ) // Début de l'affichage
-            posDebut = posDebut == 0 ? 0 : posDebut - 1;
-        else
-            if( numLigne > posDebut + tailleAffichage - margeAffichage ) // Fin de l'affichage
-                if( posDebut < fichier.size() - tailleAffichage - 1 ) posDebut++;
+        if( numLigne < posDebut + margeAffichage ) { // Début de l'affichage ( de la ligne [0] à la ligne [posDebut + margeAffichage] )
+            int i = margeAffichage + posDebut - numLigne;
+
+            for( int cpt = 0; cpt < i; cpt++ )
+                posDebut = posDebut == 0 ? 0 : posDebut - 1;
+        }
+        else {
+            if( numLigne > posDebut + tailleAffichage - margeAffichage - 1 ) { // Fin de l'affichage ( de la ligne [tailleAffichage - margeAffichage] à la ligne [fichier.size()] )
+                int j = Math.abs(posDebut + tailleAffichage - margeAffichage - 1 - numLigne);
+
+                for( int cpt = 0; cpt < j; cpt++ )
+                    if( posDebut < fichier.size() - tailleAffichage ) posDebut++;
+            }
+        }
 
         String sRet = "";
 
@@ -87,7 +97,7 @@ public class Affichage {
             if     ( cpt == posDebut     ) sRet += "│      NOM       │        VALEUR       │\n";
             else if( cpt == posDebut + 1 ) sRet += "├────────────────┼─────────────────────┤\n";
             else
-                if( cpt - posDebut - 1 <= variablesSuivies.size() ) {
+                if( cpt - posDebut <= variablesSuivies.size() ) {
                     if( this.ctrl.getValeur(this.variablesSuivies.get(cpt - posDebut - 2)) != null ) {
                         sRet += "│ "
                             + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut - 2) )
@@ -123,6 +133,6 @@ public class Affichage {
         }
 
         return sRet += "│>" + " ".repeat( 117 ) + "│\n" // avant dernière ligne de la "console"
-            + "└" + "─".repeat(118) + "┘"; // dernière ligne de la "console" ( et de l'affichage global )
+            + "└" + "─".repeat(118) + "┘\n"; // dernière ligne de la "console" ( et de l'affichage global )
     }
 }

@@ -5,6 +5,8 @@ import AlgoPars.AlgoPars;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner6;
+
 import java.io.FileInputStream;
 
 public class Programme {
@@ -18,6 +20,8 @@ public class Programme {
 	private Donnee donnees;
 	private ArrayList<String> listeVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
+
+	private ArrayList<Integer> listeBreakPoints;
 
 	private boolean executionActive;
 	private boolean bConstante;
@@ -43,6 +47,8 @@ public class Programme {
 
 		this.alSi = null;
 		this.nombreSi = -1;
+		this.listeBreakPoints = new ArrayList<Integer>();
+
 		this.bConstante = false;
 		this.bVariable = false;
 
@@ -111,6 +117,10 @@ public class Programme {
 		return this.listeVarSuivies;
 	}
 
+	public ArrayList<Integer> getListeBreakPoints() {
+		return this.listeBreakPoints;
+	}
+
 	public String getValeur(String nom) {
 		if (this.donnees.rechercheParNom(nom) != null)
 			return this.donnees.rechercheParNom(nom).getValeur().toString();
@@ -126,7 +136,7 @@ public class Programme {
 	 */
 	public void executerAlgo() {
 		do {
-			this.listeInstructions.get(this.ligneActive).interpreterLigne();
+			// this.listeInstructions.get(this.ligneActive).interpreterLigne();
 			this.ctrl.afficher();
 
 			try {
@@ -134,14 +144,64 @@ public class Programme {
 
 				String msg = sc.nextLine();
 
+				// Méthode : "L" + numLigne + Entrée ( aller à la ligne numLigne )
+				if (msg.matches("^L\\d+")) {
+					int ecart = this.ligneActive - Integer.parseInt(msg.substring(1));
+
+					int i = Math.abs(ecart);
+
+					int x = ecart / i;
+
+					for (int cpt = 0; cpt < i; cpt++) {
+						this.ligneActive = this.ligneActive - x;
+
+						if (x < 0)
+							this.listeInstructions.get(this.ligneActive).interpreterLigne();
+					}
+				} else
+
+				// Méthode : "+ bk" + numLigne ( ajout d'un point d'arrêt )
+				if (msg.matches("^\\+ bk \\d+")) {
+					int val = Integer.parseInt(msg.substring(5));
+
+					if (!this.listeBreakPoints.contains(val) && val < this.lignesFichier.size())
+						this.listeBreakPoints.add(val);
+
+					this.listeBreakPoints.sort(null); // tri
+				} else
+
+				// Méthode : "- bk" + numLigne ( suppression d'un point d'arrêt )
+				if (msg.matches("^\\- bk \\d+")) {
+					int indice = this.listeBreakPoints.indexOf(Integer.parseInt(msg.substring(5)));
+					this.listeBreakPoints.remove(indice);
+				} else
+
+				// Méthode : "go bk" ( déplacement jusqu'au prochain point d'arrêt )
+				if (msg.equals("go bk")) {
+					int prochainBK = this.lignesFichier.size() - 1;
+
+					for (int i : this.listeBreakPoints)
+						if (i > this.ligneActive) {
+							prochainBK = i;
+							break;
+						}
+
+					if (prochainBK == this.lignesFichier.size() - 1)
+						System.out.println(
+								"Pas de point d'arrêt trouvé après votre position. Vous êtes envoyés au bout du programme");
+
+					for (int cpt = this.ligneActive; cpt < prochainBK; cpt++)
+						this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+				}
+
 				switch (msg) {
-					case "b": {
-						if (this.ligneActive != 0)
-							--this.ligneActive; // on recule d'une ligne si possible
+					case "b": { // Méthode : "b" + Entrée ( reculer d'une ligne )
+						this.ligneActive = this.ligneActive == 0 ? 0 : this.ligneActive - 1;
 						break;
 					}
-					case "":
-						++this.ligneActive; // on avance d'une ligne
+					case "": { // Méthode : Entrée ( avancer d'une ligne )
+						this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+					}
 				}
 
 				// sc.close(); // fermeture du Scanner

@@ -45,6 +45,10 @@ public class AlgoPars {
         return this.prgm.getVariablesSuivies();
     }
 
+    public ArrayList<Integer> getListeBreakPoints() {
+        return this.prgm.getListeBreakPoints();
+    }
+
     /**
      * Méthode qui nettoie la console et affiche la nouvelle étape de
      * l'interprétation

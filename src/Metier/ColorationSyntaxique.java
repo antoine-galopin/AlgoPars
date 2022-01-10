@@ -27,7 +27,6 @@ public class ColorationSyntaxique
 	 */
 	public static void chargerCouleurs()
 	{
-		// TODO revoir l'utilisation de la hashmap couleurs
 		couleurs    = new HashMap<String, ArrayList<String>>();
 		regPatterns = new HashMap<String, Pattern>();
 

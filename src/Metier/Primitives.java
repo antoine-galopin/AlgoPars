@@ -74,3 +74,6 @@ public class Primitives {
         }
     }
 }
+
+
+//result.add( msg.equals( "vrai" ) );
