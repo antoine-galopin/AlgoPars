@@ -68,6 +68,12 @@ public class AlgoPars {
         this.cui.ajouterTraceExecution(trace);
     }
 
+
+    public Object executerFonction(String nomFonction,Typable[] parametre)
+    {
+        return this.prgm.executerFonction(nomFonction, parametre);
+    }
+
     /**
      * Méthode qui appelle le constructeur de constantes
      * 
