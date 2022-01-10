@@ -128,4 +128,9 @@ public class AlgoPars {
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }
+
+    public void setNom(String nom){
+        this.prgm.setNom(nom) ;
+    }
+
 }

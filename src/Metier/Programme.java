@@ -31,6 +31,8 @@ public class Programme {
 	private boolean bConstante;
 	private boolean bVariable;
 
+    private String    nom ;
+
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
 		ColorationSyntaxique.chargerCouleurs();
@@ -51,6 +53,8 @@ public class Programme {
 
 		this.bConstante = false;
 		this.bVariable = false;
+
+		this.nom = cheminFichier ;//par defaut 
 
 		try {
 			// Lecture du programme.
@@ -116,6 +120,11 @@ public class Programme {
 
 	public ArrayList<Integer> getListeBreakPoints() {
 		return this.listeBreakPoints;
+	}
+
+	public void setNom(String nom )
+	{
+		this.nom=nom ;
 	}
 
 	public String getValeur(String nom) {

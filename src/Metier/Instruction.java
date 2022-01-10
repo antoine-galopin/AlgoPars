@@ -31,6 +31,7 @@ public class Instruction {
         if( this.ligne[0] != "" ) {
             switch( this.ligne[0].strip() ) {
                 case "ALGORITHME":
+                    this.ctrl.setNom(ligne[0].substring(ligne[0].indexOf("ALGORITHME ")+11));
                     break;
                 case "constante:":
                     this.ctrl.setBConstante(true);
