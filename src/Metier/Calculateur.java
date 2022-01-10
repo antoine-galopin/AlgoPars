@@ -1,5 +1,7 @@
 package AlgoPars.Metier;
 
+import java.util.ArrayList;
+
 public class Calculateur
 {
 
@@ -26,7 +28,7 @@ public class Calculateur
 			return String.valueOf(calculerMath(expr));
 		}
 
-		if (expr.contains("(c)")) {
+		if (expr.contains("(c)") ||expr.contains("©") || expr.contains("\"")) {
 			return calculerChaine(expr);
 		}
 
@@ -150,29 +152,25 @@ public class Calculateur
 		if( ( index = expr.indexOf(">"    ) ) != -1 )
 			return         (   calculerMath( expr.substring(0, index ) ) >  calculerMath( expr.substring(index + 1) ) ) ? 1 : 0;
 
+		System.out.println("out:" + expr);
 		return Double.parseDouble( expr );
 	}
 /*--------------------------------------------------------------------------*/
 
 	public static String calculerChaine(String expr)
-	{/*
-		expr = expr.replaceAll("^ *","").replaceAll(" *$","");
+	{
+		String retour = "" ;
 
-		int firstQuote = 0;
-		int secondQuote = 0 ;
-		int index=0 ;
+		for (String s : expr.split("( *© *)(?=\".*\")")) 
+		{
+			retour+=s;
+		}
 
-		firstQuote=expr.indexOf("\"");
-		
-			secondQuote=indexOf("\"",index++);
+		retour = retour.replaceAll("\"","");
 
-			while () {
-				
-			}
-		}*/
-
-		return expr ;
+		return retour ;
 	}
+
 	
 	/**
 	 * Méthode qui renvoitle groupe de parenthèse le plus profond dans l'expression passée en paramètre
@@ -262,7 +260,7 @@ public class Calculateur
 	}
 
 	public static void main(String[] args)
-	{
+	{/*
 		System.out.println( calculer( "5 × 4 + 3"         ) + " = 23 ?"  );
 		System.out.println( calculer( "5×4+3"             ) + " = 23 ?"  );
 		System.out.println( calculer( "+21"               ) + " = 21 ?"  );
@@ -275,7 +273,8 @@ public class Calculateur
 		System.out.println( calculer( "5-\\/¯(25)+5"      )              );
 		System.out.println( calculer( "|-||9-5+|-5+9||||" )              );
 		System.out.println( calculer( "non 5<6"           )              );
-		System.out.println( calculer( "vrai xou vrai"     )              );
+		System.out.println( calculer( "vrai xou vrai"     )              );*/
+		System.out.println( calculer( "\"cpoa\" © \"n1\"   ")              );
 
 	}
 }
