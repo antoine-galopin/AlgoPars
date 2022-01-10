@@ -21,6 +21,7 @@ DEBUT
 	lire ( var )
 
 	écrire ( var )
+	écrire ( PI )
 
 	lire( coco, salopette, var, ouiounon )
 	écrire( coco, salopette, var, ouiounon )
