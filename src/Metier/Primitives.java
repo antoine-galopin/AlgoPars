@@ -92,7 +92,7 @@ public class Primitives {
 
     // retourne l'entier le plus proche d'un réel ( par convention, arrondi de x,5 vaut x+1 )
     public static int arrondi(Reel reel) {
-        return Math.round(Math.round(reel.getValeur()));
+        return (int) Math.round(reel.getValeur());
     }
 
 
