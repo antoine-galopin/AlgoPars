@@ -196,7 +196,8 @@ public class Programme {
 						break;
 					}
 					case "": { // Méthode : Entrée ( avancer d'une ligne )
-						this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+						if ( ++this.ligneActive < this.listeInstructions.size() )
+							this.listeInstructions.get(this.ligneActive).interpreterLigne();
 					}
 				}
 
