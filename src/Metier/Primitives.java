@@ -88,12 +88,12 @@ public class Primitives {
 
     // retourne le caractère correspondant à sa valeur dans la table ASCII
     public static String car(String entier) {
-        return (char) Integer.parseInt(entier);
+        return String.valueOf(Integer.parseInt(entier));
     }
 
     // retourne la valeur ASCII d'un caractère
     public static String ord(String caractere) {
-        return (int) (caractere.getValeur().charValue());
+        return String.valueOf( (int)caractere.charAt( 0 ) );
     }
 
     // convertit un réel en chaine
@@ -102,29 +102,29 @@ public class Primitives {
     }
 
     // convertit une chaine en entier
-    public static int enEntier(Chaine chaine) {
-        return Integer.parseInt(chaine.getValeur());
+    public static String enEntier(Chaine chaine) {
+        return chaine.getValeur().toString();
     }
 
     // convertit une chaine en réel
-    public static double enReel(Chaine chaine) {
-        return Double.parseDouble(chaine.getValeur());
+    public static String enReel(Chaine chaine) {
+        return chaine.getValeur().toString();
     }
 
     // retourne l'entier le plus proche d'un réel vers le bas
-    public static int plancher(Reel reel) {
-        return (int) Math.floor(reel.getValeur());
+    public static String plancher(Reel reel) {
+        return String.valueOf(Math.floor(reel.getValeur()));
     }
 
     // retourne l'entier le plus proche d'un réel vers le haut
-    public static int plafond(Reel reel) {
-        return (int) Math.ceil(reel.getValeur());
+    public static String plafond(Reel reel) {
+        return String.valueOf(Math.ceil(reel.getValeur()));
     }
 
     // retourne l'entier le plus proche d'un réel ( par convention, arrondi de x,5
     // vaut x+1 )
-    public static int arrondi(Reel reel) {
-        return (int) Math.round(reel.getValeur());
+    public static String arrondi(Reel reel) {
+        return String.valueOf(Math.round(reel.getValeur()));
     }
 
     // retourne sous forme de chaine la date du jour au format jj/mm/aaaa
@@ -136,35 +136,35 @@ public class Primitives {
 
     // retourne la partie jour d'une chaine correspondant à une date au format
     // jj/mm/aaaa
-    public static int jour(Chaine chaine) {
-        return Integer.parseInt(chaine.getValeur().substring(0, 2));
+    public static String jour(Chaine chaine) {
+        return String.valueOf(chaine.getValeur().substring(0, 2));
     }
 
     // retourne la partie mois d'une chaine correspondant à une date au format
     // jj/mm/aaaa
-    public static int mois(Chaine chaine) {
-        return Integer.parseInt(chaine.getValeur().substring(3, 5));
+    public static String mois(Chaine chaine) {
+        return String.valueOf(chaine.getValeur().substring(3, 5));
     }
 
     // retourne la partie année d'une chaine correspondant à une date au format
     // jj/mm/aaaa
-    public static int annee(Chaine chaine) {
-        return Integer.parseInt(chaine.getValeur().substring(6, 10));
+    public static String annee(Chaine chaine) {
+        return String.valueOf(chaine.getValeur().substring(6, 10));
     }
 
     // indique si la chaine peut être convertie en réel
-    public static boolean estReel(Chaine chaine) {
-        return chaine.getValeur().matches("^\\d+,\\d+$");
+    public static String estReel(Chaine chaine) {
+        return chaine.getValeur().matches("^\\d+,\\d+$") == true ? "vrai" : "faux";
     }
 
     // indique si la chaine peut être convertie en entier
-    public static boolean estEntier(Chaine chaine) {
-        return chaine.getValeur().matches("^\\d+$");
+    public static String estEntier(Chaine chaine) {
+        return chaine.getValeur().matches("^\\d+$") == true ? "vrai" : "faux";
     }
 
     // retourne une valeur entière prise au hasard sur l'intervalle [ 0; paramètre ]
-    public static int hasard(Entier entier) {
-        return (int) (Math.random() * entier.getValeur());
+    public static String hasard(Entier entier) {
+        return String.valueOf(Math.random() * entier.getValeur());
     }
 
     public void addValAlSi(Boolean val) {
