@@ -52,7 +52,9 @@ public class ColorationSyntaxique
 				alTmp.add( e.getAttribute( "poids"  ).getValue() );
 
 				couleurs.put( child.getText(), alTmp );
-				regPatterns.put( child.getText(), Pattern.compile( "\\b" + child.getText() + "\\b" ));
+				regPatterns.put( child.getText(), Pattern.compile(
+					"\\b" + child.getText() + "\\b(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)"
+				));
 			}
 		}
 
