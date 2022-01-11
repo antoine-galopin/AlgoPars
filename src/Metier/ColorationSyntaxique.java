@@ -41,7 +41,6 @@ public class ColorationSyntaxique
 		}
 		catch( Exception e ) { e.printStackTrace(); }
 
-
 		ArrayList<String> alTmp = null;
 		for( Element e: racine.getChildren() )
 		{
