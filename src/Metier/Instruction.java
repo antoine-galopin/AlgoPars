@@ -252,7 +252,7 @@ public class Instruction {
      * 
      * @param param chaine des caractere sans les parenthese exterieur
      */
-    private Typable[] convertParam(String param) {
+    /*private Typable[] convertParam(String param) {
         // on separe la chaine
         String[] args = param.split(" *, *");
         Typable[] retour = new Typable[args.length];
@@ -263,6 +263,6 @@ public class Instruction {
             index++;
         }
         return retour;
-    }
+    }*/
 
 }

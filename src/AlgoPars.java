@@ -148,9 +148,9 @@ public class AlgoPars {
         this.prgm.setNom(nom);
     }
 
-    public Typable getTypable(String s) {
+    /*public Typable getTypable(String s) {
         return prgm.getTypable(s);
-    }
+    }*/
 
     public static void main(String[] args) {
         new AlgoPars(args[0]);
