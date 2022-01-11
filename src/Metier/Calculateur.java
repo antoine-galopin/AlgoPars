@@ -18,14 +18,16 @@ public class Calculateur
 				}
 			case "reel"     : return String.valueOf(      calculerMath(expression));
 			case "entier"   : return String.valueOf((int) calculerMath(expression));
-			default         : return "?";
+			//si c'est un tableau pas d'operations
+			default         : 
+				return calculerTableau(expression);
 		}
 	}
-
 
 	private static double calculerMath(String expr)
 	{
 		expr = Calculateur.nettoyer(expr); // nettoyage de l'expression
+		System.out.println(expr);
 
 		/*-----------Remplacer les variables nommées par leur valeurs------------*/
 
@@ -84,8 +86,8 @@ public class Calculateur
 				   index2 < expr.length() - 1 ) { index2++; }
 
 			String premierePartie = expr.substring( 0         , index      );
-			String milieu         = expr.substring( index  + 3, index2 + 1 );
-			String deuxiemePartie = expr.substring( index2 + 1             );
+			String milieu         = expr.substring( index  + 3, index2     );
+			String deuxiemePartie = expr.substring( index2                 );
 
 			return calculerMath( premierePartie + String.valueOf( Math.sqrt( calculerMath(milieu) ) ) + deuxiemePartie );
 		}
@@ -120,7 +122,7 @@ public class Calculateur
 			return             calculerMath( expr.substring(0, index ) ) *  calculerMath( expr.substring(index + 4) );
 
 		if( ( index = expr.indexOf("="    ) ) != -1 )
-			return Math.abs( ( calculerMath( expr.substring(0, index ) ) -  calculerMath( expr.substring(index + 1) ) ) -1 );
+			return (Math.abs( ( calculerMath( expr.substring(0, index ) ) -  calculerMath( expr.substring(index + 1) ) ) -1 )>=1)?1:0;
 
 		if( ( index = expr.indexOf("/="   ) ) != -1 )
 			return             calculerMath( expr.substring(0, index ) ) -  calculerMath( expr.substring(index + 2) );
@@ -128,7 +130,7 @@ public class Calculateur
 		if( ( index = expr.indexOf(" non ") ) != -1 )
 			return Math.abs(   calculerMath( expr.substring(index + 5) ) -1 );
 
-		//non remplaçable
+		//non remplassable
 		if( ( index = expr.indexOf(">="   ) ) != -1 )
 			return         (   calculerMath( expr.substring(0, index ) ) >= calculerMath( expr.substring(index + 2) ) ) ? 1 : 0;
 
@@ -144,6 +146,16 @@ public class Calculateur
 		return Double.parseDouble( expr );
 	}
 
+	public static String calculerTableau(String expr)
+	{
+		//String retour = expression.substring(indexOf) ;
+
+		/*for (String s : expression.split(",+(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)")) {
+			retour=retour+calculer(s)+",";
+		}*/
+
+		return expr;
+	}
 
 	public static String calculerChaine(String expr)
 	{
@@ -284,30 +296,33 @@ public class Calculateur
 	}
 
 	public static void main(String[] args)
-	{/*
-		System.out.println( calculer( "5 × 4 + 3"         ) + " = 23 ?"  );
-		System.out.println( calculer( "5×4+3"             ) + " = 23 ?"  );
-		System.out.println( calculer( "+21"               ) + " = 21 ?"  );
-		System.out.println( calculer( "-21"               ) + " = -21 ?" );
-		System.out.println( calculer( "20 / 8"            ) + " = 2.5 ?" );
-		System.out.println( calculer( "20 div 8"          ) + " = 2 ?"   );
-		System.out.println( calculer( "13 mod 5"          ) + " = 3 ?"   );
-		System.out.println( calculer( "5 ^ 2 + 3 × 10"    ) + " = 55 ?"  );
-		System.out.println( calculer( "(8/(45-(2))+5)"    ) + " = 30?"   );
-		System.out.println( calculer( "5-\\/¯(25)+5"      )              );
-		System.out.println( calculer( "|-||9-5+|-5+9||||" )              );
-		System.out.println( calculer( "non 5<6"           )              );
-		System.out.println( calculer( "vrai xou vrai"     )              );
-		System.out.println( calculer( "\"(c)\\\"cpoa\" © \"n1\"  (c) 'vim\"' ") );*/
+	{
+		//System.out.println( calculer( "5 × 4 + 3"         ) + " = 23 ?"  );
+		//System.out.println( calculer( "5×4+3"             ) + " = 23 ?"  );
+		//System.out.println( calculer( "+21"               ) + " = 21 ?"  );
+		//System.out.println( calculer( "-21"               ) + " = -21 ?" );
+		//System.out.println( calculer( "20 / 8"            ) + " = 2.5 ?" );
+		//System.out.println( calculer( "20 div 8"          ) + " = 2 ?"   );
+		//System.out.println( calculer( "13 mod 5"          ) + " = 3 ?"   );
+		//System.out.println( calculer( "5 ^ 2 + 3 × 10"    ) + " = 55 ?"  );
+		//System.out.println( calculer( "(8/(45-(2))+5)"    ) + " = 30?"   );
+		//System.out.println( calculer( "5-\\/¯(25)+5"      )              );
+		//System.out.println( calculer( "|-||9-5+|-5+9||||" )              );
+		//System.out.println( calculer( "non 5<6"           )              );
+		//System.out.println( calculer( "vrai xou vrai"     )              );
+		//System.out.println( calculer( "\"(c)\\\"cpoa\" © \"n1\"  (c) 'vim\"' ") );*/
 
 		/*  #~~~~# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #~~~~#  */
 		/*  #~~~~#  Les petits tests d'Antoine  #~~~~#  */
 		/*  #~~~~# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #~~~~#  */
 
-		System.out.println( calculer( "faux xou 5- 4 < 2" ).equals("vrai") );
-		//System.out.println( calculer( "5*\\/¯100×|-10|-1" ).equals("499") );
-		/*System.out.println( calculer(  ) );
-		System.out.println( calculer(  ) );
-		System.out.println( calculer(  ) );*/
+		System.out.println( calculer( "faux xou 5- 4 < 2" ) );
+		System.out.println( calculer( "5+\\/¯100^5-1" ) );
+		System.out.println("----------");
+		System.out.println( calculer( "5+\\/¯100^5+|-10|-1" ) );
+
+		//System.out.println( calculer(  ) );
+		//System.out.println( calculer(  ) );
+		//System.out.println( calculer(  ) );
 	}
 }
