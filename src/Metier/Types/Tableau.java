@@ -52,7 +52,7 @@ implements Collection<T>				//c'est une collection
 	public void versPressePapier() {
 		StringSelection ss = new StringSelection( this.toString() );
 
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents( ss, null );
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
 	}
 
     /*--------------Simplification des instanciation-------------*/

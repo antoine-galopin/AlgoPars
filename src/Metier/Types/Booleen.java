@@ -9,6 +9,6 @@ public class Booleen extends Typable<Boolean>
 
 	public String toString()
 	{
-		return (valeur)?"vrai":"faux";
+		return valeur ? "vrai" : "faux";
 	}
 }

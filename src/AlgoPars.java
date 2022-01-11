@@ -54,14 +54,8 @@ public class AlgoPars {
      * l'interprétation
      */
     public void afficher() {
-<<<<<<< HEAD
-        // System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la
-        // console
-        // System.out.flush();
-=======
         System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
         System.out.flush();
->>>>>>> 2d4a3b5eb110cc31eacab7e42b47219ad65d44db
         this.cui.afficher();
     }
 
@@ -129,21 +123,20 @@ public class AlgoPars {
         this.prgm.setBVariable(bVariable);
     }
 
-<<<<<<< HEAD
     public void setAlSi(ArrayList<Boolean> alSi) {
         this.prgm.setAlSi(alSi);
     }
 
     public ArrayList<Boolean> getAlSi() {
         return this.prgm.getAlSi();
-=======
+    }
+    
     public void setNom(String nom){
         this.prgm.setNom(nom) ;
     }
 
     public Typable getTypable(String s){
         return prgm.getTypable(s);
->>>>>>> de09c6a9706833ce1e44c1d2db4e865ffd791a07
     }
 
     public static void main(String[] args) {

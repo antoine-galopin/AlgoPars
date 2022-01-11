@@ -27,9 +27,11 @@ DEBUT
 	écrire( coco, salopette, var, ouiounon )
 
 	pizza, coco <-- "guccamole"
+	PI <-- 5
 
 	écrire(pizza)
 	écrire(coco)
+	écrire(PI)
 
 	/*
 
