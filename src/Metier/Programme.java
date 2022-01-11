@@ -3,7 +3,6 @@ package AlgoPars.Metier;
 import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Types.*;
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +10,7 @@ import javax.lang.model.util.ElementScanner6;
 
 import java.io.FileInputStream;
 
-import java.lang.reflect.Method ;
+import java.lang.reflect.Method;
 
 public class Programme {
 	private AlgoPars ctrl;
@@ -30,10 +29,12 @@ public class Programme {
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
+	private boolean bSi;
 	private ArrayList<Boolean> alSi;
 	private int nombreSi;
+	private int siImbrique;
 
-    private String    nom ;
+	private String nom;
 
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
@@ -53,12 +54,14 @@ public class Programme {
 
 		this.alSi = null;
 		this.nombreSi = -1;
+		this.siImbrique = 0;
 		this.listeBreakPoints = new ArrayList<Integer>();
 
 		this.bConstante = false;
 		this.bVariable = false;
+		this.bSi = true;
 
-		this.nom = cheminFichier ;//par defaut 
+		this.nom = cheminFichier;// par defaut
 
 		try {
 			// Lecture du programme.
@@ -84,10 +87,12 @@ public class Programme {
 			e.printStackTrace();
 		}
 
-/*test 
-		System.out.println(executerFonction("aujourdhui",null));
-		System.out.println(executerFonction("ord",new Typable[]{new Caractere("i",true,'b')}));
-*/
+		/*
+		 * test
+		 * System.out.println(executerFonction("aujourdhui",null));
+		 * System.out.println(executerFonction("ord",new Typable[]{new
+		 * Caractere("i",true,'b')}));
+		 */
 	}
 
 	public boolean getBConstante() {
@@ -114,6 +119,10 @@ public class Programme {
 		this.alSi = alSi;
 	}
 
+	public void addValAlSi(Boolean val) {
+		this.alSi.add(val);
+	}
+
 	public int getLigneActive() {
 		return this.ligneActive;
 	}
@@ -134,18 +143,21 @@ public class Programme {
 		return this.listeBreakPoints;
 	}
 
-	public void setNom(String nom )
-	{
-		this.nom=nom ;
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setBSi(boolean bsi) {
+		this.bSi = bsi;
 	}
 
 	public String getValeur(String nom) {
-		Typable var = this.donnees.rechercheParNom( nom );
-		if (var != null)
-		{
-			if ( (var instanceof Booleen) || (var instanceof Reel) || (var instanceof Tableau) )
+		Typable var = this.donnees.rechercheParNom(nom);
+		if (var != null) {
+			if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof Tableau))
 				return var.toString();
-			else return var.getValeur().toString();
+			else
+				return var.getValeur().toString();
 		}
 		return null;
 	}
@@ -166,6 +178,21 @@ public class Programme {
 				Scanner sc = new Scanner(System.in); // ouverture du Scanner
 
 				String msg = sc.nextLine();
+
+				if (this.bSi == false) {
+					if (this.siImbrique == -1) {
+						this.bSi = true;
+						this.siImbrique = 0;
+						this.listeInstructions.get(this.ligneActive).interpreterLigne();
+
+					} else {
+						while (this.siImbrique != -1)
+							if ((siImbrique += this.listeInstructions.get(++this.ligneActive)
+									.interpreterLigne(siImbrique)) == -1) {
+								--this.ligneActive;
+							}
+					}
+				} else
 
 				// Méthode : "L" + numLigne + Entrée ( aller à la ligne numLigne )
 				if (msg.matches("^L\\d+")) {
@@ -223,7 +250,7 @@ public class Programme {
 						break;
 					}
 					case "": { // Méthode : Entrée ( avancer d'une ligne )
-						if ( ++this.ligneActive < this.listeInstructions.size() )
+						if (++this.ligneActive < this.listeInstructions.size())
 							this.listeInstructions.get(this.ligneActive).interpreterLigne();
 					}
 				}
@@ -243,48 +270,32 @@ public class Programme {
 		this.donnees.add(nom, type);
 	}
 
-	
 	/**
-	 * Méthode qui renvoie le resultat d'une méthode de primitive executée
-	 * 
-	 * @param nomFonction nom de la méthode à executer
-	 * @param parametre   paramètres que la méthode prend
-	 * @return Object que la fonction renvoie
+	 * @param s la chaine qui va servir de modele pour le retour
+	 *          si c'est une donnée on renvoie sont equivalent typable
+	 *          sinon on crée un nouveau typable
 	 */
-	public Object executerFonction(String nomFonction, Typable[] parametres) {
-		for(Method m : primitives.listePrimitives) {
-			if(m.getName().equals(nomFonction)) {
-				try {
-					return m.invoke(primitives, (Object[])parametres);					
-				} catch(Exception e){e.printStackTrace();}
-			}
+	public Typable getTypable(String s) {
+		// si on donne le nom
+		if (this.donnees.rechercheParNom(s) != null)
+			return this.donnees.rechercheParNom(s);
+
+		// si on donne la valeur
+		switch (Calculateur.getType(s)) {
+			case "booleen":
+				return new Booleen("@b", false, s.equals("vrai") ? true : false);
+			case "caractere":
+				return new Caractere("@c", false, s.charAt(1));
+			case "chaine":
+				return new Chaine("@ch", false, s);
+			case "entier":
+				return new Entier("@e", false, Integer.parseInt(s));
+			case "reel":
+				return new Reel("@r", false, Double.parseDouble(s.replaceAll(",", ".")));
+
+			// case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
+			default:
+				throw new RuntimeException("La valeur :" + s + " n'a pas été trouvé");
 		}
-
-		return null;
-	}
-
-	
-	/**
-	 * @param s la chaine qui va servir de modele pour le retour 
-	 * 			si c'est une donnée on renvoie sont equivalent typable
-	 * 			sinon on crée un nouveau typable 
-	 */ 
-	public Typable getTypable(String s)
-	{
-		//si on donne le nom 
-		if (this.donnees.rechercheParNom( s ) != null)
-			return this.donnees.rechercheParNom( s );
-
-		//si on donne la valeur
-		switch (Calculateur.getType(s)){
-            case "booleen"  : return new Booleen   ("@b" , false, s.equals("vrai") ? true : false			);
-            case "caractere": return new Caractere ("@c" , false, s.charAt(1)								);
-            case "chaine"   : return new Chaine    ("@ch", false, s          								);
-            case "entier"   : return new Entier    ("@e" , false, Integer.parseInt(s)						);
-            case "reel"     : return new Reel      ("@r" , false, Double.parseDouble(s.replaceAll(",",".")));
-
-            // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
-            default: throw new RuntimeException("La valeur :"+s+" n'a pas été trouvé") ;
-        }
 	}
 }

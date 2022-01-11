@@ -60,5 +60,60 @@ variable:
 
 	var:entier
 	var:entier
+	b:booleen
 
 DEBUT
+	b<--vrai
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	si faux alors
+		si faux alors
+		fsi
+		si faux alors
+		écrire("alahwakbah");
+		fsi
+		écrire("alahwakbah1");
+		écrire("alahwakbah2");
+		écrire("alahwakbah3");
+	fsi
+	si b alors
+		si faux alors
+		fsi
+		si faux alors
+			écrire("alahwakbah");
+		sinon
+			écrire("alpha");
+		fsi
+		écrire("alahwakbah1");
+		écrire("alahwakbah2");
+		écrire("alahwakbah3");
+	fsi
+	si vrai alors
+		écrire("alahwakbah");
+	fsi
+
+	si 6 > 9 alors
+		écrire("alahwakbah1");
+		écrire("alahwakbah2");
+		écrire("alahwakbah3");
+	fsi
+	écrire(var)
+	lire(var)
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+	var <--1
+FIN

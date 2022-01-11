@@ -57,26 +57,29 @@ public class Primitives {
     }
 
     public void si(String msg) {
+        ArrayList<Boolean> result = new ArrayList<Boolean>();
         if (this.ctrl.getAlSi() != null) {
-            // switch (msg) {
-            // case "vrai":
-            // this.ctrl.setAlSi(this.ctrl.getAlSi().add(true));
-            // break;
-            // case "false":
-            // this.ctrl.setAlSi(this.ctrl.getAlSi().add(false));
-            // break;
-            // }
+            switch (msg) {
+                case "vrai":
+                    this.addValAlSi(Boolean.TRUE);
+                    this.ctrl.setBSi(true);
+                    break;
+                case "faux":
+                    this.addValAlSi(Boolean.FALSE);
+                    this.ctrl.setBSi(false);
+                    break;
+            }
         } else {
-            ArrayList<Boolean> result = new ArrayList<Boolean>();
-
             switch (msg) {
                 case "vrai":
                     result.add(Boolean.TRUE);
                     this.ctrl.setAlSi(result);
+                    this.ctrl.setBSi(true);
                     break;
-                case "false":
+                case "faux":
                     result.add(Boolean.FALSE);
                     this.ctrl.setAlSi(result);
+                    this.ctrl.setBSi(false);
                     break;
             }
 
@@ -162,5 +165,9 @@ public class Primitives {
     // retourne une valeur entière prise au hasard sur l'intervalle [ 0; paramètre ]
     public static int hasard(Entier entier) {
         return (int) (Math.random() * entier.getValeur());
+    }
+
+    public void addValAlSi(Boolean val) {
+        this.ctrl.addValAlSi(val);
     }
 }

@@ -41,7 +41,7 @@ public class Instruction {
     public void interpreterLigne() {
         if (this.ligne[0] != "") {
             switch (this.ligne[0].strip().toLowerCase()) {
-                case "algorithme", "Algorithme":
+                case "algorithme":
                     this.ctrl.setNom(ligne[0].substring(ligne[0].indexOf("ALGORITHME ") + 11));
                     break;
                 case "constante:":
@@ -75,6 +75,20 @@ public class Instruction {
                     break;
             }
         }
+    }
+
+    public int interpreterLigne(int siImbrique) {
+        if (this.ligne[0].equals("sinon") && siImbrique == 0) {
+            return -1;
+        }
+        switch (this.ligne[0]) {
+            case "si":
+                return 1;
+            case "fsi":
+                return -1;
+        }
+        return 0;
+
     }
 
     private void declare() {
@@ -152,22 +166,47 @@ public class Instruction {
     }
 
     private void si() {
-        // Pattern ptrn = Pattern.compile( "TA_REGEX" );
-        // Matcher matcher = ptrn.matcher( "TA_STRING" );
-
-        // while ( matcher.find() ) System.out.println( matcher.group() );
         String str = this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
                 this.ligneComplete.indexOf("alors"));
 
-        if (str.contains("\"")) {
-            this.ligneComplete.indexOf("\"");
-        } else if (str.contains("[0-9]+")) {
+        if (this.containsComparateur(str)) {
+            this.executerFonction(str);
+            /*
+             * Pattern ptrn = Pattern.compile("\\w+ ?\\(.*\\)");
+             * Matcher matcher = ptrn.matcher(str);
+             * while (matcher.find()) {
+             * String sRet = matcher.group();
+             * this.remplacerParValeur(
+             * sRet.substring(sRet.indexOf("("), sRet.indexOf(")")));
+             * str = str.replace(sRet, this.executerFonction(sRet.substring(0,
+             * sRet.indexOf("(")), ));
+             * }
+             */
+            str = this.remplacerParValeur(str);
+            System.out.println(str + " " + Calculateur.calculer(str) + "calcul");
+            this.primit.si(Calculateur.calculer(str));
 
-        } else if (str.contains("[A-Za-z]+")) {
-
+        } else {
+            if (str.equals("vrai") || str.equals("faux"))
+                this.primit.si(str);
+            else
+                this.primit.si(this.ctrl.getValeur(str));
         }
-        this.primit.si(this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
-                this.ligneComplete.indexOf("alors")));
+    }
+
+    private String remplacerParValeur(String str) {
+        Pattern ptrn = Pattern.compile("\\w+(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)");
+        Matcher matcher = ptrn.matcher(str);
+        while (matcher.find()) {
+            if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(matcher.group()).find())
+                str = str.replaceAll(matcher.group(), this.ctrl.getValeur(matcher.group()));
+        }
+        return str;
+    }
+
+    private boolean containsComparateur(String str) {
+        return str.contains("<") || str.contains(">") || str.contains("=") || str.contains("ou") || str.contains("xou")
+                || str.contains("et") || str.contains("non");
     }
 
     private void lire() {
@@ -179,9 +218,38 @@ public class Instruction {
 
     /*--------------------------------------*/
 
-    public void executerFonction(String varS, String nomFonction, String args) {
-        // rajouté des test pour enlever les warnings
-        ctrl.getTypable(varS).setValeur(ctrl.executerFonction(nomFonction, convertParam(args)));
+    private String executerFonction(String str) {
+        Pattern ptrn = Pattern.compile("\\w+ ?\\(.*\\)");
+        Matcher matcher = ptrn.matcher(str);
+        while (matcher.find()) {
+            String sRet = matcher.group();
+            this.remplacerParValeur(
+                    sRet.substring(sRet.indexOf("("), sRet.indexOf(")")));
+            str = str.replace(sRet, this.executerFonction(sRet.substring(0, sRet.indexOf("("))));
+        }
+        return str;
+    }
+
+    /**
+     * Méthode qui renvoie le resultat d'une méthode de primitive executée
+     * 
+     * @param nomFonction nom de la méthode à executer
+     * @param parametre   paramètres que la méthode prend
+     * @return Object que la fonction renvoie
+     */
+
+    public Object executerFonction(String nomFonction, Typable[] parametres) {
+        for (Method m : primit.listePrimitives) {
+            if (m.getName().equals(nomFonction)) {
+                try {
+                    return m.invoke(primit, (Object[]) parametres);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
