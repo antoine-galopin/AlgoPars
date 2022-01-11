@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 
 import java.lang.reflect.Method ;
 
+
 public class Programme {
 	private AlgoPars ctrl;
 	private Primitives primitives;
@@ -35,6 +36,11 @@ public class Programme {
 
     private String    nom ;
 
+	/**
+	 * Constructeur de la classe Programme
+	 * @param ctrl
+	 * @param cheminFichier
+	 */
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
 		ColorationSyntaxique.chargerCouleurs();
@@ -90,55 +96,83 @@ public class Programme {
 */
 	}
 
-	public boolean getBConstante() {
-		return this.bConstante;
-	}
+	/**
+	 * Accesseur de BConstante
+	 * @return boolean
+	 */
+	public boolean getBConstante() { return this.bConstante; }
 
-	public boolean getBVariable() {
-		return this.bVariable;
-	}
+	/**
+	 * Accesseur de BVariable
+	 * @return boolean
+	 */
+	public boolean getBVariable() { return this.bVariable; }
 
-	public void setBConstante(boolean bConstante) {
-		this.bConstante = bConstante;
-	}
+	/**
+	 * Fonction changeant la valeur de BConstante
+	 * @param bConstante
+	 */
+	public void setBConstante(boolean bConstante) { this.bConstante = bConstante; }
 
-	public void setBVariable(boolean bVariable) {
-		this.bVariable = bVariable;
-	}
+	/**
+	 * Fonction changeant la valeur de BConstante
+	 * @param bVariable
+	 */
+	public void setBVariable(boolean bVariable) { this.bVariable = bVariable; }
 
-	public ArrayList<Boolean> getAlSi() {
-		return this.alSi;
-	}
+	/**
+	 * Accesseur de AkSi
+	 * @return ArrayList<Boolean>
+	 */
+	public ArrayList<Boolean> getAlSi() { return this.alSi; }
 
-	public void setAlSi(ArrayList<Boolean> alSi) {
-		this.alSi = alSi;
-	}
+	/**
+	 * Fonction changeant la valeur de alSi
+	 * @param alSi
+	 */
+	public void setAlSi(ArrayList<Boolean> alSi) { this.alSi = alSi; }
 
-	public int getLigneActive() {
-		return this.ligneActive;
-	}
+	/**
+	 * accesseur de ligneActive
+	 * @return int
+	 */
+	public int getLigneActive() { return this.ligneActive; }
 
-	public ArrayList<String> getLignesFichier() {
-		return this.lignesFichier;
-	}
+	/**
+	 * Accesseur de lignesFichier
+	 * @return ArrayList<String>
+	 */
+	public ArrayList<String> getLignesFichier() { return this.lignesFichier; }
 
-	public ArrayList<String> getLignesFichierColorie() {
-		return this.lignesFichierColorie;
-	}
+	/**
+	 * Accesseur de lignesFichierColorie
+	 * @return ArrayList<String>
+	 */
+	public ArrayList<String> getLignesFichierColorie() { return this.lignesFichierColorie; }
 
-	public ArrayList<String> getVariablesSuivies() {
-		return this.listeVarSuivies;
-	}
+	/**
+	 * Accesseur de listeVarSuivies
+	 * @return ArrayList<String>
+	 */
+	public ArrayList<String> getVariablesSuivies() { return this.listeVarSuivies; }
 
-	public ArrayList<Integer> getListeBreakPoints() {
-		return this.listeBreakPoints;
-	}
+	/**
+	 * Accesseur de listeBreakPoints
+	 * @return ArrayList<Integer>
+	 */
+	public ArrayList<Integer> getListeBreakPoints() { return this.listeBreakPoints; }
 
-	public void setNom(String nom )
-	{
-		this.nom=nom ;
-	}
+	/**
+	 * Fonction changeant la valeur de nom
+	 * @param nom
+	 */
+	public void setNom(String nom) { this.nom = nom; }
 
+	/**
+	 * Accesseur de valeur
+	 * @param nom
+	 * @return String
+	 */
 	public String getValeur(String nom) {
 		Typable var = this.donnees.rechercheParNom( nom );
 		if (var != null)
@@ -150,9 +184,12 @@ public class Programme {
 		return null;
 	}
 
-	public void affecterValeur(String nom, String valeur) {
-		this.donnees.affecterValeur(nom, valeur);
-	}
+	/**
+	 * Fonction changeant la valeur de valeur
+	 * @param nom
+	 * @param valeur
+	 */
+	public void affecterValeur(String nom, String valeur) { this.donnees.affecterValeur(nom, valeur); }
 
 	/**
 	 * Exécution de l'algorithme.
