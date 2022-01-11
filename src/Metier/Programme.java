@@ -33,6 +33,8 @@ public class Programme {
 	private ArrayList<Boolean> alSi;
 	private int nombreSi;
 
+    private String    nom ;
+
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
 		ColorationSyntaxique.chargerCouleurs();
@@ -55,6 +57,8 @@ public class Programme {
 
 		this.bConstante = false;
 		this.bVariable = false;
+
+		this.nom = cheminFichier ;//par defaut 
 
 		try {
 			// Lecture du programme.
@@ -128,6 +132,11 @@ public class Programme {
 
 	public ArrayList<Integer> getListeBreakPoints() {
 		return this.listeBreakPoints;
+	}
+
+	public void setNom(String nom )
+	{
+		this.nom=nom ;
 	}
 
 	public String getValeur(String nom) {
@@ -252,5 +261,30 @@ public class Programme {
 		}
 
 		return null;
+	}
+
+	
+	/**
+	 * @param s la chaine qui va servir de modele pour le retour 
+	 * 			si c'est une donnée on renvoie sont equivalent typable
+	 * 			sinon on crée un nouveau typable 
+	 */ 
+	public Typable getTypable(String s)
+	{
+		//si on donne le nom 
+		if (this.donnees.rechercheParNom( s ) != null)
+			return this.donnees.rechercheParNom( s );
+
+		//si on donne la valeur
+		switch (Calculateur.getType(s)){
+            case "booleen"  : return new Booleen   ("@b" , false, s.equals("vrai") ? true : false			);
+            case "caractere": return new Caractere ("@c" , false, s.charAt(1)								);
+            case "chaine"   : return new Chaine    ("@ch", false, s          								);
+            case "entier"   : return new Entier    ("@e" , false, Integer.parseInt(s)						);
+            case "reel"     : return new Reel      ("@r" , false, Double.parseDouble(s.replaceAll(",",".")));
+
+            // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
+            default: throw new RuntimeException("La valeur :"+s+" n'a pas été trouvé") ;
+        }
 	}
 }

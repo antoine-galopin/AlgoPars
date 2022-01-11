@@ -129,15 +129,25 @@ public class AlgoPars {
         this.prgm.setBVariable(bVariable);
     }
 
+<<<<<<< HEAD
     public void setAlSi(ArrayList<Boolean> alSi) {
         this.prgm.setAlSi(alSi);
     }
 
     public ArrayList<Boolean> getAlSi() {
         return this.prgm.getAlSi();
+=======
+    public void setNom(String nom){
+        this.prgm.setNom(nom) ;
+    }
+
+    public Typable getTypable(String s){
+        return prgm.getTypable(s);
+>>>>>>> de09c6a9706833ce1e44c1d2db4e865ffd791a07
     }
 
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }
+
 }

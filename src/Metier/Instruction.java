@@ -3,6 +3,7 @@ package AlgoPars.Metier;
 import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Primitives;
 import AlgoPars.Metier.Calculateur;
+import AlgoPars.Metier.Types.*;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -12,26 +13,36 @@ public class Instruction {
     private Primitives primit;
     private String[] ligne;
     private String ligneComplete;
+    public boolean estFonction = false;// une fonction seule sur la ligne
 
-    public Instruction(AlgoPars ctrl, Primitives primit, String ligne) {
+    public Instruction(AlgoPars ctrl, Primitives primit, String ligneRecue) {
         this.ctrl = ctrl;
         this.primit = primit;
-        this.ligneComplete = this.suppEspace(ligne);
+        this.ligneComplete = this.suppEspace(ligneRecue);
+
+        // si c'est une fonction
 
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
-        Matcher matcher = pattern.matcher(ligne);
+        Matcher matcher = pattern.matcher(ligneRecue);
 
         if (matcher.find()) {
-            this.ligne = ligne.split("\\(");
-            this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
+            pattern = Pattern.compile("\"\\w+ *\\(.*\"");
+            matcher = pattern.matcher(ligneRecue);
+
+            // si ce n'est pas une chaine comme "fonc("
+            if (!matcher.find()) {
+                this.ligne = ligneRecue.split("\\(");
+                this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
+            }
         } else
-            this.ligne = ligne.strip().split(" ");
+            this.ligne = ligneRecue.strip().split(" ");
     }
 
     public void interpreterLigne() {
         if (this.ligne[0] != "") {
-            switch (this.ligne[0].strip()) {
-                case "ALGORITHME":
+            switch (this.ligne[0].strip().toLowerCase()) {
+                case "algorithme", "Algorithme":
+                    this.ctrl.setNom(ligne[0].substring(ligne[0].indexOf("ALGORITHME ") + 11));
                     break;
                 case "constante:":
                     this.ctrl.setBConstante(true);
@@ -40,11 +51,11 @@ public class Instruction {
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(true);
                     break;
-                case "DEBUT":
+                case "debut", "début":
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(false);
                     break;
-                case "écrire":
+                case "ecrire", "écrire":
                     this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":
@@ -165,4 +176,30 @@ public class Instruction {
         for (String nomVar : vars)
             this.primit.lire(nomVar);
     }
+
+    /*--------------------------------------*/
+
+    public void executerFonction(String varS, String nomFonction, String args) {
+        // rajouté des test pour enlever les warnings
+        ctrl.getTypable(varS).setValeur(ctrl.executerFonction(nomFonction, convertParam(args)));
+    }
+
+    /**
+     * convertie une chaine en sont tableau de typable pour utiliser les fonctions
+     * 
+     * @param param chaine des caractere sans les parenthese exterieur
+     */
+    private Typable[] convertParam(String param) {
+        // on separe la chaine
+        String[] args = param.split(" *, *");
+        Typable[] retour = new Typable[args.length];
+
+        int index = 0;
+        for (String s : args) {
+            retour[index] = ctrl.getTypable(s);
+            index++;
+        }
+        return retour;
+    }
+
 }
