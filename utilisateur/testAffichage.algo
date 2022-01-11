@@ -104,6 +104,12 @@ DEBUT
 		écrire("alahwakbah2");
 		écrire("alahwakbah3");
 	fsi
+
+	si 6 = 9 alors
+		écrire("alahwakbah1");
+		écrire("alahwakbah2");
+		écrire("alahwakbah3");
+	fsi
 	écrire(var)
 	lire(var)
 	var <--1

@@ -52,7 +52,7 @@ implements Collection<T>				//c'est une collection
 	public void versPressePapier() {
 		StringSelection ss = new StringSelection( this.toString() );
 
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents( ss, null );
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
 	}
 
     /*--------------Simplification des instanciation-------------*/
@@ -102,38 +102,34 @@ implements Collection<T>				//c'est une collection
     {
     	
     	/*----------------1 Dimension------------------*/
-		ArrayList<Chaine> list1 = new ArrayList<Chaine>();
+        Booleen test = new Booleen("test",true,false);
 
-		for( int i = 0; i < 5; i++ )
-			//list1.add(new Chaine("t" + i, true, i));
-			list1.add(new Chaine("t" + i, true, "x".repeat( (int) (Math.random()*20) )));
+        System.out.println(new_Tableau3D("tab3",true,
+            new Booleen[][][]{
+                    {
+                        {test,test},{test,test},{test,test}
+                    },
+                    {
+                        {test,test},{test,test},{test,test}
+                    },
+                    {
+                        {test,test},{test,test},{test,test}
+                    }
+                }
+            )
+        );
 
-		Tableau<Chaine> tab1 = new Tableau<Chaine>("tableau",true,list1);
-
-    	System.out.println	("1D------------\n"+tab1);
-
-
-    	/*----------------2 Dimension------------------*/
-    	ArrayList<Tableau<Chaine>> list2 = new ArrayList<Tableau<Chaine>>();
-
-		for( int j = 0; j < 5; j++ )
-			list2.add(tab1);
-
-		Tableau<Tableau<Chaine>> tab2 = new Tableau<Tableau<Chaine>>("tableau",true,list2);
-
-    	System.out.println	("2D------------\n"+tab2);
-
-		tab2.versPressePapier();
-    	
-    	/*----------------3 Dimension------------------*/
-    	ArrayList<Tableau<Tableau<Chaine>>> list3 = new ArrayList<Tableau<Tableau<Chaine>>>();
-
-		list3.add(tab2);
-		list3.add(tab2);
-
-		Tableau<Tableau<Tableau<Chaine>>> tab3 = new Tableau<Tableau<Tableau<Chaine>>>("tableau",true,list3);
-
-    	System.out.println	("3D------------\n"+tab3);
-
+        System.out.println(new_Tableau2D("tab3",true,
+            new Booleen[][] {
+                                {test,test},
+                                {test,test},
+                                {test,test}
+                            }
+            )
+        );
+        
+        Tableau<Tableau<Typable>> tab = new_Tableau2D("tab3", true, new Booleen[][] { {test,test}, {test,test}, {test,test} });
+        System.out.println("-->" + tab.toString());
+        tab.versPressePapier();
     }
 }

@@ -87,12 +87,12 @@ public class Primitives {
     }
 
     // retourne le caractère correspondant à sa valeur dans la table ASCII
-    public static char car(Entier entier) {
-        return (char) (entier.getValeur().intValue());
+    public static String car(String entier) {
+        return (char) Integer.parseInt(entier);
     }
 
     // retourne la valeur ASCII d'un caractère
-    public static int ord(Caractere caractere) {
+    public static String ord(String caractere) {
         return (int) (caractere.getValeur().charValue());
     }
 

@@ -30,22 +30,25 @@ DEBUT
 
 	écrire(pizza)
 	écrire(coco)
+	écrire(PI)
 
-	/*
+	/* je test 
+	des choses
+	*/
 
 	tant que 5 < 10 faire
 		écrire( "premier tant que" )
 	ftq
 
 	faire
-		écrire( "premier faire tant que" )
+		écrire( "premier faire tant que" ) /*
 	tant que 4 < 12 
 
 	si blabla alors
 		tant que vol xou faire
 			écrire ( "bla" )
 			// On test juste
-		ftq
+		ftq*/
 	sinon OUI alors
 		écrire ( 42 )
 	fsi

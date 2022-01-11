@@ -6,11 +6,7 @@ import AlgoPars.Metier.Types.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner6;
-
 import java.io.FileInputStream;
-
-import java.lang.reflect.Method;
 
 public class Programme {
 	private AlgoPars ctrl;
@@ -36,6 +32,12 @@ public class Programme {
 
 	private String nom;
 
+	/**
+	 * Constructeur de la classe Programme
+	 * 
+	 * @param ctrl
+	 * @param cheminFichier
+	 */
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
 		ColorationSyntaxique.chargerCouleurs();
@@ -95,26 +97,56 @@ public class Programme {
 		 */
 	}
 
+	/**
+	 * Accesseur de BConstante
+	 * 
+	 * @return boolean
+	 */
 	public boolean getBConstante() {
 		return this.bConstante;
 	}
 
+	/**
+	 * Accesseur de BVariable
+	 * 
+	 * @return boolean
+	 */
 	public boolean getBVariable() {
 		return this.bVariable;
 	}
 
+	/**
+	 * Fonction changeant la valeur de BConstante
+	 * 
+	 * @param bConstante
+	 */
 	public void setBConstante(boolean bConstante) {
 		this.bConstante = bConstante;
 	}
 
+	/**
+	 * Fonction changeant la valeur de BConstante
+	 * 
+	 * @param bVariable
+	 */
 	public void setBVariable(boolean bVariable) {
 		this.bVariable = bVariable;
 	}
 
+	/**
+	 * Accesseur de AkSi
+	 * 
+	 * @return ArrayList<Boolean>
+	 */
 	public ArrayList<Boolean> getAlSi() {
 		return this.alSi;
 	}
 
+	/**
+	 * Fonction changeant la valeur de alSi
+	 * 
+	 * @param alSi
+	 */
 	public void setAlSi(ArrayList<Boolean> alSi) {
 		this.alSi = alSi;
 	}
@@ -127,18 +159,38 @@ public class Programme {
 		return this.ligneActive;
 	}
 
+	/**
+	 * Accesseur de lignesFichier
+	 * 
+	 * @return ArrayList<String>
+	 */
 	public ArrayList<String> getLignesFichier() {
 		return this.lignesFichier;
 	}
 
+	/**
+	 * Accesseur de lignesFichierColorie
+	 * 
+	 * @return ArrayList<String>
+	 */
 	public ArrayList<String> getLignesFichierColorie() {
 		return this.lignesFichierColorie;
 	}
 
+	/**
+	 * Accesseur de listeVarSuivies
+	 * 
+	 * @return ArrayList<String>
+	 */
 	public ArrayList<String> getVariablesSuivies() {
 		return this.listeVarSuivies;
 	}
 
+	/**
+	 * Accesseur de listeBreakPoints
+	 * 
+	 * @return ArrayList<Integer>
+	 */
 	public ArrayList<Integer> getListeBreakPoints() {
 		return this.listeBreakPoints;
 	}
@@ -151,6 +203,12 @@ public class Programme {
 		this.bSi = bsi;
 	}
 
+	/**
+	 * Accesseur de valeur
+	 * 
+	 * @param nom
+	 * @return String
+	 */
 	public String getValeur(String nom) {
 		Typable var = this.donnees.rechercheParNom(nom);
 		if (var != null) {
@@ -162,6 +220,12 @@ public class Programme {
 		return null;
 	}
 
+	/**
+	 * Fonction changeant la valeur de valeur
+	 * 
+	 * @param nom
+	 * @param valeur
+	 */
 	public void affecterValeur(String nom, String valeur) {
 		this.donnees.affecterValeur(nom, valeur);
 	}
@@ -275,27 +339,29 @@ public class Programme {
 	 *          si c'est une donnée on renvoie sont equivalent typable
 	 *          sinon on crée un nouveau typable
 	 */
-	public Typable getTypable(String s) {
-		// si on donne le nom
-		if (this.donnees.rechercheParNom(s) != null)
-			return this.donnees.rechercheParNom(s);
-
-		// si on donne la valeur
-		switch (Calculateur.getType(s)) {
-			case "booleen":
-				return new Booleen("@b", false, s.equals("vrai") ? true : false);
-			case "caractere":
-				return new Caractere("@c", false, s.charAt(1));
-			case "chaine":
-				return new Chaine("@ch", false, s);
-			case "entier":
-				return new Entier("@e", false, Integer.parseInt(s));
-			case "reel":
-				return new Reel("@r", false, Double.parseDouble(s.replaceAll(",", ".")));
-
-			// case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
-			default:
-				throw new RuntimeException("La valeur :" + s + " n'a pas été trouvé");
-		}
-	}
+	/*
+	 * public Typable getTypable(String s) {
+	 * // si on donne le nom
+	 * if (this.donnees.rechercheParNom(s) != null)
+	 * return this.donnees.rechercheParNom(s);
+	 * 
+	 * // si on donne la valeur
+	 * switch (Calculateur.getType(s)) {
+	 * case "booleen":
+	 * return new Booleen("@b", false, s.equals("vrai") ? true : false);
+	 * case "caractere":
+	 * return new Caractere("@c", false, s.charAt(1));
+	 * case "chaine":
+	 * return new Chaine("@ch", false, s);
+	 * case "entier":
+	 * return new Entier("@e", false, Integer.parseInt(s));
+	 * case "reel":
+	 * return new Reel("@r", false, Double.parseDouble(s.replaceAll(",", ".")));
+	 * 
+	 * // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
+	 * default:
+	 * throw new RuntimeException("La valeur :" + s + " n'a pas été trouvé");
+	 * }
+	 * }
+	 */
 }

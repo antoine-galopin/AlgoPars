@@ -20,6 +20,8 @@ public class ColorationSyntaxique
 {
 	private static HashMap<String, ArrayList<String>> couleurs;
 	private static HashMap<String, Pattern> regPatterns;
+	private static String couleurCommentaire;
+	private static boolean commMultiLignes = false;
 
 
 	/**
@@ -38,7 +40,6 @@ public class ColorationSyntaxique
 		}
 		catch( Exception e ) { e.printStackTrace(); }
 
-
 		ArrayList<String> alTmp = null;
 		for( Element e: racine.getChildren() )
 		{
@@ -49,9 +50,19 @@ public class ColorationSyntaxique
 				alTmp.add( e.getAttribute( "poids"  ).getValue() );
 
 				couleurs.put( child.getText(), alTmp );
-				regPatterns.put( child.getText(), Pattern.compile( "\\b" + child.getText() + "\\b" ) );
+				regPatterns.put( child.getText(), Pattern.compile(
+					"\\b" + child.getText() + "\\b(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)"
+				));
 			}
 		}
+
+		couleurCommentaire = getCouleurFromId( couleurs.get( "//" ).get( 0 ) );
+	}
+
+
+	public static String colorierLigne( String ligne )
+	{
+		return colorierLigne( ligne, true );
 	}
 
 
@@ -60,25 +71,60 @@ public class ColorationSyntaxique
 	 * @param ligne
 	 * @return String
 	 */
-	public static String colorierLigne( String ligne )
+	public static String colorierLigne( String ligne, boolean ajouterBlanc )
 	{
+		if ( ligne.isBlank() ) return ligne;
+
 		int ligneLengthDebut = ligne.length();
 		String debutLigne = ""; // Utilisée pour éviter de colorer des keywords dans les commentaires.
 		String finLigne = "";
 
+		// Gestion des commentaires multilignes.
+		if ( ligne.contains( "/*" ) )
+		{
+			debutLigne = colorierLigne( ligne.substring( 0, ligne.indexOf( "/*" ) ), false );
+			if ( ligne.contains( "*/" ) )
+			{
+				ligne = debutLigne + couleurCommentaire + 
+					ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) ) + "\033[0m" +
+					colorierLigne( ligne.substring( ligne.indexOf( "*/") + 3, ligne.length() ) );
+				return ligne + " ".repeat( 75 - ligneLengthDebut );
+			}
+			commMultiLignes = true;
+			ligne = debutLigne + couleurCommentaire +
+				ligne.substring( ligne.indexOf( "/*" ), ligne.length() ) + "\033[0m";
+			return ligne + " ".repeat( 75 - ligneLengthDebut );
+		}
+
+		if ( commMultiLignes )
+		{
+			if ( ligne.contains( "*/" ) )
+			{
+				commMultiLignes = false;
+				ligne = couleurCommentaire + ligne.substring( 0, ligne.indexOf( "*/" ) + 2 ) +
+					"\033[0m" + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ) );
+				return ligne + " ".repeat( 75 - ligneLengthDebut );
+			}
+			ligne = couleurCommentaire + ligne + "\033[0m";
+
+			return ligne + " ".repeat( 75 - ligneLengthDebut );
+		}
+
+		// Gestion des commentaires simples.
 		if( ligne.contains( "//" ) )
 		{
 			int indexDebutCom = ligne.indexOf( "//" );
 
-			if( indexDebutCom == 0 ) ligne = CouleurConsole.VERT.getFont() + ligne + "\033[0m";
+			if( indexDebutCom == 0 ) ligne = couleurs + ligne + "\033[0m";
 			else
 			{
 				debutLigne = ligne.substring( 0, indexDebutCom );
-				finLigne = CouleurConsole.VERT.getFont() + ligne.substring( indexDebutCom, ligne.length() ) + "\033[0m";
+				finLigne = couleurCommentaire + ligne.substring( indexDebutCom, ligne.length() ) + "\033[0m";
 			}
 		}
 		else debutLigne = ligne;
 
+		// Coloration des mots clés d'une ligne.
 		Matcher matcher = null;
 		for( String mot : couleurs.keySet() )
 		{
@@ -91,8 +137,12 @@ public class ColorationSyntaxique
 					debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
 			}
 		}
-		
-		return debutLigne + finLigne + " ".repeat( 75 - ligneLengthDebut );
+
+		if ( ajouterBlanc )
+			return debutLigne + finLigne + 
+				" ".repeat( (75 - ligneLengthDebut == 75) ? 0 : 75 - ligneLengthDebut );
+		else
+			return debutLigne + finLigne;
 	}
 
 
@@ -107,32 +157,7 @@ public class ColorationSyntaxique
 
 		String couleur;
 		String id = couleurs.get( mot ).get( 0 );
-		switch( id ) 
-		{
-			case "0": 
-				couleur = CouleurConsole.BLANC.getFont();
-				break;
-			case "1": 
-				couleur = CouleurConsole.BLEU.getFont();
-				break;
-			case "2": 
-				couleur = CouleurConsole.CYAN.getFont();
-				break;
-			case "3": 
-				couleur = CouleurConsole.JAUNE.getFont();
-				break;
-			case "4": 
-				couleur = CouleurConsole.VERT.getFont();
-				break;
-			case "5":
-				couleur = CouleurConsole.ROUGE.getFont();
-				break;
-			case "6":
-				couleur = CouleurConsole.MAUVE.getFont();
-				break;
-			default: 
-				couleur = CouleurConsole.BLANC.getFont();
-		}
+		couleur = getCouleurFromId( id );
 
 		if( couleurs.get( mot ).get( 1 ).equals( "true" ) ) couleur += "\033[1m";
 
@@ -140,10 +165,26 @@ public class ColorationSyntaxique
 	}
 
 
-	public static void main( String[] a )
+	public static String getCouleurFromId( String id )
 	{
-		ColorationSyntaxique.chargerCouleurs();
-		for( String key : couleurs.keySet() )
-			System.out.println( key + " " + colorierMot( key ) );
+		switch( id ) 
+		{
+			case "0": 
+				return CouleurConsole.BLANC.getFont();
+			case "1": 
+				return  CouleurConsole.BLEU.getFont();
+			case "2": 
+				return  CouleurConsole.CYAN.getFont();
+			case "3": 
+				return  CouleurConsole.JAUNE.getFont();
+			case "4": 
+				return  CouleurConsole.VERT.getFont();
+			case "5":
+				return  CouleurConsole.ROUGE.getFont();
+			case "6":
+				return  CouleurConsole.MAUVE.getFont();
+			default: 
+				return  CouleurConsole.BLANC.getFont();
+		}
 	}
 }

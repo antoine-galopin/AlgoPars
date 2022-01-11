@@ -5,6 +5,8 @@ import AlgoPars.Metier.Primitives;
 import AlgoPars.Metier.Calculateur;
 import AlgoPars.Metier.Types.*;
 
+import java.lang.reflect.Method;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -170,18 +172,7 @@ public class Instruction {
                 this.ligneComplete.indexOf("alors"));
 
         if (this.containsComparateur(str)) {
-            this.executerFonction(str);
-            /*
-             * Pattern ptrn = Pattern.compile("\\w+ ?\\(.*\\)");
-             * Matcher matcher = ptrn.matcher(str);
-             * while (matcher.find()) {
-             * String sRet = matcher.group();
-             * this.remplacerParValeur(
-             * sRet.substring(sRet.indexOf("("), sRet.indexOf(")")));
-             * str = str.replace(sRet, this.executerFonction(sRet.substring(0,
-             * sRet.indexOf("(")), ));
-             * }
-             */
+            // this.executerFonction(str);
             str = this.remplacerParValeur(str);
             System.out.println(str + " " + Calculateur.calculer(str) + "calcul");
             this.primit.si(Calculateur.calculer(str));
