@@ -252,11 +252,11 @@ public class Programme {
 	 * @return Object que la fonction renvoie
 	 */
 	public Object executerFonction(String nomFonction, Typable[] parametres) {
-		for(Method m : primitives.listePrimitives) {
-			if(m.getName().equals(nomFonction)) {
+		for( Method m : primitives.listePrimitives ) {
+			if( m.getName().equals(nomFonction) ) {
 				try {
 					return m.invoke(primitives, (Object[])parametres);					
-				} catch(Exception e){e.printStackTrace();}
+				} catch(Exception e) { e.printStackTrace(); }
 			}
 		}
 
@@ -265,9 +265,11 @@ public class Programme {
 
 	
 	/**
-	 * @param s la chaine qui va servir de modele pour le retour 
-	 * 			si c'est une donnée on renvoie sont equivalent typable
-	 * 			sinon on crée un nouveau typable 
+	 * @param s la chaine qui va servir de modèle pour le retour 
+	 * 			si c'est une donnée on renvoit son equivalent typable
+	 * 			sinon on crée un nouveau typable
+	 * 
+	 * @return Typable
 	 */ 
 	public Typable getTypable(String s)
 	{
@@ -276,15 +278,15 @@ public class Programme {
 			return this.donnees.rechercheParNom( s );
 
 		//si on donne la valeur
-		switch (Calculateur.getType(s)){
-            case "booleen"  : return new Booleen   ("@b" , false, s.equals("vrai") ? true : false			);
-            case "caractere": return new Caractere ("@c" , false, s.charAt(1)								);
-            case "chaine"   : return new Chaine    ("@ch", false, s          								);
-            case "entier"   : return new Entier    ("@e" , false, Integer.parseInt(s)						);
-            case "reel"     : return new Reel      ("@r" , false, Double.parseDouble(s.replaceAll(",",".")));
+		switch (Calculateur.getType(s)) {
+            case "booleen"  : return new Booleen  ("@b" , false, s.equals("vrai") ? true : false		   );
+            case "caractere": return new Caractere("@c" , false, s.charAt(1)							   );
+            case "chaine"   : return new Chaine   ("@ch", false, s          							   );
+            case "entier"   : return new Entier   ("@e" , false, Integer.parseInt(s)					   );
+            case "reel"     : return new Reel     ("@r" , false, Double.parseDouble(s.replaceAll(",", ".")));
 
             // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
-            default: throw new RuntimeException("La valeur :"+s+" n'a pas été trouvé") ;
+            default: throw new RuntimeException("La valeur :" + s + " n'a pas été trouvé");
         }
 	}
 }
