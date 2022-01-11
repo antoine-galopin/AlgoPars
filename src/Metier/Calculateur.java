@@ -128,7 +128,7 @@ public class Calculateur
 		if( ( index = expr.indexOf(" non ") ) != -1 )
 			return Math.abs(   calculerMath( expr.substring(index + 5) ) -1 );
 
-		//non remplassable
+		//non remplaçable
 		if( ( index = expr.indexOf(">="   ) ) != -1 )
 			return         (   calculerMath( expr.substring(0, index ) ) >= calculerMath( expr.substring(index + 2) ) ) ? 1 : 0;
 
