@@ -172,7 +172,7 @@ public class Instruction {
                 this.ligneComplete.indexOf("alors"));
 
         if (this.containsComparateur(str)) {
-            // this.executerFonction(str);
+            this.executerFonction(str);
             str = this.remplacerParValeur(str);
             System.out.println(str + " " + Calculateur.calculer(str) + "calcul");
             this.primit.si(Calculateur.calculer(str));
@@ -214,9 +214,13 @@ public class Instruction {
         Matcher matcher = ptrn.matcher(str);
         while (matcher.find()) {
             String sRet = matcher.group();
+            this.executerFonction(sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")")));
             this.remplacerParValeur(
-                    sRet.substring(sRet.indexOf("("), sRet.indexOf(")")));
-            str = str.replace(sRet, this.executerFonction(sRet.substring(0, sRet.indexOf("("))));
+                    sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")")));
+            str = str.replace(
+                    sRet, this.executerFonction(
+                            sRet.substring(0, sRet.indexOf("(")),
+                            sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")"))));
         }
         return str;
     }
@@ -229,7 +233,7 @@ public class Instruction {
      * @return Object que la fonction renvoie
      */
 
-    public Object executerFonction(String nomFonction, Typable[] parametres) {
+    public Object executerFonction(String nomFonction, String parametres) {
         for (Method m : primit.listePrimitives) {
             if (m.getName().equals(nomFonction)) {
                 try {
