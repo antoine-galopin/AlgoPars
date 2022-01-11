@@ -22,7 +22,6 @@ public class ColorationSyntaxique
 	private static HashMap<String, Pattern> regPatterns;
 	private static String couleurCommentaire;
 	private static boolean commMultiLignes = false;
-	private static int cpt = 0;
 
 
 	/**
@@ -187,13 +186,5 @@ public class ColorationSyntaxique
 			default: 
 				return  CouleurConsole.BLANC.getFont();
 		}
-	}
-
-
-	public static void main( String[] a )
-	{
-		ColorationSyntaxique.chargerCouleurs();
-		for( String key : couleurs.keySet() )
-			System.out.println( key + " " + colorierMot( key ) );
 	}
 }
