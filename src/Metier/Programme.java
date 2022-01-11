@@ -249,4 +249,29 @@ public class Programme {
 
 		return null;
 	}
+
+	
+	/**
+	 * @param s la chaine qui va servir de modele pour le retour 
+	 * 			si c'est une donnée on renvoie sont equivalent typable
+	 * 			sinon on crée un nouveau typable 
+	 */ 
+	public Typable getTypable(String s)
+	{
+		//si on donne le nom 
+		if (this.donnees.rechercheParNom( s ) != null)
+			return this.donnees.rechercheParNom( s );
+
+		//si on donne la valeur
+		switch (Calculateur.getType(s)){
+            case "booleen"  : return new Booleen   ("@b" , false, s.equals("vrai") ? true : false			);
+            case "caractere": return new Caractere ("@c" , false, s.charAt(1)								);
+            case "chaine"   : return new Chaine    ("@ch", false, s          								);
+            case "entier"   : return new Entier    ("@e" , false, Integer.parseInt(s)						);
+            case "reel"     : return new Reel      ("@r" , false, Double.parseDouble(s.replaceAll(",",".")));
+
+            // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
+            default: throw new RuntimeException("La valeur :"+s+" n'a pas été trouvé") ;
+        }
+	}
 }

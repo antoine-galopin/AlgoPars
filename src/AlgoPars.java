@@ -125,12 +125,16 @@ public class AlgoPars {
         this.prgm.setBVariable(bVariable);
     }
 
-    public static void main(String[] args) {
-        new AlgoPars(args[0]);
-    }
-
     public void setNom(String nom){
         this.prgm.setNom(nom) ;
+    }
+
+    public Typable getTypable(String s){
+        return prgm.getTypable(s);
+    }
+
+    public static void main(String[] args) {
+        new AlgoPars(args[0]);
     }
 
 }

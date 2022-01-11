@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class Donnee {
     private ArrayList<Typable> donnees;
-
+/*
     private final String[][] tabRegex = new String[][] {
             { "'.'", "\"[^\\\"]*\"", "\\d,\\d+", "vrai", "faux", "\\d+" },
             { "caractere", "chaine", "reel", "booleen", "entier" }
-    };
+    };*/
 
     Typable var;
 
@@ -63,11 +63,7 @@ public class Donnee {
      */
     public void add(String nom, String type, String valeur) {
         if( type == null )
-            for( int i = 0; i < tabRegex[0].length; i++ )
-                if( valeur.matches(tabRegex[0][i]) ) {
-                    add(nom, tabRegex[1][i], valeur);
-                    return;
-                }
+            type = Calculateur.getType(valeur);
 
         switch (type) {
             case "booleen": {
