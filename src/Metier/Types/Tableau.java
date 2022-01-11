@@ -4,12 +4,15 @@ import java.util.Collection ;
 import java.util.Iterator ;
 import java.util.ArrayList ;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+
 
 public class Tableau<T extends Typable>	//c'est un generique de typable
-extends Typable<Collection<T>>			//c'est une typable
+extends Typable<Collection<T>>			//c'est un typable
 implements Collection<T>				//c'est une collection
 {
-	private final int taille ;
+	private final int taille;
 
     public Tableau(String nom, boolean modifiable, Collection<T> valeur)
     {
@@ -37,15 +40,20 @@ implements Collection<T>				//c'est une collection
 
     public String toString()
     {
-        String s = "[";
+        String s = "{ ";
 
-        for ( T i : valeur ) {
-            s+=i.toString()+",";
-        }
-        s+="]";
+        for( T i : valeur ) s += i.toString() + ", ";
 
-        return s.replaceAll(",\\]","]").replaceAll("\\],","]\n");
+        s += "}";
+
+		return s.replaceAll(", \\}", " }").replaceAll("\\}, ", "},\n  ");
     }
+
+	public void versPressePapier() {
+		StringSelection ss = new StringSelection( this.toString() );
+
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents( ss, null );
+	}
 
     /*--------------Simplification des instanciation-------------*/
 
@@ -64,15 +72,15 @@ implements Collection<T>				//c'est une collection
     {
     	ArrayList<Tableau<Typable>> list2 = new ArrayList<Tableau<Typable>>();
 
-    	int cpt=0;
+    	int cpt = 0;
 
-    	for (Typable[] t1 : T2) 
+    	for( Typable[] t1 : T2 ) 
     	{
-    		list2.add(new_Tableau1D(nom+cpt,modifiable,t1));
+    		list2.add( new_Tableau1D( nom + cpt, modifiable, t1 ) );
     		cpt++;
     	}
 
-		return new Tableau<Tableau<Typable>>(nom,modifiable,list2);
+		return new Tableau<Tableau<Typable>>(nom, modifiable, list2);
     }
     
     public static Tableau<Tableau<Tableau<Typable>>> new_Tableau3D(String nom, boolean modifiable, Typable[][][] T3)
@@ -94,34 +102,36 @@ implements Collection<T>				//c'est une collection
     {
     	
     	/*----------------1 Dimension------------------*/
-		ArrayList<Entier> list1 = new ArrayList<Entier>();
+		ArrayList<Chaine> list1 = new ArrayList<Chaine>();
 
-		list1.add(new Entier("t1",true,1));
-		list1.add(new Entier("t2",true,2));
+		for( int i = 0; i < 5; i++ )
+			//list1.add(new Chaine("t" + i, true, i));
+			list1.add(new Chaine("t" + i, true, "x".repeat( (int) (Math.random()*20) )));
 
-		Tableau<Entier> tab1 = new Tableau<Entier>("tableau",true,list1);
+		Tableau<Chaine> tab1 = new Tableau<Chaine>("tableau",true,list1);
 
     	System.out.println	("1D------------\n"+tab1);
 
 
     	/*----------------2 Dimension------------------*/
-    	ArrayList<Tableau<Entier>> list2 = new ArrayList<Tableau<Entier>>();
+    	ArrayList<Tableau<Chaine>> list2 = new ArrayList<Tableau<Chaine>>();
 
-		list2.add(tab1);
-		list2.add(tab1);
+		for( int j = 0; j < 5; j++ )
+			list2.add(tab1);
 
-		Tableau<Tableau<Entier>> tab2 = new Tableau<Tableau<Entier>>("tableau",true,list2);
+		Tableau<Tableau<Chaine>> tab2 = new Tableau<Tableau<Chaine>>("tableau",true,list2);
 
     	System.out.println	("2D------------\n"+tab2);
 
+		tab2.versPressePapier();
     	
     	/*----------------3 Dimension------------------*/
-    	ArrayList<Tableau<Tableau<Entier>>> list3 = new ArrayList<Tableau<Tableau<Entier>>>();
+    	ArrayList<Tableau<Tableau<Chaine>>> list3 = new ArrayList<Tableau<Tableau<Chaine>>>();
 
 		list3.add(tab2);
 		list3.add(tab2);
 
-		Tableau<Tableau<Tableau<Entier>>> tab3 = new Tableau<Tableau<Tableau<Entier>>>("tableau",true,list3);
+		Tableau<Tableau<Tableau<Chaine>>> tab3 = new Tableau<Tableau<Tableau<Chaine>>>("tableau",true,list3);
 
     	System.out.println	("3D------------\n"+tab3);
 
