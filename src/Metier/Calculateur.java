@@ -5,27 +5,21 @@ import AlgoPars.Metier.Types.*;
 
 public class Calculateur
 {
-
-	public static String calculer(String expr)
+	public static String calculer(String expression)
 	{
-
-		switch(getType(expr))
-		{
-		case "chaine" : return calculerChaine(expr);
-		case "booleen":
-						if (calculerMath(expr)==1.0)
-							return "vrai";
-						else 
-							if (calculerMath(expr)==0.0)
-								return "faux";
-							else
-								throw new RuntimeException("cannot implicit convert to Boolean:"+(expr)+"->"+calculerMath(expr));
-
-		case "reel"   : return String.valueOf(calculerMath(expr));
-		case "entier" : return (String.valueOf((int)calculerMath(expr)));
-		default       : return "?" ;
+		switch( getType(expression) ) {
+			case "chaine"   : return calculerChaine(expression);
+			case "caractere": return String.valueOf(calculerChaine(expression).charAt(0));
+			case "booleen"  :
+				switch( Double.toString(calculerMath(expression)) ) {
+					case "0.0": return "faux";
+					case "1.0": return "vrai";
+					default   : throw new RuntimeException("cannot implicit convert to Boolean:" + expression + "->" + calculerMath(expression));
+				}
+			case "reel"     : return String.valueOf(      calculerMath(expression));
+			case "entier"   : return String.valueOf((int) calculerMath(expression));
+			default         : return "?";
 		}
-		
 	}
 
 
@@ -33,16 +27,16 @@ public class Calculateur
 	{
 		expr = Calculateur.nettoyer(expr); // nettoyage de l'expression
 
-		/*-----------Remplasser les variables nommée par leur valeurs------------*/
+		/*-----------Remplacer les variables nommées par leur valeurs------------*/
 
 		int index = 0;
 
 		// traitement des parenthèses
-		if( (index = expr.indexOf( "(" )) != -1 ) {
+		if( (index = expr.indexOf("(")) != -1 ) {
 			return calculerMath(
-										groupeParenthese(expr, index)[0]   +
+											groupeParenthese(expr, index)[0]   +
 				String.valueOf(calculerMath(groupeParenthese(expr, index)[1])) +
-										groupeParenthese(expr, index)[2]
+											groupeParenthese(expr, index)[2]
 			);
 		}
 
@@ -83,9 +77,10 @@ public class Calculateur
 			while( expr.charAt(index2) != '+' &&
 				   expr.charAt(index2) != '-' &&
 				   expr.charAt(index2) != '(' &&
+				   expr.charAt(index2) != '×' &&
 				   expr.charAt(index2) != '/' &&
 				   expr.charAt(index2) != '^' &&
-				   expr.charAt(index2) != ' ' && //c'est un modulo ou un div
+				   expr.charAt(index2) != ' ' && // c'est un modulo ou un div
 				   index2 < expr.length() - 1 ) { index2++; }
 
 			String premierePartie = expr.substring( 0         , index      );
@@ -116,7 +111,7 @@ public class Calculateur
 		// faux = 0
 		// vrai = 1
 		if( ( index = expr.indexOf(" xou " ) ) != -1 )
-			return             (calculerMath( expr.substring(0, index ) )+  calculerMath( expr.substring(index + 4)))%2;
+			return           ( calculerMath( expr.substring(0, index ) ) +  calculerMath( expr.substring(index + 4) ) ) % 2;
 
 		if( ( index = expr.indexOf(" ou " ) ) != -1 )
 			return             calculerMath( expr.substring(0, index ) ) +  calculerMath( expr.substring(index + 4) );
@@ -146,43 +141,41 @@ public class Calculateur
 		if( ( index = expr.indexOf(">"    ) ) != -1 )
 			return         (   calculerMath( expr.substring(0, index ) ) >  calculerMath( expr.substring(index + 1) ) ) ? 1 : 0;
 
-		System.out.println("out:" + expr);
 		return Double.parseDouble( expr );
 	}
-/*--------------------------------------------------------------------------*/
+
 
 	public static String calculerChaine(String expr)
 	{
 		String retour = "" ;
 
-		for (String s : expr.split("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])")) 
-		{
+		for( String s : expr.split("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])") ) {
 			System.out.println(s);
-			retour+=traiterChaine(s);
+			retour += traiterChaine(s);
 		}
 
-		return retour ;
+		return retour;
 	}
 
 	public static String traiterChaine(String expr)
 	{
-		expr=expr.replaceAll("^ *","").replaceAll(" *$","");
+		expr = expr.replaceAll("^ *", "").replaceAll(" *$", "");
 
-		if (expr.charAt(0)=='"' || expr.charAt(0)=='\'') {
-			return expr.substring(1,expr.length()-1);
-		}
-		return expr ;
+		if( expr.charAt(0) == '"' || expr.charAt(0) == '\'' )
+			return expr.substring( 1, expr.length() - 1 );
+
+		return expr;
 	}
 	
 /*--------------------------------------------------------------------------*/
 
 	/**
-	 * Méthode qui renvoitle groupe de parenthèse le plus profond dans l'expression passée en paramètre
+	 * Méthode qui renvoit le groupe de parenthèse le plus profond dans l'expression passée en paramètre
 	 * @param expr
 	 * @param index
 	 * @return String[]
 	 */
-	private static String[] groupeParenthese(String expr, int index)
+	public static String[] groupeParenthese(String expr, int index)
 	{
 		int premiereParenthese = index;
 		int deuxiemeParenthese = expr.indexOf(")"); //fin du groupe le plus encapsulé
@@ -211,14 +204,14 @@ public class Calculateur
 
 		int index = fin - 1;
 
-		while( s.charAt(index) !='|' ) { index--; }
+		while( s.charAt(index) != '|' ) index--;
 
 		return index;
 	}
 
 
 	/**
-	 * Méthode qui renvoit l'indice de la pipe fermante la plus encapsuler d'un chaine passée en paramètre
+	 * Méthode qui renvoit l'indice de la pipe fermante la plus encapsulée d'un chaine passée en paramètre
 	 * @param s
 	 * @param debut
 	 * @return int
@@ -227,7 +220,7 @@ public class Calculateur
 	{
 		int index = s.indexOf( "|", debut );
 
-		while( !(Character.isDigit(s.charAt(index-1)) && s.charAt(index) == '|' ) ) { index++; }
+		while( !(Character.isDigit(s.charAt(index - 1)) && s.charAt(index) == '|' ) ) { index++; }
 
 		return index;
 	}
@@ -240,52 +233,53 @@ public class Calculateur
 	 */
 	private static String nettoyer(String s)
 	{
-		return  s.replaceAll( " *\\+ *" ,"+"     ) // opérateurs
-				 .replaceAll( " *- *"   ,"-"     )
-				 .replaceAll( " *× *"   ,"×"     )
-				 .replaceAll( " *\\/ *" ,"/"     )
-				 .replaceAll( " *\\^ *" ,"^"     )
-				 .replaceAll( " +mod +" ," mod " )
-				 .replaceAll( " +div +" ," div " )
-				 .replaceAll( " +$"     ,""      )
-				 .replaceAll( "^ +"     ,""      )
+		return s.replaceAll( " *\\+ *" , "+"     ) // opérateurs
+				.replaceAll( " *- *"   , "-"     )
+				.replaceAll( " *× *"   , "×"     )
+				.replaceAll( " *\\/ *" , "/"     )
+				.replaceAll( " *\\^ *" , "^"     )
+				.replaceAll( " +mod +" , " mod " )
+				.replaceAll( " +div +" , " div " )
+				.replaceAll( " +$"     , ""      )
+				.replaceAll( "^ +"     , ""      )
+				.replaceAll( " *\\| *" , "|"     )
 
-				 .replaceAll( " +ou +"  ," ou "  ) // comparateurs
-				 .replaceAll( " +xou +" ," xou " )
-				 .replaceAll( " +et +"  ," et "  )
-				 .replaceAll( " *non +" ," non " )
-				 .replaceAll( " += +"   ," = "   )
-				 .replaceAll( " +< +"   ," < "   )
-				 .replaceAll( " +> +"   ," > "   )
-				 .replaceAll( " +>= +"  ," >= "  )
-				 .replaceAll( " +=> +"  ," >= "  )
-				 .replaceAll( " *vrai *"," 1 "   )
-				 .replaceAll( " *faux *"," 0 "   );
+				.replaceAll( " +ou +"  , " ou "  ) // comparateurs
+				.replaceAll( " +xou +" , " xou " )
+				.replaceAll( " +et +"  , " et "  )
+				.replaceAll( " *non +" , " non " )
+				.replaceAll( " += +"   , " = "   )
+				.replaceAll( " +< +"   , " < "   )
+				.replaceAll( " +> +"   , " > "   )
+				.replaceAll( " +>= +"  , " >= "  )
+				.replaceAll( " +=> +"  , " >= "  )
+				.replaceAll( " *vrai *", " 1 "   )
+				.replaceAll( " *faux *", " 0 "   );
 	}
 
-	public static String getType(String expr)
+	public static String getType(String expression)
 	{
+		if( expression.replaceAll("^ *", "").charAt(0) == '{' )
+			return "tableau de " + getType( expression.substring( expression.indexOf("{") + 1 ) );
 
-		if (expr.contains("(c)") ||expr.contains("©") || expr.contains("\""))
-			return "chaine";
+		if( expression.contains("(c)"    ) ||
+			expression.contains("©"      ) ||
+			expression.matches ("\".*\"" ) ) return "chaine";
+		
+		if( expression.matches ("'.*'"   ) ) return "caractere";
 
-		if (expr.contains("<"   ) ||
-			expr.contains(">"   ) ||
-			expr.contains("="   ) ||
-			expr.contains(" et ") ||
-			expr.contains(" ou ") ||
-			expr.contains("non")  ||
-			expr.contains("vrai") ||
-			expr.contains("faux")) {
-			
-			return "booleen";
-		}
+		if( expression.contains("<"      ) ||
+			expression.contains(">"      ) ||
+			expression.contains("="      ) ||
+			expression.contains("/="     ) ||
+			expression.contains(" et "   ) ||
+			expression.contains(" ou "   ) ||
+			expression.contains("non"    ) ||
+			expression.contains("vrai"   ) ||
+			expression.contains("faux"   ) ) return "booleen";
 
-		//si c'est un double
-		if (expr.contains(".")) 
-			return "reel";
+		if( expression.contains("."      ) ) return "reel";
 
-		//si c'est un entier
 		return "entier";
 	}
 
@@ -303,8 +297,17 @@ public class Calculateur
 		System.out.println( calculer( "5-\\/¯(25)+5"      )              );
 		System.out.println( calculer( "|-||9-5+|-5+9||||" )              );
 		System.out.println( calculer( "non 5<6"           )              );
-		System.out.println( calculer( "vrai xou vrai"     )              );*/
-		System.out.println( calculer( "\"(c)\\\"cpoa\" © \"n1\"  (c) 'vim\"' ")              );
+		System.out.println( calculer( "vrai xou vrai"     )              );
+		System.out.println( calculer( "\"(c)\\\"cpoa\" © \"n1\"  (c) 'vim\"' ") );*/
 
+		/*  #~~~~# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #~~~~#  */
+		/*  #~~~~#  Les petits tests d'Antoine  #~~~~#  */
+		/*  #~~~~# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #~~~~#  */
+
+		System.out.println( calculer( "faux xou 5- 4 < 2" ).equals("vrai") );
+		//System.out.println( calculer( "5*\\/¯100×|-10|-1" ).equals("499") );
+		/*System.out.println( calculer(  ) );
+		System.out.println( calculer(  ) );
+		System.out.println( calculer(  ) );*/
 	}
 }
