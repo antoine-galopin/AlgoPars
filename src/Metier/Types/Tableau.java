@@ -106,27 +106,30 @@ implements Collection<T>				//c'est une collection
 
         System.out.println(new_Tableau3D("tab3",true,
             new Booleen[][][]{
-                                {
-                                    {test,test},{test,test},{test,test}
-                                },
-                                {
-                                    {test,test},{test,test},{test,test}
-                                },
-                                {
-                                    {test,test},{test,test},{test,test}
-                                }
-                            }
-            ));
+                    {
+                        {test,test},{test,test},{test,test}
+                    },
+                    {
+                        {test,test},{test,test},{test,test}
+                    },
+                    {
+                        {test,test},{test,test},{test,test}
+                    }
+                }
+            )
+        );
 
         System.out.println(new_Tableau2D("tab3",true,
-            new Booleen[][]    {
-                                    {test,test},
-                                    {test,test},
-                                    {test,test}
-                                }
-            ));
-        Tableau<Tableau<Typable>> tab = new_Tableau2D("tab3",true,new Booleen[][]    { {test,test}, {test,test}, {test,test} });
-        System.out.println("-->"+tab.toString());
+            new Booleen[][] {
+                                {test,test},
+                                {test,test},
+                                {test,test}
+                            }
+            )
+        );
+        
+        Tableau<Tableau<Typable>> tab = new_Tableau2D("tab3", true, new Booleen[][] { {test,test}, {test,test}, {test,test} });
+        System.out.println("-->" + tab.toString());
         tab.versPressePapier();
     }
 }

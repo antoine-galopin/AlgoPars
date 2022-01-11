@@ -1,57 +1,11 @@
 ALGORITHME Test
 
-constante:
-	PI:reel<--3.14
 variable:
-	var:entier
-	coco, pizza:chaine
-	salopette:caractere
-	ouiounon:booleen
-
+	sRet <-- ""
 DEBUT
-    var <-- 25
-    salopette <-- 'u'
-	ouiounon <-- vrai
-
-	lire ( var )
-
-	ecrire ( var )
-
-	pour k de 50 a 100 faire
-		ecrire ( ez )
-	fpour
-
-	si blabla alors
-		tant que vol xou faire
-			ecrire ( bla )
-			// On test juste
-		ftq
-	sinon OUI alors
-		ecrire ( 42 )
+    si sRet == "" alors
+		sRet = sRet © "ceci est un test"
 	fsi
-	si blabla alors
-		tant que vol xou faire
-			ecrire ( bla )
-			// On test juste
-		ftq
-	sinon OUI alors
-		ecrire ( 42 )
-	fsi
-	si blabla alors
-		tant que vol xou faire
-			ecrire ( bla )
-			// On test juste
-		ftq
-	sinon OUI alors
-		ecrire ( 42 )
-	fsi
-	si blabla alors
-		tant que vol xou faire
-			ecrire ( bla )
-			// On test juste
-		ftq
-	sinon OUI alors
-		ecrire ( 42 )
-	fsi
-		
+
+	ecrire(sRet)
 FIN
