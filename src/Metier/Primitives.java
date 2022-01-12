@@ -139,12 +139,12 @@ public class Primitives {
 
     // convertit une chaine en entier
     public static String enEntier(String chaine) {
-        return chaine.removeAll("\"", "");
+        return chaine.replaceAll("\"", "");
     }
 
     // convertit une chaine en réel
     public static String enReel(String chaine) {
-        return chaine.removeAll("\"", "");
+        return chaine.replaceAll("\"", "");
 
     }
 

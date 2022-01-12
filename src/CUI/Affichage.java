@@ -123,7 +123,13 @@ public class Affichage {
             charCurseur = cpt == numLigne ? '>' : ' ';
 
             // Indication des conditions des SI/SINON.
-            if ( cpt == numLigne && fichier.get( cpt ).contains( "msi" ) )
+            if ( cpt == numLigne && fichier.get( cpt ).contains( "sinon" ) )
+            {
+                sRet += (!listeConditionsIf.get( listeConditionsIf.size() - 1 )) 
+                        ? "\033[42m" + charCurseur + "\033[0m" 
+                        : "\033[41m" + charCurseur + "\033[0m";
+            }
+            else if ( cpt == numLigne && fichier.get( cpt ).contains( "msi" ) )
             {
                 sRet += listeConditionsIf.get( listeConditionsIf.size() - 1 ) 
                         ? "\033[42m" + charCurseur + "\033[0m" 
