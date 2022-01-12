@@ -90,9 +90,9 @@ public class ColorationSyntaxique
 			if( ligne.contains( "*/" ) )
 				return debutLigne
 					  + couleurCommentaire
-					  + ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) )
+					  + ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) + 2 )
 					  + "\033[0m"
-					  + colorierLigne( ligne.substring( ligne.indexOf( "*/") + 3, ligne.length() ), true )
+					  + colorierLigne( ligne.substring( ligne.indexOf( "*/") + 2, ligne.length() ), true )
 					  + " ".repeat( longueurLignes - longueurLigneInitiale );
 
 			commMultiLignes = true;

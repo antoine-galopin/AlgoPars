@@ -12,8 +12,16 @@ DEBUT
 	var <--1
 	var <--1
 	var <--1
+	var <--1 /* test */
+
+	/* on
+	fait des
+	test */
+	
+	/* */
+
 	var <--1
-	var <--1
+
 	var <--1
 	si faux alors
 		si faux alors
