@@ -354,11 +354,6 @@ public class Programme {
 		this.donnees.add(nom, type);
 	}
 
-	/**
-	 * @param s la chaine qui va servir de modele pour le retour
-	 *          si c'est une donnée on renvoie sont equivalent typable
-	 *          sinon on crée un nouveau typable
-	 */
 	/*
 	 * public Typable getTypable(String s) {
 	 * // si on donne le nom
@@ -435,3 +430,4 @@ public class Programme {
  * }
  * }
  */
+

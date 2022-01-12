@@ -76,8 +76,6 @@ public class ColorationSyntaxique
 		if( ligne.isBlank() ) return ligne;
 
 		int longueurLigneInitiale = ligne.length();
-		String debutLigne = ""; // Utilisée pour éviter de colorer des keywords dans les commentaires.
-		String finLigne   = "";
 
 		/*--------------------------*/
 		/* Commentaires multilignes */
@@ -86,7 +84,7 @@ public class ColorationSyntaxique
 		// Entrée dans un commentaire multiligne
 		if( ligne.contains( "/*" ) )
 		{
-			debutLigne = colorierLigne( ligne.substring( 0, ligne.indexOf( "/*" ) ), false );
+			String debutLigne = colorierLigne( ligne.substring( 0, ligne.indexOf( "/*" ) ), false );
 
 			// Si fin de commentaire
 			if( ligne.contains( "*/" ) )
@@ -133,18 +131,14 @@ public class ColorationSyntaxique
 		/*----------------------*/
 		/* Commentaires simples */
 		/*----------------------*/
-		
 		if( ligne.contains( "//" ) )
 		{
-			int indexDebutCommentaire = ligne.indexOf( "//" );
-
-			// Partie non commentée de la ligne ( pré "//" )
-			debutLigne = ligne.substring( 0, indexDebutCommentaire );
-
-			// Partie commentée de la ligne ( post "//" )
-			finLigne = couleurCommentaire + ligne.substring( indexDebutCommentaire, ligne.length() ) + "\033[0m";
+			return colorierLigne( ligne.substring( 0, ligne.indexOf( "//" ) ), false )
+					+ couleurCommentaire 
+					+ ligne.substring( ligne.indexOf( "//" ), ligne.length() ) 
+					+ "\033[0m"
+					+ " ".repeat( longueurLignes - longueurLigneInitiale ) ;
 		}
-		else debutLigne = ligne;
 
 		/*-----------------------*/
 		/* Mots clés d'une ligne */
@@ -159,20 +153,18 @@ public class ColorationSyntaxique
 			if( matcher.find() )
 			{
 				if( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
-					debutLigne = debutLigne.replaceFirst( mot, couleurs.get( mot ) );
+					ligne = ligne.replaceFirst( mot, couleurs.get( mot ) );
 				else
-					debutLigne = debutLigne.replace( mot, couleurs.get( mot ) );
+					ligne = ligne.replace( mot, couleurs.get( mot ) );
 			}
 		}
-
-		// Reconstruction de la ligne
-		ligne = debutLigne + finLigne;
 
 		/*------------------------------------*/
 		/* Besoin de compenser des couleurs ? */
 		/*------------------------------------*/
 
-		if( ajouterBlanc ) ligne += " ".repeat( longueurLignes - longueurLigneInitiale == longueurLignes ? 0 : longueurLignes - longueurLigneInitiale );
+		if( ajouterBlanc ) 
+			ligne += " ".repeat( longueurLignes - longueurLigneInitiale );
 		
 		return ligne;
 	}

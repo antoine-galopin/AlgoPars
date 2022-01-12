@@ -182,4 +182,5 @@ variable:
 	b:booleen
 
 DEBUT	
-	écrire(" oui " © "\n non ")
+	var <-- 8+8
+	écrire(var)

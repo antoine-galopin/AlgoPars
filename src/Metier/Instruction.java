@@ -127,15 +127,18 @@ public class Instruction {
 
         this.ligne = this.ligneComplete.split(":");
 
-        if (this.ligne.length != 1) { // avec type
+        // avec type
+        if (this.ligne.length != 1) {
             noms = this.ligne[0].split(",");
             type = this.ligne[1].split("<--")[0];
-        } else { // sans type
+        } 
+        // sans type
+        else {
             noms = this.ligneComplete.split("<--")[0].split(",");
         }
 
         for (String nom : noms)
-            this.ctrl.add(nom, type, valeur);
+            this.ctrl.add(nom, type, Calculateur.calculer(executerFonction(valeur)));
     }
 
     /**
@@ -143,7 +146,7 @@ public class Instruction {
      */
     private void affecterValeur() {
         String[] noms = this.ligneComplete.split("<--")[0].split(",");
-        String valeur = this.ligneComplete.split("<--")[1].replace("\"", "").replace("'", "");
+        String valeur = this.ligneComplete.split("<--")[1];
 
         for (String nom : noms)
             this.ctrl.affecterValeur(nom, valeur);
@@ -221,19 +224,28 @@ public class Instruction {
     /*--------------------------------------*/
 
     private String executerFonction(String str) {
+
+        System.out.println(str);
+
         Pattern ptrn = Pattern.compile("\\w+ ?\\(.*\\)");
         Matcher matcher = ptrn.matcher(str);
+
         while (matcher.find()) {
             String sRet = matcher.group();
             String tmp = sRet;
+
             sRet = sRet.substring(0, sRet.indexOf("(") + 1)
                     + this.executerFonction(sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")"))) + ")";
+
             sRet = sRet.substring(0, sRet.indexOf("(") + 1) + Calculateur.calculer(this.remplacerParValeur(
                     sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")")))) + ")";
+
             str = str.replace(tmp, this.executerFonction(
                     sRet.substring(0, sRet.indexOf("(")),
                     sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")"))));
         }
+
+        System.out.println(str);
         return str;
     }
 
@@ -249,7 +261,11 @@ public class Instruction {
         for (Method m : primit.listePrimitives) {
             if (m.getName().equals(nomFonction)) {
                 try {
-                    return String.valueOf(m.invoke(primit, (String) parametres));
+                    if (parametres.isBlank()|| parametres.isEmpty()) {
+                        return String.valueOf(m.invoke(primit ));
+                    }
+                    else
+                        return String.valueOf(m.invoke(primit, parametres));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
