@@ -8,7 +8,11 @@ import java.util.regex.Matcher;
 
 public class Calculateur {
 	public static String calculer(String expression) {
-		System.out.println(getType(expression));
+
+		if (expression.isEmpty() || expression.isBlank()) {
+			return "" ;
+		}
+
 		switch (getType(expression)) {
 			case "chaine":
 				return "\"" + calculerChaine(expression) + "\"";

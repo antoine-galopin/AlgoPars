@@ -8,9 +8,9 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 
 
-public class Tableau<T extends Typable>	//c'est un generique de typable
-extends Typable<Collection<T>>			//c'est un typable
-implements Collection<T>				//c'est une collection
+public class Tableau<T extends Typable>	// C'est un generique de typable
+extends Typable<Collection<T>>			// C'est un typable
+implements Collection<T>				// C'est une collection
 {
 	private final int taille;
 

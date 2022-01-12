@@ -57,7 +57,7 @@ DEBUT
 			écrire ( "bla" )
 			// On test juste
 		ftq
-	sinon OUI alors
+	sinon OUI alors // test
 		écrire ( 42 )
 	fsi
 	si blabla alors
@@ -75,6 +75,5 @@ DEBUT
 		ftq
 	sinon OUI alors
 		écrire ( 42 )
-	fsi
-		
+	fsi		
 FIN
