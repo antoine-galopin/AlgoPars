@@ -21,7 +21,7 @@ public class Typable<T> {
 	}
 
 	/**
-	 * Méthode renvoyant le nom du Typable courant
+	 * Accesseur du nom du Typable courant
 	 * 
 	 * @return String
 	 */
@@ -39,7 +39,7 @@ public class Typable<T> {
 	}
 
 	/**
-	 * Méthode qui renvoie le nom du type courant quel que soit le type
+	 * Accesseur du nom du type courant quel que soit le type
 	 * 
 	 * @return String
 	 */

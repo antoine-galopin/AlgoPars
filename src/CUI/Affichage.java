@@ -18,9 +18,9 @@ public class Affichage {
     /* Paramètres de l'affichage */
     /*---------------------------*/
 
-    private int tailleAffichage = 40; // Nombre de lignes du programme affichées
-    private int margeAffichage  = 8;  // Marge de l'affichage du programme
-    private int tailleConsole   = 3;  // Nombre de lignes de la console affichées
+    private final int tailleAffichage = 40; // Nombre de lignes du programme affichées
+    private final int margeAffichage  = 8;  // Marge de l'affichage du programme
+    private final int tailleConsole   = 3;  // Nombre de lignes de la console affichées
 
     /**
      * Constructeur de la classe Affichage

@@ -57,7 +57,7 @@ DEBUT
 			écrire ( "bla" )
 			// On test juste
 		ftq
-	sinon OUI alors
+	sinon OUI alors // test
 		écrire ( 42 )
 	fsi
 	si blabla alors
@@ -76,5 +76,10 @@ DEBUT
 	sinon OUI alors
 		écrire ( 42 )
 	fsi
+
+	pour blabla de 8 a 14 faire
+		bloblo = blabla
+		ecrire( bloblo )
+	fpour
 		
 FIN
