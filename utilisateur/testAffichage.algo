@@ -11,8 +11,8 @@ DEBUT
 	var <--1
 	var <--1
 	var <--1
-	var <--1
-	var <--1 /* test */
+	var <--1+2+ var
+	var <--36 /* test */ +56
 
 	/* on
 	fait des
@@ -29,8 +29,10 @@ DEBUT
 	si faux alors
 		si faux alors
 		fsi
-		si faux alors
+		si vrai alors
 		écrire("alahwakbah");
+		sinon
+		écrire("alahwak")
 		fsi
 		écrire("alahwakbah1");
 		écrire("alahwakbah2");

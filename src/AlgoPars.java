@@ -55,8 +55,10 @@ public class AlgoPars {
      * l'interprétation
      */
     public void afficher() {
+
         System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
         System.out.flush();
+
         this.cui.afficher();
     }
 
@@ -122,6 +124,10 @@ public class AlgoPars {
         return this.prgm.getBVariable();
     }
 
+    public boolean getBSi() {
+        return this.prgm.getBSi();
+    }
+
     public void setBConstante(boolean bConstante) {
         this.prgm.setBConstante(bConstante);
     }
@@ -132,6 +138,10 @@ public class AlgoPars {
 
     public void setAlSi(ArrayList<Boolean> alSi) {
         this.prgm.setAlSi(alSi);
+    }
+
+    public void setBSi(boolean bSi) {
+        this.prgm.setBSi(bSi);
     }
 
     public void setNbSi(int nbSi) {
@@ -158,12 +168,12 @@ public class AlgoPars {
         this.prgm.setNom(nom);
     }
 
-    public boolean estCommenter(){
-        return this.prgm.estCommenter() ;
+    public boolean estCommenter() {
+        return this.prgm.estCommenter();
     }
 
-    public boolean setCommenter(boolean estCommenter){
-        return this.prgm.setCommenter(estCommenter) ;
+    public boolean setCommenter(boolean estCommenter) {
+        return this.prgm.setCommenter(estCommenter);
     }
 
     public static void main(String[] args) {
