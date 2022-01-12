@@ -18,10 +18,13 @@ import java.io.File;
 
 public class ColorationSyntaxique
 {
-	private static HashMap<String, String> couleurs;
+	private static HashMap<String, String > couleurs;
 	private static HashMap<String, Pattern> regPatterns;
+
 	private static String couleurCommentaire;
 	private static boolean commMultiLignes = false;
+
+	private static final int longueurLignes = 75;
 
 
 	/**
@@ -29,7 +32,7 @@ public class ColorationSyntaxique
 	 */
 	public static void chargerCouleurs()
 	{
-		couleurs    = new HashMap<String, String>();
+		couleurs    = new HashMap<String, String >();
 		regPatterns = new HashMap<String, Pattern>();
 
 		Element racine = null;
@@ -40,22 +43,22 @@ public class ColorationSyntaxique
 		}
 		catch( Exception e ) { e.printStackTrace(); }
 
-		for( Element e: racine.getChildren() )
+		for( Element e : racine.getChildren() )
 		{
-			for( Element child: e.getChildren() )
+			for( Element child : e.getChildren() )
 			{
-				if ( child.getText().equals( "//" ) )
+				if( child.getText().equals( "//" ) )
 					couleurCommentaire = getCouleurFromId( e.getAttribute( "idCoul" ).getValue() );
 				
 				couleurs.put( child.getText(), colorierMot( 
 					child.getText(),  
 					e.getAttribute( "idCoul" ).getValue(),  
-					Boolean.parseBoolean( e.getAttribute( "poids" ).getValue()  )
-				));
+					Boolean.parseBoolean( e.getAttribute( "poids" ).getValue() )
+				) );
 
 				regPatterns.put( child.getText(), Pattern.compile(
 					"\\b" + child.getText() + "\\b(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)"
-				));
+				) );
 			}
 		}
 	}
@@ -63,67 +66,96 @@ public class ColorationSyntaxique
 
 	/**
 	 * Méthode qui colorie la ligne passée en paramètre
-	 * @param ligne
+	 * @param ligne Ligne à colorier
+	 * @param ajouterBlanc Nécessité de compenser les caractères ansii
 	 * @return String
 	 */
 	public static String colorierLigne( String ligne, boolean ajouterBlanc )
 	{
-		if ( ligne.isBlank() ) return ligne;
+		// Cas d'une ligne vide ( rien à colorier )
+		if( ligne.isBlank() ) return ligne;
 
-		int ligneLengthDebut = ligne.length();
+		int longueurLigneInitiale = ligne.length();
 		String debutLigne = ""; // Utilisée pour éviter de colorer des keywords dans les commentaires.
-		String finLigne = "";
+		String finLigne   = "";
 
-		// Gestion des commentaires multilignes.
-		if ( ligne.contains( "/*" ) )
+		/*--------------------------*/
+		/* Commentaires multilignes */
+		/*--------------------------*/
+
+		// Entrée dans un commentaire multiligne
+		if( ligne.contains( "/*" ) )
 		{
 			debutLigne = colorierLigne( ligne.substring( 0, ligne.indexOf( "/*" ) ), false );
-			if ( ligne.contains( "*/" ) )
-			{
-				ligne = debutLigne + couleurCommentaire + 
-					ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) ) + "\033[0m" +
-					colorierLigne( ligne.substring( ligne.indexOf( "*/") + 3, ligne.length() ), true );
-				return ligne + " ".repeat( 75 - ligneLengthDebut );
-			}
+
+			// Si fin de commentaire
+			if( ligne.contains( "*/" ) )
+				return debutLigne
+					  + couleurCommentaire
+					  + ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) )
+					  + "\033[0m"
+					  + colorierLigne( ligne.substring( ligne.indexOf( "*/") + 3, ligne.length() ), true )
+					  + " ".repeat( longueurLignes - longueurLigneInitiale );
+
 			commMultiLignes = true;
-			ligne = debutLigne + couleurCommentaire +
-				ligne.substring( ligne.indexOf( "/*" ), ligne.length() ) + "\033[0m";
-			return ligne + " ".repeat( 75 - ligneLengthDebut );
+
+			// Pas de fin de commentaires, coloration en vert
+			return debutLigne
+				  + couleurCommentaire
+				  + ligne.substring( ligne.indexOf( "/*" ), ligne.length() )
+				  + "\033[0m"
+				  + " ".repeat( longueurLignes - longueurLigneInitiale );
 		}
 
-		if ( commMultiLignes )
+		// Si un commentaire multiligne a été démarré mais pas encore fini
+		if( commMultiLignes )
 		{
-			if ( ligne.contains( "*/" ) )
+			// Si fin du commentaire
+			if( ligne.contains( "*/" ) )
 			{
+				// Nous ne sommes plus dans un commentaire
 				commMultiLignes = false;
-				ligne = couleurCommentaire + ligne.substring( 0, ligne.indexOf( "*/" ) + 2 ) +
-					"\033[0m" + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ), true );
-				return ligne + " ".repeat( 75 - ligneLengthDebut );
-			}
-			ligne = couleurCommentaire + ligne + "\033[0m";
 
-			return ligne + " ".repeat( 75 - ligneLengthDebut );
+				return couleurCommentaire
+					  + ligne.substring( 0, ligne.indexOf( "*/" ) + 2 )
+					  + "\033[0m"
+					  + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ), true )
+					  + " ".repeat( longueurLignes - longueurLigneInitiale );
+			}
+
+			// Pas fin de commentaire, coloration en vert
+			return couleurCommentaire
+				  + ligne
+				  + "\033[0m"
+				  + " ".repeat( longueurLignes - longueurLigneInitiale );
 		}
 
-		// Gestion des commentaires simples.
+		/*----------------------*/
+		/* Commentaires simples */
+		/*----------------------*/
+		
 		if( ligne.contains( "//" ) )
 		{
-			int indexDebutCom = ligne.indexOf( "//" );
+			int indexDebutCommentaire = ligne.indexOf( "//" );
 
-			if( indexDebutCom == 0 ) ligne = couleurs + ligne + "\033[0m";
-			else
-			{
-				debutLigne = ligne.substring( 0, indexDebutCom );
-				finLigne = couleurCommentaire + ligne.substring( indexDebutCom, ligne.length() ) + "\033[0m";
-			}
+			// Partie non commentée de la ligne ( pré "//" )
+			debutLigne = ligne.substring( 0, indexDebutCommentaire );
+
+			// Partie commentée de la ligne ( post "//" )
+			finLigne = couleurCommentaire + ligne.substring( indexDebutCommentaire, ligne.length() ) + "\033[0m";
 		}
 		else debutLigne = ligne;
 
-		// Coloration des mots clés d'une ligne.
+		/*-----------------------*/
+		/* Mots clés d'une ligne */
+		/*-----------------------*/
+
 		Matcher matcher = null;
+
 		for( String mot : couleurs.keySet() )
 		{
 			matcher = regPatterns.get( mot ).matcher( ligne );
+
 			if( matcher.find() )
 			{
 				if( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
@@ -133,11 +165,16 @@ public class ColorationSyntaxique
 			}
 		}
 
-		if ( ajouterBlanc )
-			return debutLigne + finLigne + 
-				" ".repeat( (75 - ligneLengthDebut == 75) ? 0 : 75 - ligneLengthDebut );
-		else
-			return debutLigne + finLigne;
+		// Reconstruction de la ligne
+		ligne = debutLigne + finLigne;
+
+		/*------------------------------------*/
+		/* Besoin de compenser des couleurs ? */
+		/*------------------------------------*/
+
+		if( ajouterBlanc ) ligne += " ".repeat( longueurLignes - longueurLigneInitiale == longueurLignes ? 0 : longueurLignes - longueurLigneInitiale );
+		
+		return ligne;
 	}
 
 
@@ -150,35 +187,28 @@ public class ColorationSyntaxique
 	 */
 	private static String colorierMot( String mot, String coulId, boolean gras )
 	{
-		String couleur;
-		couleur = getCouleurFromId( coulId );
-
-		if( gras ) couleur += "\033[1m";
-
-		return couleur + mot + "\033[0m";
+		       /* Font de la couleur */   /* Traitement du gras  */         /* Reset */
+		return getCouleurFromId(coulId) + ( gras ? "\033[1m" : "" ) + mot + "\033[0m";
 	}
 
 
+	/**
+	 * Méthode qui renvoit une couleur grâce à son identifiant
+	 * @param id
+	 * @return String
+	 */
 	public static String getCouleurFromId( String id )
 	{
-		switch( id ) 
-		{
-			case "0": 
-				return CouleurConsole.BLANC.getFont();
-			case "1": 
-				return  CouleurConsole.BLEU.getFont();
-			case "2": 
-				return  CouleurConsole.CYAN.getFont();
-			case "3": 
-				return  CouleurConsole.JAUNE.getFont();
-			case "4": 
-				return  CouleurConsole.VERT.getFont();
-			case "5":
-				return  CouleurConsole.ROUGE.getFont();
-			case "6":
-				return  CouleurConsole.MAUVE.getFont();
-			default: 
-				return  CouleurConsole.BLANC.getFont();
-		}
+		String[] tabCoul = new String[] {
+			CouleurConsole.BLANC.getFont(),
+			CouleurConsole.BLEU .getFont(),
+			CouleurConsole.CYAN .getFont(),
+			CouleurConsole.JAUNE.getFont(),
+			CouleurConsole.VERT .getFont(),
+			CouleurConsole.ROUGE.getFont(),
+			CouleurConsole.MAUVE.getFont()
+		};
+
+		return tabCoul[Integer.parseInt(id)];
 	}
 }

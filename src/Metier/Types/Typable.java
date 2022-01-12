@@ -24,26 +24,32 @@ public class Typable<T>
 	}
 
 	/**
-	 * Méthode renvoyant le nom du Typable courant
+	 * Accesseur du nom du Typable courant
 	 * 
 	 * @return String 
 	 */
-	public String getNom() { return this.nom; }
+	public String getNom() {
+		return this.nom;
+	}
 
 	/**
 	 * Méthode renvoyant la valeur du Typable courant, quel qu'en soit le type
 	 * 
 	 * @return T
 	 */
-	public T getValeur() { return this.valeur; }
+	public T getValeur() {
+		return this.valeur;
+	}
 
 
 	/**
-	 * Méthode qui renvoie le nom du type courant quel que soit le type
+	 * Accesseur du nom du type courant quel que soit le type
 	 * 
 	 * @return String
 	 */
-	public String getType() { return this.type; }
+	public String getType() {
+		return this.type;
+	}
 
 	/**
 	 * Méthode qui change la valeur du Typable courant
@@ -59,5 +65,7 @@ public class Typable<T>
 	/**
 	 * Méthode renvoyant la valeur du Typable courant sous forme de String
 	 */
-	public String toString() { return valeur.toString(); }
+	public String toString() {
+		return valeur.toString();
+	}
 }
