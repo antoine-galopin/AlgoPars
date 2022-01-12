@@ -26,9 +26,11 @@ public class Programme {
 	private boolean bConstante;
 	private boolean bVariable;
 	private boolean bSi;
+	private boolean bSinon;
 	private ArrayList<Boolean> alSi;
 	private int nombreSi;
 	private int siImbrique;
+	private int sinonImbrique;
 
 	private String nom;
 
@@ -57,11 +59,14 @@ public class Programme {
 		this.alSi = null;
 		this.nombreSi = -1;
 		this.siImbrique = 0;
+		this.sinonImbrique = 0;
+
 		this.listeBreakPoints = new ArrayList<Integer>();
 
 		this.bConstante = false;
 		this.bVariable = false;
 		this.bSi = true;
+		this.bSinon = true;
 
 		this.nom = cheminFichier;// par defaut
 
@@ -88,13 +93,6 @@ public class Programme {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		/*
-		 * test
-		 * System.out.println(executerFonction("aujourdhui",null));
-		 * System.out.println(executerFonction("ord",new Typable[]{new
-		 * Caractere("i",true,'b')}));
-		 */
 	}
 
 	/**
@@ -203,6 +201,22 @@ public class Programme {
 		this.bSi = bsi;
 	}
 
+	public void setNbSi(int nbSi) {
+		this.nombreSi = nbSi;
+	}
+
+	public void setBSinon(boolean bSinon) {
+		this.bSinon = bSinon;
+	}
+
+	public void setSiImbrique(int nbSi) {
+		this.siImbrique = nbSi;
+	}
+
+	public int getNbSi() {
+		return this.nombreSi;
+	}
+
 	/**
 	 * Accesseur de valeur
 	 * 
@@ -212,10 +226,28 @@ public class Programme {
 	public String getValeur(String nom) {
 		Typable var = this.donnees.rechercheParNom(nom);
 		if (var != null) {
-			if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof Tableau))
-				return var.toString();
-			else
-				return var.getValeur().toString();
+			// if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof
+			// Tableau))
+			return var.getValeur();
+			/*
+			 * else
+			 * return var.getValeur().toString();
+			 */
+		}
+		return null;
+	}
+
+	public String getString(String nom) {
+		Typable var = this.donnees.rechercheParNom(nom);
+		if (var != null) {
+			// if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof
+			// Tableau))
+			return var.toString();
+			/*
+			 * else
+			 * return var.getValeur().toString();
+			 */
+
 		}
 		return null;
 	}
@@ -235,28 +267,12 @@ public class Programme {
 	 */
 	public void executerAlgo() {
 		do {
-			// this.listeInstructions.get(this.ligneActive).interpreterLigne();
 			this.ctrl.afficher();
 
 			try {
 				Scanner sc = new Scanner(System.in); // ouverture du Scanner
 
 				String msg = sc.nextLine();
-
-				if (this.bSi == false) {
-					if (this.siImbrique == -1) {
-						this.bSi = true;
-						this.siImbrique = 0;
-						this.listeInstructions.get(this.ligneActive).interpreterLigne();
-
-					} else {
-						while (this.siImbrique != -1)
-							if ((siImbrique += this.listeInstructions.get(++this.ligneActive)
-									.interpreterLigne(siImbrique)) == -1) {
-								--this.ligneActive;
-							}
-					}
-				} else
 
 				// Méthode : "L" + numLigne + Entrée ( aller à la ligne numLigne )
 				if (msg.matches("^L\\d+")) {
@@ -365,3 +381,53 @@ public class Programme {
 	 * }
 	 */
 }
+
+/*
+ * System.out.println(this.ctrl.getNbSi() + " getNbSI");
+ * System.out.println(this.ctrl.getAlSi() + " getal");
+ * System.out.println(this.ligneActive + " nb Ligne");
+ * System.out.println(this.siImbrique + " siImbrique avant");
+ * if (this.alSi != null && this.alSi.get(nombreSi) == Boolean.FALSE /* /
+ * this.bSi == false ) {
+ * System.out.println(this.siImbrique + " siImbrique");
+ * if (this.siImbrique == -1) {
+ * this.bSi = true;
+ * this.siImbrique++;
+ * // this.nombreSi++;
+ * System.out.println(this.ctrl.getNbSi() + " getNbSI si faux");
+ * System.out.println(this.listeInstructions.get(++this.ligneActive));
+ * this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+ * 
+ * } else {
+ * while (this.siImbrique != -1)
+ * if ((this.siImbrique += this.listeInstructions.get(++this.ligneActive)
+ * .interpreterLigne(this.siImbrique)) == -1) {
+ * --this.ligneActive;
+ * }
+ * }
+ * } else
+ * 
+ * if (/ this.bSinon == false /this.alSi != null && this.alSi.get(nombreSi) ==
+ * Boolean.TRUE
+ * && this.listeInstructions.get(this.ligneActive).getInstruction() == "sinon")
+ * {
+ * System.out.println("je suis la");
+ * if (this.sinonImbrique == -1) {
+ * this.bSinon = true;
+ * this.sinonImbrique = 0;
+ * this.listeInstructions.get(++this.ligneActive).interpreterLigne();
+ * 
+ * } else {
+ * System.out.println("je suis la2");
+ * while (this.sinonImbrique != -1) {
+ * System.out.println("je suis la2.2 " + this.sinonImbrique);
+ * 
+ * if ((this.sinonImbrique += this.listeInstructions.get(++this.ligneActive)
+ * .interpreterLigne(this.sinonImbrique)) == -1) {
+ * --this.ligneActive;
+ * System.out.println("je suis la3 " + this.sinonImbrique);
+ * }
+ * }
+ * }
+ * }
+ */

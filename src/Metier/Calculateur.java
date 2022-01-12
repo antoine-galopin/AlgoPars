@@ -134,9 +134,10 @@ public class Calculateur {
 
 		if ((index = expr.indexOf("=")) != -1)
 			return (Math
-					.abs((calculerMath(expr.substring(0, index)) - calculerMath(expr.substring(index + 1))) - 1) >= 1)
-							? 0
-							: 1;
+					.abs((calculerMath(expr.substring(0, index))
+							- calculerMath(expr.substring(index + 1)))/* - 1 */) >= 1)
+									? 0
+									: 1;
 
 		if ((index = expr.indexOf("/=")) != -1)
 			return calculerMath(expr.substring(0, index)) - calculerMath(expr.substring(index + 2));

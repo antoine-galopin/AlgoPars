@@ -58,28 +58,19 @@ public class Primitives {
 
     public void si(String msg) {
         ArrayList<Boolean> result = new ArrayList<Boolean>();
+        System.out.println(msg + " 3");
         if (this.ctrl.getAlSi() != null) {
             switch (msg) {
-                case "vrai":
-                    this.addValAlSi(Boolean.TRUE);
-                    this.ctrl.setBSi(true);
+                case "vrai", "true":
                     break;
-                case "faux":
-                    this.addValAlSi(Boolean.FALSE);
-                    this.ctrl.setBSi(false);
+                case "faux", "false":
                     break;
             }
         } else {
             switch (msg) {
-                case "vrai":
-                    result.add(Boolean.TRUE);
-                    this.ctrl.setAlSi(result);
-                    this.ctrl.setBSi(true);
+                case "vrai", "true":
                     break;
-                case "faux":
-                    result.add(Boolean.FALSE);
-                    this.ctrl.setAlSi(result);
-                    this.ctrl.setBSi(false);
+                case "faux", "false":
                     break;
             }
 
@@ -93,38 +84,38 @@ public class Primitives {
 
     // retourne la valeur ASCII d'un caractère
     public static String ord(String caractere) {
-        return String.valueOf( (int)caractere.charAt( 0 ) );
+        return String.valueOf((int) caractere.charAt(0));
     }
 
     // convertit un réel en chaine
-    public static String enChaine(Typable t) {
-        return t.toString();
+    public static String enChaine(String str) {
+        return "\"" + str + "\"";
     }
 
     // convertit une chaine en entier
-    public static String enEntier(Chaine chaine) {
-        return chaine.getValeur().toString();
+    public static String enEntier(String chaine) {
+        return chaine;
     }
 
     // convertit une chaine en réel
-    public static String enReel(Chaine chaine) {
-        return chaine.getValeur().toString();
+    public static String enReel(String chaine) {
+        return chaine;
     }
 
     // retourne l'entier le plus proche d'un réel vers le bas
-    public static String plancher(Reel reel) {
-        return String.valueOf(Math.floor(reel.getValeur()));
+    public static String plancher(String reel) {
+        return String.valueOf(Math.floor(Double.parseDouble(reel)));
     }
 
     // retourne l'entier le plus proche d'un réel vers le haut
-    public static String plafond(Reel reel) {
-        return String.valueOf(Math.ceil(reel.getValeur()));
+    public static String plafond(String reel) {
+        return String.valueOf(Math.ceil(Double.parseDouble(reel)));
     }
 
     // retourne l'entier le plus proche d'un réel ( par convention, arrondi de x,5
     // vaut x+1 )
-    public static String arrondi(Reel reel) {
-        return String.valueOf(Math.round(reel.getValeur()));
+    public static String arrondi(String reel) {
+        return String.valueOf(Math.round(Double.parseDouble(reel)));
     }
 
     // retourne sous forme de chaine la date du jour au format jj/mm/aaaa
@@ -136,35 +127,35 @@ public class Primitives {
 
     // retourne la partie jour d'une chaine correspondant à une date au format
     // jj/mm/aaaa
-    public static String jour(Chaine chaine) {
-        return String.valueOf(chaine.getValeur().substring(0, 2));
+    public static String jour(String chaine) {
+        return String.valueOf(chaine.substring(0, 2));
     }
 
     // retourne la partie mois d'une chaine correspondant à une date au format
     // jj/mm/aaaa
-    public static String mois(Chaine chaine) {
-        return String.valueOf(chaine.getValeur().substring(3, 5));
+    public static String mois(String chaine) {
+        return String.valueOf(chaine.substring(3, 5));
     }
 
     // retourne la partie année d'une chaine correspondant à une date au format
     // jj/mm/aaaa
-    public static String annee(Chaine chaine) {
-        return String.valueOf(chaine.getValeur().substring(6, 10));
+    public static String annee(String chaine) {
+        return String.valueOf(chaine.substring(6, 10));
     }
 
     // indique si la chaine peut être convertie en réel
-    public static String estReel(Chaine chaine) {
-        return chaine.getValeur().matches("^\\d+,\\d+$") == true ? "vrai" : "faux";
+    public static String estReel(String chaine) {
+        return chaine.matches("^\\d+\\.\\d+$") == true ? "vrai" : "faux";
     }
 
     // indique si la chaine peut être convertie en entier
-    public static String estEntier(Chaine chaine) {
-        return chaine.getValeur().matches("^\\d+$") == true ? "vrai" : "faux";
+    public static String estEntier(String chaine) {
+        return chaine.matches("^\\d+$") == true ? "vrai" : "faux";
     }
 
     // retourne une valeur entière prise au hasard sur l'intervalle [ 0; paramètre ]
-    public static String hasard(Entier entier) {
-        return String.valueOf(Math.random() * entier.getValeur());
+    public static String hasard(String entier) {
+        return String.valueOf(Math.random() * Integer.parseInt(entier));
     }
 
     public void addValAlSi(Boolean val) {
