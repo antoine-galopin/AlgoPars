@@ -277,9 +277,6 @@ public class Programme {
 
 				String msg = sc.nextLine();
 
-				System.out.println("Nombre de si = " + this.nombreSi);
-				System.out.println("AlSi = " + this.alSi);
-
 				if (this.alSi != null) {
 					if (!this.alSi.get(this.nombreSi)) {
 						this.siImbrique = 0;
@@ -392,5 +389,4 @@ public class Programme {
 	public void add(String nom, String type) {
 		this.donnees.add(nom, type);
 	}
-
 }

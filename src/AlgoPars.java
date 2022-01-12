@@ -54,8 +54,15 @@ public class AlgoPars {
      * l'interprétation
      */
     public void afficher() {
+<<<<<<< HEAD
         System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
         System.out.flush();
+=======
+
+        System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
+        System.out.flush();
+
+>>>>>>> 1e9e6b02d93ac6e30ea5d1a80899f295f1aefba7
         this.cui.afficher();
     }
 
