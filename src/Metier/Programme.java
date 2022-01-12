@@ -384,7 +384,6 @@ public class Programme {
 	 * }
 	 * }
 	 */
-<<<<<<< HEAD
 }
 
 /*
@@ -436,6 +435,4 @@ public class Programme {
  * }
  * }
  */
-=======
-}
->>>>>>> 3e576e03ac6eac837cf25154f0a851e28f889a55
+
