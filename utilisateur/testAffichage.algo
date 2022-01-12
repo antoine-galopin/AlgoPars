@@ -2,64 +2,6 @@ ALGORITHME Test
 
 variable:
 	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-
-	var:entier
-	var:entier
 	b:booleen
 
 DEBUT
