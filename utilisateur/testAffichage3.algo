@@ -2,14 +2,6 @@ ALGORITHME Test
 
 variable:
 	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
-	var:entier
+DEBUT
+	var <-- 8+8
+	écrire(var)
