@@ -73,7 +73,7 @@ public class Programme {
 			while (sc.hasNextLine()) {
 				ligne = sc.nextLine().replace("\t", "    ");
 				this.lignesFichier.add(ligne);
-				this.lignesFichierColorie.add(ColorationSyntaxique.colorierLigne(ligne));
+				this.lignesFichierColorie.add(ColorationSyntaxique.colorierLigne(ligne, true));
 				this.listeInstructions.add(new Instruction(this.ctrl, this.primitives, ligne));
 			}
 
