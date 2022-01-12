@@ -155,7 +155,7 @@ public class Primitives {
     public static String aujourdhui() {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return (date.format(format));
+        return "\""+(date.format(format))+"\"";
     }
 
     // retourne la partie jour d'une chaine correspondant à une date au format
