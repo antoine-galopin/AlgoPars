@@ -77,8 +77,6 @@ public class Primitives {
         if (this.ctrl.getAlSi() != null) {
             switch (msg) {
                 case "vrai", "true":
-                    System.out.println(this.ctrl.getNbSi() + 1);
-                    System.out.println(this.ctrl.getAlSi().size());
                     if (this.ctrl.getAlSi().size() > this.ctrl.getNbSi() + 1)
                         this.ctrl.getAlSi().set(this.ctrl.getNbSi(), Boolean.TRUE);
                     else
@@ -87,8 +85,6 @@ public class Primitives {
                     this.ctrl.setNbSi(this.ctrl.getNbSi() + 1);
                     break;
                 case "faux", "false":
-                    System.out.println(this.ctrl.getNbSi() + 1);
-                    System.out.println(this.ctrl.getAlSi().size());
                     if (this.ctrl.getAlSi().size() > this.ctrl.getNbSi() + 1)
                         this.ctrl.getAlSi().set(this.ctrl.getNbSi(), Boolean.FALSE);
                     else
@@ -143,12 +139,13 @@ public class Primitives {
 
     // convertit une chaine en entier
     public static String enEntier(String chaine) {
-        return chaine;
+        return chaine.removeAll("\"", "");
     }
 
     // convertit une chaine en réel
     public static String enReel(String chaine) {
-        return chaine;
+        return chaine.removeAll("\"", "");
+
     }
 
     // retourne l'entier le plus proche d'un réel vers le bas
@@ -176,7 +173,7 @@ public class Primitives {
     public static String aujourdhui() {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return "\""+(date.format(format))+"\"";
+        return "\"" + (date.format(format)) + "\"";
     }
 
     // retourne la partie jour d'une chaine correspondant à une date au format

@@ -140,7 +140,7 @@ public class Instruction {
         if (this.ligne.length != 1) {
             noms = this.ligne[0].split(",");
             type = this.ligne[1].split("<--")[0];
-        } 
+        }
         // sans type
         else {
             noms = this.ligneComplete.split("<--")[0].split(",");
@@ -275,10 +275,9 @@ public class Instruction {
         for (Method m : primit.listePrimitives) {
             if (m.getName().equals(nomFonction)) {
                 try {
-                    if (parametres.isBlank()|| parametres.isEmpty()) {
-                        return String.valueOf(m.invoke(primit ));
-                    }
-                    else
+                    if (parametres.isBlank() || parametres.isEmpty()) {
+                        return String.valueOf(m.invoke(primit));
+                    } else
                         return String.valueOf(m.invoke(primit, parametres));
                 } catch (Exception e) {
                     e.printStackTrace();
