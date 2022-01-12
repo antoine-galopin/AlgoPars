@@ -12,7 +12,7 @@ public class Calculateur
 	{
 		System.out.println(getType(expression));
 		switch( getType(expression) ) {
-			case "chaine"   : return calculerChaine(expression);
+			case "chaine"   : return "\""+calculerChaine(expression)+"\"";
 			case "caractere": return String.valueOf(calculerChaine(expression).charAt(0));
 			case "booleen"  :
 				switch( Double.toString(calculerMath(expression)) ) {
