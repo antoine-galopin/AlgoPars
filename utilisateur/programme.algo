@@ -6,8 +6,8 @@ constante:
 
 variable:
 	var:entier
-	coco,	pizza:chaine
 	salopette:caractere
+	coco,	pizza:chaine
 	ouiounon:booleen
 
 DEBUT
