@@ -4,6 +4,7 @@ import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Types.*;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import java.io.FileInputStream;
@@ -234,12 +235,13 @@ public class Programme {
 	 * Exécution de l'algorithme.
 	 */
 	public void executerAlgo() {
+		Scanner sc = null;
 		do {
 			// this.listeInstructions.get(this.ligneActive).interpreterLigne();
 			this.ctrl.afficher();
 
 			try {
-				Scanner sc = new Scanner(System.in); // ouverture du Scanner
+				sc = new Scanner(System.in); // ouverture du Scanner
 
 				String msg = sc.nextLine();
 
@@ -268,6 +270,8 @@ public class Programme {
 
 					for (int cpt = 0; cpt < i; cpt++) {
 						this.ligneActive = this.ligneActive - x;
+
+						if ( this.ligneActive == this.lignesFichier.size() ) break;
 
 						if (x < 0)
 							this.listeInstructions.get(this.ligneActive).interpreterLigne();
@@ -320,9 +324,9 @@ public class Programme {
 				}
 
 				// sc.close(); // fermeture du Scanner
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			} 
+			catch ( NoSuchElementException e ) { sc.close(); }
+			catch (Exception e ) { e.printStackTrace();	}
 		} while (this.executionActive && this.ligneActive < this.lignesFichier.size());
 	}
 
