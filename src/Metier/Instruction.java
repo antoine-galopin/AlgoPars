@@ -155,7 +155,7 @@ public class Instruction {
      */
     private void affecterValeur() {
         String[] noms = this.ligneComplete.split("<--")[0].split(",");
-        String valeur = this.ligneComplete.split("<--")[1];
+        String valeur = Calculateur.calculer(executerFonction(this.ligneComplete.split("<--")[1]));
 
         for (String nom : noms)
             this.ctrl.affecterValeur(nom, valeur);
