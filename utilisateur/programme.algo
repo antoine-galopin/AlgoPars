@@ -75,11 +75,5 @@ DEBUT
 		ftq
 	sinon OUI alors
 		écrire ( 42 )
-	fsi
-
-	pour blabla de 8 a 14 faire
-		bloblo = blabla
-		ecrire( bloblo )
-	fpour
-		
+	fsi		
 FIN
