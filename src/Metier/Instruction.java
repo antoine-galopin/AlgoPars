@@ -84,12 +84,21 @@ public class Instruction {
 
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
-            return 0;
+            this.sinon();
+            return -1;
         }
+
+        if (this.ligne[0].equals("fsi") && siImbrique == 0) {
+            this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
+            return -1;
+        }
+
         switch (this.ligne[0]) {
             case "si":
+                this.si();
                 return 1;
             case "fsi":
+                this.fsi();
                 return -1;
         }
         return 0;
@@ -170,9 +179,6 @@ public class Instruction {
         return ligne;
     }
 
-    private void fsi() {
-    }
-
     private void si() {
         String str = this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
                 this.ligneComplete.indexOf("alors"));
@@ -193,6 +199,14 @@ public class Instruction {
 
     private void sinon() {
 
+    }
+
+    private void fsi() {
+        if (this.ctrl.getNbSi() == 0)
+            this.ctrl.setAlSi(null);
+        else if (this.ctrl.getAlSi().get(this.ctrl.getNbSi()) != null)
+            this.ctrl.getAlSi().remove(this.ctrl.getNbSi());
+        this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
     }
 
     private String remplacerParValeur(String str) {

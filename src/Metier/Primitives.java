@@ -74,19 +74,40 @@ public class Primitives {
      */
     public void si(String msg) {
         ArrayList<Boolean> result = new ArrayList<Boolean>();
-        System.out.println(msg + " 3");
         if (this.ctrl.getAlSi() != null) {
             switch (msg) {
                 case "vrai", "true":
+                    System.out.println(this.ctrl.getNbSi() + 1);
+                    System.out.println(this.ctrl.getAlSi().size());
+                    if (this.ctrl.getAlSi().size() > this.ctrl.getNbSi() + 1)
+                        this.ctrl.getAlSi().set(this.ctrl.getNbSi(), Boolean.TRUE);
+                    else
+                        this.ctrl.getAlSi().add(Boolean.TRUE);
+
+                    this.ctrl.setNbSi(this.ctrl.getNbSi() + 1);
                     break;
                 case "faux", "false":
+                    System.out.println(this.ctrl.getNbSi() + 1);
+                    System.out.println(this.ctrl.getAlSi().size());
+                    if (this.ctrl.getAlSi().size() > this.ctrl.getNbSi() + 1)
+                        this.ctrl.getAlSi().set(this.ctrl.getNbSi(), Boolean.FALSE);
+                    else
+                        this.ctrl.getAlSi().add(Boolean.FALSE);
+
+                    this.ctrl.setNbSi(this.ctrl.getNbSi() + 1);
                     break;
             }
         } else {
             switch (msg) {
                 case "vrai", "true":
+                    result.add(Boolean.TRUE);
+                    this.ctrl.setAlSi(result);
+                    this.ctrl.setNbSi(0);
                     break;
                 case "faux", "false":
+                    result.add(Boolean.FALSE);
+                    this.ctrl.setAlSi(result);
+                    this.ctrl.setNbSi(0);
                     break;
             }
 

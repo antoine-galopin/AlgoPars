@@ -276,6 +276,41 @@ public class Programme {
 
 				String msg = sc.nextLine();
 
+				System.out.println("Nombre de si = " + this.nombreSi);
+				System.out.println("AlSi = " + this.alSi);
+
+				if (this.alSi != null) {
+					if (!this.alSi.get(this.nombreSi)) {
+						this.siImbrique = 0;
+						while (this.siImbrique > -1 && !this.alSi.get(this.nombreSi)) {
+							this.siImbrique += this.listeInstructions.get(++this.ligneActive)
+									.interpreterLigne(this.siImbrique);
+						}
+						if (this.nombreSi == -1) {
+							this.nombreSi++;
+							--ligneActive;
+						} else if (this.siImbrique == -1) {
+							this.nombreSi++;
+							--ligneActive;
+						}
+					} else if (this.alSi.get(this.nombreSi)
+							&& this.listeInstructions.get(this.ligneActive).getInstruction().equals("sinon")) {
+						this.siImbrique = 0;
+						while (this.siImbrique > -1 && this.alSi.get(this.nombreSi)) {
+							this.siImbrique += this.listeInstructions.get(++this.ligneActive)
+									.interpreterLigne(this.siImbrique);
+						}
+						if (this.nombreSi == -1) {
+							this.nombreSi++;
+							--ligneActive;
+						} else if (this.siImbrique == -1) {
+							this.nombreSi++;
+							--ligneActive;
+						}
+
+					}
+				} else
+
 				// Méthode : "L" + numLigne + Entrée ( aller à la ligne numLigne )
 				if (msg.matches("^L\\d+")) {
 					int ecart = this.ligneActive - Integer.parseInt(msg.substring(1));
@@ -287,7 +322,8 @@ public class Programme {
 					for (int cpt = 0; cpt < i; cpt++) {
 						this.ligneActive = this.ligneActive - x;
 
-						if ( this.ligneActive == this.lignesFichier.size() ) break;
+						if (this.ligneActive == this.lignesFichier.size())
+							break;
 
 						if (x < 0)
 							this.listeInstructions.get(this.ligneActive).interpreterLigne();
@@ -340,9 +376,11 @@ public class Programme {
 				}
 
 				// sc.close(); // fermeture du Scanner
-			} 
-			catch ( NoSuchElementException e ) { sc.close(); }
-			catch (Exception e ) { e.printStackTrace();	}
+			} catch (NoSuchElementException e) {
+				sc.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} while (this.executionActive && this.ligneActive < this.lignesFichier.size());
 	}
 
@@ -354,88 +392,4 @@ public class Programme {
 		this.donnees.add(nom, type);
 	}
 
-	/**
-	 * @param s la chaine qui va servir de modele pour le retour
-	 *          si c'est une donnée on renvoie sont equivalent typable
-	 *          sinon on crée un nouveau typable
-	 */
-	/*
-	 * public Typable getTypable(String s) {
-	 * // si on donne le nom
-	 * if (this.donnees.rechercheParNom(s) != null)
-	 * return this.donnees.rechercheParNom(s);
-	 * 
-	 * // si on donne la valeur
-	 * switch (Calculateur.getType(s)) {
-	 * case "booleen":
-	 * return new Booleen("@b", false, s.equals("vrai") ? true : false);
-	 * case "caractere":
-	 * return new Caractere("@c", false, s.charAt(1));
-	 * case "chaine":
-	 * return new Chaine("@ch", false, s);
-	 * case "entier":
-	 * return new Entier("@e", false, Integer.parseInt(s));
-	 * case "reel":
-	 * return new Reel("@r", false, Double.parseDouble(s.replaceAll(",", ".")));
-	 * 
-	 * // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
-	 * default:
-	 * throw new RuntimeException("La valeur :" + s + " n'a pas été trouvé");
-	 * }
-	 * }
-	 */
-<<<<<<< HEAD
 }
-
-/*
- * System.out.println(this.ctrl.getNbSi() + " getNbSI");
- * System.out.println(this.ctrl.getAlSi() + " getal");
- * System.out.println(this.ligneActive + " nb Ligne");
- * System.out.println(this.siImbrique + " siImbrique avant");
- * if (this.alSi != null && this.alSi.get(nombreSi) == Boolean.FALSE /* /
- * this.bSi == false ) {
- * System.out.println(this.siImbrique + " siImbrique");
- * if (this.siImbrique == -1) {
- * this.bSi = true;
- * this.siImbrique++;
- * // this.nombreSi++;
- * System.out.println(this.ctrl.getNbSi() + " getNbSI si faux");
- * System.out.println(this.listeInstructions.get(++this.ligneActive));
- * this.listeInstructions.get(++this.ligneActive).interpreterLigne();
- * 
- * } else {
- * while (this.siImbrique != -1)
- * if ((this.siImbrique += this.listeInstructions.get(++this.ligneActive)
- * .interpreterLigne(this.siImbrique)) == -1) {
- * --this.ligneActive;
- * }
- * }
- * } else
- * 
- * if (/ this.bSinon == false /this.alSi != null && this.alSi.get(nombreSi) ==
- * Boolean.TRUE
- * && this.listeInstructions.get(this.ligneActive).getInstruction() == "sinon")
- * {
- * System.out.println("je suis la");
- * if (this.sinonImbrique == -1) {
- * this.bSinon = true;
- * this.sinonImbrique = 0;
- * this.listeInstructions.get(++this.ligneActive).interpreterLigne();
- * 
- * } else {
- * System.out.println("je suis la2");
- * while (this.sinonImbrique != -1) {
- * System.out.println("je suis la2.2 " + this.sinonImbrique);
- * 
- * if ((this.sinonImbrique += this.listeInstructions.get(++this.ligneActive)
- * .interpreterLigne(this.sinonImbrique)) == -1) {
- * --this.ligneActive;
- * System.out.println("je suis la3 " + this.sinonImbrique);
- * }
- * }
- * }
- * }
- */
-=======
-}
->>>>>>> 3e576e03ac6eac837cf25154f0a851e28f889a55
