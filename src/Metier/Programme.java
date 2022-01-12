@@ -40,7 +40,7 @@ public class Programme {
 	 */
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
-		ColorationSyntaxique.chargerCouleurs();
+		ColorationSyntaxique.chargerCouleursXML();
 
 		this.ctrl = ctrl;
 		this.primitives = new Primitives(this.ctrl);

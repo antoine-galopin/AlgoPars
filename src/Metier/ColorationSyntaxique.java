@@ -18,8 +18,8 @@ import java.io.File;
 
 public class ColorationSyntaxique
 {
-	private static HashMap<String, String > couleurs;
-	private static HashMap<String, Pattern> regPatterns;
+	private static HashMap<String, String > hashCoulMotCles;
+	private static HashMap<String, Pattern> patternsMotCles;
 
 	private static String couleurCommentaire;
 	private static boolean commMultiLignes = false;
@@ -30,10 +30,10 @@ public class ColorationSyntaxique
 	/**
 	 * Méthode qui charge la couleur des textes via un fichier xml
 	 */
-	public static void chargerCouleurs()
+	public static void chargerCouleursXML()
 	{
-		couleurs    = new HashMap<String, String >();
-		regPatterns = new HashMap<String, Pattern>();
+		hashCoulMotCles    = new HashMap<String, String >();
+		patternsMotCles = new HashMap<String, Pattern>();
 
 		Element racine = null;
 
@@ -50,13 +50,13 @@ public class ColorationSyntaxique
 				if( child.getText().equals( "//" ) )
 					couleurCommentaire = getCouleurFromId( e.getAttribute( "idCoul" ).getValue() );
 				
-				couleurs.put( child.getText(), colorierMot( 
+				hashCoulMotCles.put( child.getText(), getMotCleColorier( 
 					child.getText(),  
 					e.getAttribute( "idCoul" ).getValue(),  
 					Boolean.parseBoolean( e.getAttribute( "poids" ).getValue() )
 				) );
 
-				regPatterns.put( child.getText(), Pattern.compile(
+				patternsMotCles.put( child.getText(), Pattern.compile(
 					"\\b" + child.getText() + "\\b(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)"
 				) );
 			}
@@ -86,7 +86,7 @@ public class ColorationSyntaxique
 		{
 			String debutLigne = colorierLigne( ligne.substring( 0, ligne.indexOf( "/*" ) ), false );
 
-			// Si fin de commentaire
+			// Si le commentaire se finit sur la même ligne.
 			if( ligne.contains( "*/" ) )
 				return debutLigne
 					  + couleurCommentaire
@@ -95,9 +95,10 @@ public class ColorationSyntaxique
 					  + colorierLigne( ligne.substring( ligne.indexOf( "*/") + 2, ligne.length() ), true )
 					  + " ".repeat( longueurLignes - longueurLigneInitiale );
 
+			// Indique qu'on est actuellement dans un commmentaire multilignes.
 			commMultiLignes = true;
 
-			// Pas de fin de commentaires, coloration en vert
+			// Si le commentaire ne se finit pas sur la ligne, alors on la colorie totalement en vert.
 			return debutLigne
 				  + couleurCommentaire
 				  + ligne.substring( ligne.indexOf( "/*" ), ligne.length() )
@@ -111,7 +112,6 @@ public class ColorationSyntaxique
 			// Si fin du commentaire
 			if( ligne.contains( "*/" ) )
 			{
-				// Nous ne sommes plus dans un commentaire
 				commMultiLignes = false;
 
 				return couleurCommentaire
@@ -146,23 +146,18 @@ public class ColorationSyntaxique
 
 		Matcher matcher = null;
 
-		for( String mot : couleurs.keySet() )
+		for( String mot : hashCoulMotCles.keySet() )
 		{
-			matcher = regPatterns.get( mot ).matcher( ligne );
-
+			matcher = patternsMotCles.get( mot ).matcher( ligne );
 			if( matcher.find() )
-			{
-				if( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
-					ligne = ligne.replaceFirst( mot, couleurs.get( mot ) );
-				else
-					ligne = ligne.replace( mot, couleurs.get( mot ) );
-			}
+				ligne = ligne.replace( mot, hashCoulMotCles.get( mot ) );
 		}
 
 		/*------------------------------------*/
 		/* Besoin de compenser des couleurs ? */
 		/*------------------------------------*/
-
+		// Si des couleurs sont ajoutées, alors la ligne ligne aura une longeur plus grande que celle affichée
+		// car des caractères seront invisibles. On compense donc avec des espaces.
 		if( ajouterBlanc ) 
 			ligne += " ".repeat( longueurLignes - longueurLigneInitiale );
 		
@@ -177,7 +172,7 @@ public class ColorationSyntaxique
 	 * @param gras Un booléen indiquant si le mot doit être mis en gras.
 	 * @return Une String contenant le mot avec les séquences ANSII pour le mettre en couleur.
 	 */
-	private static String colorierMot( String mot, String coulId, boolean gras )
+	private static String getMotCleColorier( String mot, String coulId, boolean gras )
 	{
 		       /* Font de la couleur */   /* Traitement du gras  */         /* Reset */
 		return getCouleurFromId(coulId) + ( gras ? "\033[1m" : "" ) + mot + "\033[0m";
