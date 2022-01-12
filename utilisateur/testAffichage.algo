@@ -15,6 +15,9 @@ DEBUT
 	var <--1
 	var <--1
 	var <--1
+	//un commentaire
+	/*ecrire("impossible")*/
+	  
 	si faux alors
 		si faux alors
 		fsi

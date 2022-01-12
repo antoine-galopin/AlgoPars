@@ -16,34 +16,48 @@ public class Instruction {
     private String prefixe;
     private String[] ligne;
     private String ligneComplete;
-    public boolean estFonction = false;// une fonction seule sur la ligne
 
+    /**
+     * Constructeur de la classe Instruction
+     * @param ctrl
+     * @param primit
+     * @param ligneRecue
+     */
     public Instruction(AlgoPars ctrl, Primitives primit, String ligneRecue) {
-        this.ctrl = ctrl;
-        this.primit = primit;
+        this.ctrl          = ctrl;
+        this.primit        = primit;
+
         this.ligneComplete = this.suppEspace(ligneRecue);
 
-        // si c'est une fonction
+        this.ligneComplete=ligneComplete.replaceAll("\\/\\*.*\\*\\/", "");
 
+        // Initialisation regex pour trouver des fonctions
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
         Matcher matcher = pattern.matcher(ligneRecue);
 
-        if (ligneRecue.contains("écrire") || ligneRecue.contains("lire")) {
-            pattern = Pattern.compile("\"\\w+ *\\(.*\"");
-            matcher = pattern.matcher(ligneRecue);
+        if (ligneRecue.matches("(\\/\\*)|(\\*\\/)")) {
+            this.ligne=new String[]{"/*"};
+        }
+        else{
 
-            // si ce n'est pas une chaine comme "fonc("
-            if (!matcher.find()) {
-                this.ligne = ligneRecue.split("\\(");
-                this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
-            }
-        } else
-            this.ligne = ligneRecue.strip().split(" ");
+            // Traitement des cas lire et écrire ( fonctions à paramètres )
+            if( ligneRecue.contains("écrire") || ligneRecue.contains("lire") ) {
+                pattern = Pattern.compile("\"\\w+ *\\(.*\"");
+                matcher = pattern.matcher(ligneRecue);
 
+                // si ce n'est pas une chaine comme "fonc("
+                if (!matcher.find()) {
+                    this.ligne = ligneRecue.split("\\(");
+                    this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
+                }
+            }else
+                this.ligne = ligneRecue.strip().split(" ");
+        }
         this.prefixe = this.ligne[0];
     }
 
     public void interpreterLigne() {
+
         if (this.ligne[0] != "") {
             switch (this.ligne[0].strip().toLowerCase()) {
                 case "algorithme":
@@ -56,11 +70,11 @@ public class Instruction {
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(true);
                     break;
-                case "debut", "début":
+                case "debut": case "début":
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(false);
                     break;
-                case "ecrire", "écrire":
+                case "ecrire": case "écrire":
                     this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":
@@ -75,7 +89,29 @@ public class Instruction {
                 case "sinon":
                     this.sinon();
                     break;
+                case "/*":
+
+                    if (this.ctrl.estCommenter()) {
+                        if (ligneComplete.matches("\\*\\/")) {
+                            ctrl.setCommenter(false);
+                            ligneComplete.replaceAll("^.*\\*\\/","");
+                        }
+                        else 
+                            ligneComplete = "" ;
+                    }
+                    else {
+                        if (ligneComplete.matches("\\/\\*")) {
+                            ctrl.setCommenter(true);
+                            ligneComplete.replaceAll("\\/\\*.*$","");
+                        }
+                        else 
+                            ligneComplete = "" ;
+                    }
+
+                    (new Instruction(ctrl,primit,ligneComplete)).interpreterLigne();
+                    break;
                 default:
+
                     this.declare();
                     break;
             }
@@ -155,7 +191,7 @@ public class Instruction {
      */
     private void affecterValeur() {
         String[] noms = this.ligneComplete.split("<--")[0].split(",");
-        String valeur = Calculateur.calculer(executerFonction(this.ligneComplete.split("<--")[1]));
+        String valeur = this.ligneComplete.split("<--")[1];
 
         for (String nom : noms)
             this.ctrl.affecterValeur(nom, valeur);

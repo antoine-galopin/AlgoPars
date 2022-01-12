@@ -20,6 +20,7 @@ public class AlgoPars {
         this.prgm = new Programme(this, chemin);
         this.cui.initialiserVariablesSuivies();
         this.prgm.executerAlgo();
+
     }
 
     /**
@@ -141,14 +142,6 @@ public class AlgoPars {
         this.prgm.setSiImbrique(nbSi);
     }
 
-    public void setBSi(boolean bSi) {
-        this.prgm.setBSi(bSi);
-    }
-
-    public void setBSinon(boolean bSinon) {
-        this.prgm.setBSinon(bSinon);
-    }
-
     public void addValAlSi(Boolean val) {
         this.prgm.addValAlSi(val);
     }
@@ -165,11 +158,13 @@ public class AlgoPars {
         this.prgm.setNom(nom);
     }
 
-    /*
-     * public Typable getTypable(String s) {
-     * return prgm.getTypable(s);
-     * }
-     */
+    public boolean estCommenter(){
+        return this.prgm.estCommenter() ;
+    }
+
+    public boolean setCommenter(boolean estCommenter){
+        return this.prgm.setCommenter(estCommenter) ;
+    }
 
     public static void main(String[] args) {
         new AlgoPars(args[0]);

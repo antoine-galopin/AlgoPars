@@ -10,15 +10,15 @@ import java.util.Scanner;
 import java.io.FileInputStream;
 
 public class Programme {
-	private AlgoPars ctrl;
+	private AlgoPars   ctrl;
 	private Primitives primitives;
 
-	private int ligneActive;
+	private int               ligneActive;
 	private ArrayList<String> lignesFichier;
 	private ArrayList<String> lignesFichierColorie;
 
-	private Donnee donnees;
-	private ArrayList<String> listeVarSuivies;
+	private Donnee                 donnees;
+	private ArrayList<String>      listeVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
 
 	private ArrayList<Integer> listeBreakPoints;
@@ -26,13 +26,10 @@ public class Programme {
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
-	private boolean bSi;
-	private boolean bSinon;
+	private boolean estCommenter ;
 	private ArrayList<Boolean> alSi;
 	private int nombreSi;
 	private int siImbrique;
-	private int sinonImbrique;
-
 	private String nom;
 
 	/**
@@ -60,14 +57,12 @@ public class Programme {
 		this.alSi = null;
 		this.nombreSi = -1;
 		this.siImbrique = 0;
-		this.sinonImbrique = 0;
 
 		this.listeBreakPoints = new ArrayList<Integer>();
 
 		this.bConstante = false;
 		this.bVariable = false;
-		this.bSi = true;
-		this.bSinon = true;
+		this.estCommenter = false ;
 
 		this.nom = cheminFichier;// par defaut
 
@@ -198,16 +193,8 @@ public class Programme {
 		this.nom = nom;
 	}
 
-	public void setBSi(boolean bsi) {
-		this.bSi = bsi;
-	}
-
 	public void setNbSi(int nbSi) {
 		this.nombreSi = nbSi;
-	}
-
-	public void setBSinon(boolean bSinon) {
-		this.bSinon = bSinon;
 	}
 
 	public void setSiImbrique(int nbSi) {
@@ -252,7 +239,13 @@ public class Programme {
 		}
 		return null;
 	}
-	
+	public boolean estCommenter(){
+		return this.estCommenter ;
+	}
+
+	public boolean setCommenter(boolean estCommenter){
+		return this.estCommenter=estCommenter ;
+	}
 
 	/**
 	 * Fonction changeant la valeur de valeur
