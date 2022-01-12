@@ -82,7 +82,8 @@ public class Affichage {
      */
     private String corps() {
         ArrayList<String > fichier  = this.ctrl.getLignesFichierColorie();
-        ArrayList<Integer> listeBk  = this.ctrl.getListeBreakPoints();    
+        ArrayList<Integer> listeBk  = this.ctrl.getListeBreakPoints(); 
+        ArrayList<Boolean> listeConditionsIf = this.ctrl.getAlSi();   
         int                numLigne = this.ctrl.getLigneActive();    
 
         // Début de l'affichage ( de la ligne [posDebut] à la ligne [posDebut + margeAffichage - 1] )
@@ -103,7 +104,7 @@ public class Affichage {
         }
 
         String sRet = "";
-
+        char charCurseur = ' ';
         // Construction et ajout de chaque ligne à sRet dans l'ordre
         for( int cpt = posDebut; cpt < ( fichier.size() > tailleAffichage ? posDebut + tailleAffichage : fichier.size() ); cpt++ ) {
 
@@ -119,7 +120,17 @@ public class Affichage {
             else                          sRet +=                                  String.format("%3d", cpt);
 
             // Présence de curseur ou non ( selon la ligne courante )
-            sRet += cpt == numLigne ? ">" : " ";
+            charCurseur = cpt == numLigne ? '>' : ' ';
+
+            // Indication des conditions des SI/SINON.
+            if ( cpt == numLigne && fichier.get( cpt ).contains( "msi" ) )
+            {
+                sRet += listeConditionsIf.get( listeConditionsIf.size() - 1 ) 
+                        ? "\033[42m" + charCurseur + "\033[0m" 
+                        : "\033[41m" + charCurseur + "\033[0m";
+            }
+            else
+                sRet += charCurseur;
 
             // Code de la ligne
             sRet += String.format("%-75s", fichier.get(cpt));
