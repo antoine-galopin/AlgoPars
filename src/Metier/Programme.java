@@ -264,7 +264,7 @@ public class Programme {
 
 					int i = Math.abs(ecart);
 
-					int x = ecart / i;
+					int x = i == 0 ? 0 : ecart / i;
 
 					for (int cpt = 0; cpt < i; cpt++) {
 						this.ligneActive = this.ligneActive - x;

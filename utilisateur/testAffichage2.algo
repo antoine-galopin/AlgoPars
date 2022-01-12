@@ -1,0 +1,183 @@
+ALGORITHME Test
+
+variable:
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	b:booleen
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	b:booleen
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+	var:entier
+
+	var:entier
+	var:entier
+	b:booleen
