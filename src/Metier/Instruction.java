@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 public class Instruction {
     private AlgoPars ctrl;
     private Primitives primit;
+    private String prefixe;
     private String[] ligne;
     private String ligneComplete;
     public boolean estFonction = false;// une fonction seule sur la ligne
@@ -27,7 +28,7 @@ public class Instruction {
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
         Matcher matcher = pattern.matcher(ligneRecue);
 
-        if (matcher.find()) {
+        if (ligneRecue.contains("écrire") || ligneRecue.contains("lire")) {
             pattern = Pattern.compile("\"\\w+ *\\(.*\"");
             matcher = pattern.matcher(ligneRecue);
 
@@ -38,6 +39,8 @@ public class Instruction {
             }
         } else
             this.ligne = ligneRecue.strip().split(" ");
+
+        this.prefixe = this.ligne[0];
     }
 
     public void interpreterLigne() {
@@ -67,10 +70,10 @@ public class Instruction {
                     this.si();
                     break;
                 case "fsi":
-                    System.out.println("fsi");
+                    this.fsi();
                     break;
                 case "sinon":
-                    System.out.println("sinon");
+                    this.sinon();
                     break;
                 default:
                     this.declare();
@@ -81,7 +84,7 @@ public class Instruction {
 
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
-            return -1;
+            return 0;
         }
         switch (this.ligne[0]) {
             case "si":
@@ -167,30 +170,38 @@ public class Instruction {
         return ligne;
     }
 
+    private void fsi() {
+    }
+
     private void si() {
         String str = this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
                 this.ligneComplete.indexOf("alors"));
 
         if (this.containsComparateur(str)) {
-            // this.executerFonction(str);
+            str = this.executerFonction(str);
             str = this.remplacerParValeur(str);
-            System.out.println(str + " " + Calculateur.calculer(str) + "calcul");
             this.primit.si(Calculateur.calculer(str));
 
         } else {
             if (str.equals("vrai") || str.equals("faux"))
                 this.primit.si(str);
-            else
-                this.primit.si(this.ctrl.getValeur(str));
+            else {
+                this.primit.si(this.ctrl.getString(str));
+            }
         }
+    }
+
+    private void sinon() {
+
     }
 
     private String remplacerParValeur(String str) {
         Pattern ptrn = Pattern.compile("\\w+(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)");
         Matcher matcher = ptrn.matcher(str);
         while (matcher.find()) {
-            if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(matcher.group()).find())
-                str = str.replaceAll(matcher.group(), this.ctrl.getValeur(matcher.group()));
+            String sRet = matcher.group();
+            if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find())
+                str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
         }
         return str;
     }
@@ -214,9 +225,14 @@ public class Instruction {
         Matcher matcher = ptrn.matcher(str);
         while (matcher.find()) {
             String sRet = matcher.group();
-            this.remplacerParValeur(
-                    sRet.substring(sRet.indexOf("("), sRet.indexOf(")")));
-            str = str.replace(sRet, this.executerFonction(sRet.substring(0, sRet.indexOf("("))));
+            String tmp = sRet;
+            sRet = sRet.substring(0, sRet.indexOf("(") + 1)
+                    + this.executerFonction(sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")"))) + ")";
+            sRet = sRet.substring(0, sRet.indexOf("(") + 1) + Calculateur.calculer(this.remplacerParValeur(
+                    sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")")))) + ")";
+            str = str.replace(tmp, this.executerFonction(
+                    sRet.substring(0, sRet.indexOf("(")),
+                    sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")"))));
         }
         return str;
     }
@@ -229,11 +245,11 @@ public class Instruction {
      * @return Object que la fonction renvoie
      */
 
-    public Object executerFonction(String nomFonction, Typable[] parametres) {
+    public String executerFonction(String nomFonction, String parametres) {
         for (Method m : primit.listePrimitives) {
             if (m.getName().equals(nomFonction)) {
                 try {
-                    return m.invoke(primit, (Object[]) parametres);
+                    return String.valueOf(m.invoke(primit, (String) parametres));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -243,22 +259,28 @@ public class Instruction {
         return null;
     }
 
+    public String getInstruction() {
+        return this.prefixe;
+    }
+
     /**
      * convertie une chaine en sont tableau de typable pour utiliser les fonctions
      * 
      * @param param chaine des caractere sans les parenthese exterieur
      */
-    /*private Typable[] convertParam(String param) {
-        // on separe la chaine
-        String[] args = param.split(" *, *");
-        Typable[] retour = new Typable[args.length];
-
-        int index = 0;
-        for (String s : args) {
-            retour[index] = ctrl.getTypable(s);
-            index++;
-        }
-        return retour;
-    }*/
+    /*
+     * private Typable[] convertParam(String param) {
+     * // on separe la chaine
+     * String[] args = param.split(" *, *");
+     * Typable[] retour = new Typable[args.length];
+     * 
+     * int index = 0;
+     * for (String s : args) {
+     * retour[index] = ctrl.getTypable(s);
+     * index++;
+     * }
+     * return retour;
+     * }
+     */
 
 }

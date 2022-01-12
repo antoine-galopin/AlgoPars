@@ -1,13 +1,11 @@
 package AlgoPars.Metier.Types;
 
-public class Typable<T>
-{
-	protected String  nom;
+public class Typable<T> {
+	protected String nom;
 	protected boolean modifiable;
-	protected String  type;
-	protected T       valeur;
+	protected String type;
+	protected T valeur;
 
-	
 	/**
 	 * Constructeur de la classe Typable
 	 * 
@@ -15,18 +13,17 @@ public class Typable<T>
 	 * @param modifiable true -> variable, false -> constante
 	 * @param valeur
 	 */
-	public Typable(String nom, boolean modifiable, T valeur)
-	{
-		this.nom        = nom;
+	public Typable(String nom, boolean modifiable, T valeur) {
+		this.nom = nom;
 		this.modifiable = modifiable;
-		this.type       = this.getClass().getSimpleName();
-		this.valeur     = valeur;
+		this.type = this.getClass().getSimpleName();
+		this.valeur = valeur;
 	}
 
 	/**
 	 * Accesseur du nom du Typable courant
 	 * 
-	 * @return String 
+	 * @return String
 	 */
 	public String getNom() {
 		return this.nom;
@@ -37,10 +34,9 @@ public class Typable<T>
 	 * 
 	 * @return T
 	 */
-	public T getValeur() {
-		return this.valeur;
+	public String getValeur() {
+		return String.valueOf(this.valeur);
 	}
-
 
 	/**
 	 * Accesseur du nom du type courant quel que soit le type
@@ -57,7 +53,8 @@ public class Typable<T>
 	 * @param valeur
 	 */
 	public void setValeur(T valeur) {
-		if( !this.modifiable ) throw new RuntimeException("La valeur d'une constante n'est pas modifiable");
+		if (!this.modifiable)
+			throw new RuntimeException("La valeur d'une constante n'est pas modifiable");
 
 		this.valeur = valeur;
 	}

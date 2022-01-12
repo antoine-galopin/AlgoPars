@@ -85,8 +85,10 @@ DEBUT
 	fsi
 	si b alors
 		si faux alors
+			écrire("non");
 		fsi
-		si faux alors
+		écrire("waza")
+		si vrai alors
 			écrire("alahwakbah");
 		sinon
 			écrire("alpha");
@@ -95,8 +97,16 @@ DEBUT
 		écrire("alahwakbah2");
 		écrire("alahwakbah3");
 	fsi
-	si vrai alors
+	si 6 = 6 alors
 		écrire("alahwakbah");
+	sinon
+		écrire("beau il est le doggo")
+	fsi
+
+	si 6 = 6 alors
+		écrire("alahwakbah");
+	sinon
+		écrire("beau il est le doggo")
 	fsi
 
 	si 6 > 9 alors
@@ -106,6 +116,12 @@ DEBUT
 	fsi
 
 	si 6 = 9 alors
+		écrire("alahwakbah1");
+		écrire("alahwakbah2");
+		écrire("alahwakbah3");
+	fsi
+
+	si enEntier("6") > 9 alors
 		écrire("alahwakbah1");
 		écrire("alahwakbah2");
 		écrire("alahwakbah3");

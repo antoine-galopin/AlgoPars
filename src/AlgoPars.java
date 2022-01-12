@@ -109,6 +109,10 @@ public class AlgoPars {
         return this.prgm.getValeur(nom);
     }
 
+    public String getString(String nom) {
+        return this.prgm.getString(nom);
+    }
+
     public boolean getBConstante() {
         return this.prgm.getBConstante();
     }
@@ -129,12 +133,28 @@ public class AlgoPars {
         this.prgm.setAlSi(alSi);
     }
 
+    public void setNbSi(int nbSi) {
+        this.prgm.setNbSi(nbSi);
+    }
+
+    public void setSiImbrique(int nbSi) {
+        this.prgm.setSiImbrique(nbSi);
+    }
+
     public void setBSi(boolean bSi) {
         this.prgm.setBSi(bSi);
     }
 
+    public void setBSinon(boolean bSinon) {
+        this.prgm.setBSinon(bSinon);
+    }
+
     public void addValAlSi(Boolean val) {
         this.prgm.addValAlSi(val);
+    }
+
+    public int getNbSi() {
+        return this.prgm.getNbSi();
     }
 
     public ArrayList<Boolean> getAlSi() {
@@ -145,9 +165,11 @@ public class AlgoPars {
         this.prgm.setNom(nom);
     }
 
-    /*public Typable getTypable(String s) {
-        return prgm.getTypable(s);
-    }*/
+    /*
+     * public Typable getTypable(String s) {
+     * return prgm.getTypable(s);
+     * }
+     */
 
     public static void main(String[] args) {
         new AlgoPars(args[0]);
