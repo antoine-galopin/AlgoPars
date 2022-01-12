@@ -4,6 +4,7 @@ import AlgoPars.AlgoPars;
 import AlgoPars.Metier.Types.*;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import java.io.FileInputStream;
@@ -78,7 +79,7 @@ public class Programme {
 			while (sc.hasNextLine()) {
 				ligne = sc.nextLine().replace("\t", "    ");
 				this.lignesFichier.add(ligne);
-				this.lignesFichierColorie.add(ColorationSyntaxique.colorierLigne(ligne));
+				this.lignesFichierColorie.add(ColorationSyntaxique.colorierLigne(ligne, true));
 				this.listeInstructions.add(new Instruction(this.ctrl, this.primitives, ligne));
 			}
 
@@ -266,11 +267,12 @@ public class Programme {
 	 * Exécution de l'algorithme.
 	 */
 	public void executerAlgo() {
+		Scanner sc = null;
 		do {
 			this.ctrl.afficher();
 
 			try {
-				Scanner sc = new Scanner(System.in); // ouverture du Scanner
+				sc = new Scanner(System.in); // ouverture du Scanner
 
 				String msg = sc.nextLine();
 
@@ -280,10 +282,12 @@ public class Programme {
 
 					int i = Math.abs(ecart);
 
-					int x = ecart / i;
+					int x = i == 0 ? 0 : ecart / i;
 
 					for (int cpt = 0; cpt < i; cpt++) {
 						this.ligneActive = this.ligneActive - x;
+
+						if ( this.ligneActive == this.lignesFichier.size() ) break;
 
 						if (x < 0)
 							this.listeInstructions.get(this.ligneActive).interpreterLigne();
@@ -336,9 +340,9 @@ public class Programme {
 				}
 
 				// sc.close(); // fermeture du Scanner
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			} 
+			catch ( NoSuchElementException e ) { sc.close(); }
+			catch (Exception e ) { e.printStackTrace();	}
 		} while (this.executionActive && this.ligneActive < this.lignesFichier.size());
 	}
 
@@ -380,6 +384,7 @@ public class Programme {
 	 * }
 	 * }
 	 */
+<<<<<<< HEAD
 }
 
 /*
@@ -431,3 +436,6 @@ public class Programme {
  * }
  * }
  */
+=======
+}
+>>>>>>> 3e576e03ac6eac837cf25154f0a851e28f889a55

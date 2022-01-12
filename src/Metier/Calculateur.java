@@ -3,11 +3,15 @@ package AlgoPars.Metier;
 import java.util.ArrayList;
 import AlgoPars.Metier.Types.*;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class Calculateur {
 	public static String calculer(String expression) {
+		System.out.println(getType(expression));
 		switch (getType(expression)) {
 			case "chaine":
-				return calculerChaine(expression);
+				return "\"" + calculerChaine(expression) + "\"";
 			case "caractere":
 				return String.valueOf(calculerChaine(expression).charAt(0));
 			case "booleen":
@@ -177,12 +181,44 @@ public class Calculateur {
 	public static String calculerChaine(String expr) {
 		String retour = "";
 
-		for (String s : expr.split("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])")) {
-			System.out.println(s);
-			retour += traiterChaine(s);
+		System.out.println(expr);
+
+		Pattern pattern = Pattern.compile("( */= *)(?=[\"'].*[\"'])");
+		Matcher matcher = pattern.matcher(expr);
+
+		// si c'est un =
+		if (matcher.find()) {
+			String[] tab = expr.split("( */= *)(?=[\"'].*[\"'])");
+
+			retour = (!calculerChaine(tab[0]).equals(calculerChaine(tab[1]))) ? "vrai" : "faux";
+
+			return retour;
+		} else {
+			// si c'est un /=
+			pattern = Pattern.compile("( *= *)(?=[\"'].*[\"'])");
+			matcher = pattern.matcher(expr);
+
+			if (matcher.find()) {
+				String[] tab = expr.split("( *= *)(?=[\"'].*[\"'])");
+
+				retour = (calculerChaine(tab[0]).equals(calculerChaine(tab[1]))) ? "vrai" : "faux";
+
+				return retour;
+			} else {
+				pattern = Pattern.compile("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])");
+				matcher = pattern.matcher(expr);
+
+				if (matcher.find()) {
+					for (String s : expr.split("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])")) {
+						retour += traiterChaine(s);
+					}
+					return retour;
+				}
+			}
+
 		}
 
-		return retour;
+		return traiterChaine(expr);
 	}
 
 	public static String traiterChaine(String expr) {
@@ -294,7 +330,7 @@ public class Calculateur {
 
 		if (expression.contains("(c)") ||
 				expression.contains("©") ||
-				expression.matches("\".*\""))
+				expression.contains("\""))
 			return "chaine";
 
 		if (expression.matches("'.*'"))
@@ -341,6 +377,7 @@ public class Calculateur {
 		System.out.println(calculer("5+\\/¯100^5-1"));
 		System.out.println("----------");
 		System.out.println(calculer("5+\\/¯100^5+|-10|-1"));
+		System.out.println(calculer("\"janvierc\"  /= \"fevrier\""));
 
 		// System.out.println( calculer( ) );
 		// System.out.println( calculer( ) );

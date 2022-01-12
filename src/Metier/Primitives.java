@@ -25,6 +25,11 @@ public class Primitives {
         this.listePrimitives = this.getClass().getDeclaredMethods();
     }
 
+    /**
+     * Correspond à l'appel de la fonction lire en pseudo-code.
+     * 
+     * @param nom Le nom de la variable qui prendar la variable.
+     */
     public void lire(String nom) {
         System.out.println("Lire " + nom + " : ");
 
@@ -33,6 +38,12 @@ public class Primitives {
         this.ctrl.affecterValeur(nom, valeur);
     }
 
+    /**
+     * Correspond à l'appel de la fonction écrire en pseudo-code.
+     * Elle peut afficher des valeurs brutes ou des variables.
+     * 
+     * @param msg Le message contenant les valeurs et variables à afficher.
+     */
     public void ecrire(String msg) {
         String result = "";
 
@@ -56,6 +67,11 @@ public class Primitives {
         this.ctrl.ajouterTraceExecution(result);
     }
 
+    /**
+     * Permet d'exécuter un si.
+     * 
+     * @param msg La condition à vérifier.
+     */
     public void si(String msg) {
         ArrayList<Boolean> result = new ArrayList<Boolean>();
         System.out.println(msg + " 3");
@@ -77,12 +93,24 @@ public class Primitives {
         }
     }
 
-    // retourne le caractère correspondant à sa valeur dans la table ASCII
+    /**
+     * Retourne le caractère correspondant à l'entier passé en paramètre selon
+     * la table ASCII.
+     * 
+     * @param entier L'entier à convertir en caractère.
+     * @return Le caractère correspondant à l'entier de la table ASCII.
+     */
     public static String car(String entier) {
-        return String.valueOf(Integer.parseInt(entier));
+        return String.valueOf((char) Integer.parseInt(entier));
     }
 
-    // retourne la valeur ASCII d'un caractère
+    /**
+     * Retourne un entier correspondant au caractère passé en paramètre selon
+     * la table ASCII.
+     * 
+     * @param caractere Le caractère à convertir en entier.
+     * @return L'entier correspondant au caractère dans la table ASCII.
+     */
     public static String ord(String caractere) {
         return String.valueOf((int) caractere.charAt(0));
     }
@@ -118,7 +146,12 @@ public class Primitives {
         return String.valueOf(Math.round(Double.parseDouble(reel)));
     }
 
-    // retourne sous forme de chaine la date du jour au format jj/mm/aaaa
+    /**
+     * Retourne une chaîne de caractères contenant la date actuelle.
+     * La date est sous la forme 'jj/mm/aaaa'.
+     * 
+     * @return La chaîne de caractères contenant la date.
+     */
     public static String aujourdhui() {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");

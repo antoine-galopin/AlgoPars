@@ -18,7 +18,7 @@ import java.io.File;
 
 public class ColorationSyntaxique
 {
-	private static HashMap<String, ArrayList<String>> couleurs;
+	private static HashMap<String, String> couleurs;
 	private static HashMap<String, Pattern> regPatterns;
 	private static String couleurCommentaire;
 	private static boolean commMultiLignes = false;
@@ -29,7 +29,7 @@ public class ColorationSyntaxique
 	 */
 	public static void chargerCouleurs()
 	{
-		couleurs    = new HashMap<String, ArrayList<String>>();
+		couleurs    = new HashMap<String, String>();
 		regPatterns = new HashMap<String, Pattern>();
 
 		Element racine = null;
@@ -40,29 +40,24 @@ public class ColorationSyntaxique
 		}
 		catch( Exception e ) { e.printStackTrace(); }
 
-		ArrayList<String> alTmp = null;
 		for( Element e: racine.getChildren() )
 		{
 			for( Element child: e.getChildren() )
 			{
-				alTmp = new ArrayList<String>();
-				alTmp.add( e.getAttribute( "idCoul" ).getValue() );
-				alTmp.add( e.getAttribute( "poids"  ).getValue() );
+				if ( child.getText().equals( "//" ) )
+					couleurCommentaire = getCouleurFromId( e.getAttribute( "idCoul" ).getValue() );
+				
+				couleurs.put( child.getText(), colorierMot( 
+					child.getText(),  
+					e.getAttribute( "idCoul" ).getValue(),  
+					Boolean.parseBoolean( e.getAttribute( "poids" ).getValue()  )
+				));
 
-				couleurs.put( child.getText(), alTmp );
 				regPatterns.put( child.getText(), Pattern.compile(
 					"\\b" + child.getText() + "\\b(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)"
 				));
 			}
 		}
-
-		couleurCommentaire = getCouleurFromId( couleurs.get( "//" ).get( 0 ) );
-	}
-
-
-	public static String colorierLigne( String ligne )
-	{
-		return colorierLigne( ligne, true );
 	}
 
 
@@ -87,7 +82,7 @@ public class ColorationSyntaxique
 			{
 				ligne = debutLigne + couleurCommentaire + 
 					ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) ) + "\033[0m" +
-					colorierLigne( ligne.substring( ligne.indexOf( "*/") + 3, ligne.length() ) );
+					colorierLigne( ligne.substring( ligne.indexOf( "*/") + 3, ligne.length() ), true );
 				return ligne + " ".repeat( 75 - ligneLengthDebut );
 			}
 			commMultiLignes = true;
@@ -102,7 +97,7 @@ public class ColorationSyntaxique
 			{
 				commMultiLignes = false;
 				ligne = couleurCommentaire + ligne.substring( 0, ligne.indexOf( "*/" ) + 2 ) +
-					"\033[0m" + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ) );
+					"\033[0m" + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ), true );
 				return ligne + " ".repeat( 75 - ligneLengthDebut );
 			}
 			ligne = couleurCommentaire + ligne + "\033[0m";
@@ -132,9 +127,9 @@ public class ColorationSyntaxique
 			if( matcher.find() )
 			{
 				if( mot.equals( "a" ) && ligne.indexOf( "a" ) < ligne.indexOf( "faire" ) )
-					debutLigne = debutLigne.replaceFirst( mot, colorierMot( mot ) );
+					debutLigne = debutLigne.replaceFirst( mot, couleurs.get( mot ) );
 				else
-					debutLigne = debutLigne.replace( mot, colorierMot( mot ) );
+					debutLigne = debutLigne.replace( mot, couleurs.get( mot ) );
 			}
 		}
 
@@ -147,19 +142,18 @@ public class ColorationSyntaxique
 
 
 	/**
-	 * Méthode qui colorie le mot passé en paramètre
-	 * @param mot
-	 * @return String
+	 * Méthode qui colorie le mot passé en paramètre.
+	 * @param mot Le mot à colorier.
+	 * @param couldId L'identifiant de sa couleur.
+	 * @param gras Un booléen indiquant si le mot doit être mis en gras.
+	 * @return Une String contenant le mot avec les séquences ANSII pour le mettre en couleur.
 	 */
-	private static String colorierMot( String mot )
+	private static String colorierMot( String mot, String coulId, boolean gras )
 	{
-		if( !couleurs.containsKey( mot ) ) return mot;
-
 		String couleur;
-		String id = couleurs.get( mot ).get( 0 );
-		couleur = getCouleurFromId( id );
+		couleur = getCouleurFromId( coulId );
 
-		if( couleurs.get( mot ).get( 1 ).equals( "true" ) ) couleur += "\033[1m";
+		if( gras ) couleur += "\033[1m";
 
 		return couleur + mot + "\033[0m";
 	}
