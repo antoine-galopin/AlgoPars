@@ -88,13 +88,15 @@ public class ColorationSyntaxique
 
 			// Si le commentaire se finit sur la même ligne.
 			if( ligne.contains( "*/" ) )
-				return debutLigne
-					  + couleurCommentaire
-					  + ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) + 2 )
-					  + "\033[0m"
-					  + colorierLigne( ligne.substring( ligne.indexOf( "*/") + 2, ligne.length() ), true )
-					  + " ".repeat( longueurLignes - longueurLigneInitiale );
+			{
+				ligne = debutLigne
+					+ couleurCommentaire
+					+ ligne.substring( ligne.indexOf( "/*" ), ligne.indexOf( "*/" ) + 2 )
+					+ "\033[0m"
+					+ colorierLigne( ligne.substring( ligne.indexOf( "*/") + 2, ligne.length() ), false );
 
+				return ligne + " ".repeat( longueurLignes - longueurLigneInitiale );
+			}
 			// Indique qu'on est actuellement dans un commmentaire multilignes.
 			commMultiLignes = true;
 
@@ -114,11 +116,11 @@ public class ColorationSyntaxique
 			{
 				commMultiLignes = false;
 
-				return couleurCommentaire
+				ligne = couleurCommentaire
 					  + ligne.substring( 0, ligne.indexOf( "*/" ) + 2 )
 					  + "\033[0m"
-					  + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ), true )
-					  + " ".repeat( longueurLignes - longueurLigneInitiale );
+					  + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ), false );
+				return ligne + " ".repeat( longueurLignes - longueurLigneInitiale );
 			}
 
 			// Pas fin de commentaire, coloration en vert
@@ -150,7 +152,12 @@ public class ColorationSyntaxique
 		{
 			matcher = patternsMotCles.get( mot ).matcher( ligne );
 			if( matcher.find() )
-				ligne = ligne.replace( mot, hashCoulMotCles.get( mot ) );
+			{
+				if ( mot.equals( "ecrire" ) || mot.equals( "écrire" ) )
+					ligne = ligne.replaceFirst( mot, hashCoulMotCles.get( mot ) );
+				else
+					ligne = ligne.replace( mot, hashCoulMotCles.get( mot ) );
+			}
 		}
 
 		/*------------------------------------*/

@@ -28,37 +28,49 @@ public class Instruction {
         this.ctrl = ctrl;
         this.primit = primit;
 
-        this.ligneComplete = ligneRecue.replaceAll("\\/\\*.*\\*\\/", "");
+        ligneRecue = ligneRecue.replaceAll("\\/\\*.*\\*\\/", "");
+        this.ligneComplete = ligneRecue;
+
+        if (ligneRecue.contains("//"))
+            ligneRecue = ligneRecue.substring(0, ligneRecue.indexOf("//"));
+
+        if (this.ctrl.estCommenter()) {
+            if (ligneRecue.contains("*/")) {
+                ctrl.setCommenter(false);
+                ligneRecue.replaceAll("^.*\\*\\/", "");
+                ligneRecue = ligneRecue.substring(ligneRecue.indexOf("*/") + 2, ligneRecue.length());
+            } else
+                ligneRecue = "";
+        } else {
+            if (ligneRecue.contains("/*")) {
+                ctrl.setCommenter(true);
+                ligneRecue = ligneRecue.substring(0, ligneRecue.indexOf("/*"));
+            }
+        }
 
         // Initialisation regex pour trouver des fonctions
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
         Matcher matcher = pattern.matcher(ligneRecue);
 
-        if (this.ligneComplete.matches("(\\/\\*)|(\\*\\/)")) {
-            this.ligne = new String[] { "/*" };/**/
-        } else {
+        // Traitement des cas lire et écrire ( fonctions à paramètres )
+        if (ligneRecue.contains("écrire") || ligneRecue.contains("ecrire") || ligneRecue.contains("lire")) {
+            pattern = Pattern.compile("\"\\w+ *\\(.*\"");
+            matcher = pattern.matcher(ligneRecue);
 
-            // Traitement des cas lire et écrire ( fonctions à paramètres )
-            if (ligneRecue.contains("écrire") || ligneRecue.contains("ecrire") || ligneRecue.contains("lire")) {
-                pattern = Pattern.compile("\"\\w+ *\\(.*\"");
-                matcher = pattern.matcher(ligneRecue);
-
-                // si ce n'est pas une chaine comme "fonc("
-                if (!matcher.find()) {
-                    this.ligne = ligneRecue.split("\\(");
-                    this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
-                }
-            } else {
-                ligneRecue = ligneRecue.strip();
-                Pattern ptn = Pattern.compile("^\\w+");
-                Matcher match = ptn.matcher(ligneRecue);
-                while (match.find()) {
-                    this.ligne = new String[] { match.group() };
-                }
-                if (this.ligne == null)
-                    this.ligne = new String[] { ligneRecue };
-
+            // si ce n'est pas une chaine comme "fonc("
+            if (!matcher.find()) {
+                this.ligne = ligneRecue.split("\\(");
+                this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
             }
+        } else {
+            ligneRecue = ligneRecue.strip();
+            Pattern ptn = Pattern.compile("^\\w+");
+            Matcher match = ptn.matcher(ligneRecue);
+            while (match.find()) {
+                this.ligne = new String[] { match.group() };
+            }
+            if (this.ligne == null)
+                this.ligne = new String[] { ligneRecue };
 
         }
         this.prefixe = this.ligne[0];
@@ -98,24 +110,6 @@ public class Instruction {
                     break;
                 case "sinon":
                     this.ctrl.setBSi(true);
-                    break;
-                case "/*":
-
-                    if (this.ctrl.estCommenter()) {
-                        if (ligneComplete.matches("\\*\\/")) {
-                            ctrl.setCommenter(false);
-                            ligneComplete.replaceAll("^.*\\*\\/", "");
-                        } else
-                            ligneComplete = "";
-                    } else {
-                        if (ligneComplete.matches("\\/\\*")) {
-                            ctrl.setCommenter(true);
-                            ligneComplete.replaceAll("\\/\\*.*$", "");
-                        } else
-                            ligneComplete = "";
-                    }
-
-                    (new Instruction(ctrl, primit, ligneComplete)).interpreterLigne();
                     break;
                 default:
 
@@ -168,7 +162,6 @@ public class Instruction {
         String type = this.ligneComplete.split(":")[1];
 
         for (String nom : noms) {
-            System.out.println(nom);
             this.ctrl.add(this.suppEspace(nom), this.suppEspace(type));
         }
     }
@@ -269,7 +262,7 @@ public class Instruction {
             String sRet = matcher.group();
             if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find()
                     && !this.containsComparateur(sRet) && (!(sRet.equals("vrai") || sRet.equals("faux")))) {
-                str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
+                str = str.replaceAll(sRet, this.ctrl.getString(sRet));
             }
         }
         return str;

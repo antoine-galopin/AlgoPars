@@ -26,9 +26,9 @@ public class Programme {
 	private ArrayList<Integer> alTq;
 
 	private boolean executionActive;
+	private boolean commMultiLignes;
 	private boolean bConstante;
 	private boolean bVariable;
-	private boolean estCommenter;
 	private boolean bSi;
 
 	private int nombreSi;
@@ -66,9 +66,9 @@ public class Programme {
 
 		this.listeBreakPoints = new ArrayList<Integer>();
 
+		this.commMultiLignes = false;
 		this.bConstante = false;
 		this.bVariable = false;
-		this.estCommenter = false;
 
 		this.nom = cheminFichier;// par defaut
 
@@ -226,40 +226,21 @@ public class Programme {
 	 * @return String
 	 */
 	public String getValeur(String nom) {
+		if( this.donnees.rechercheParNom(nom) == null ) return null;
+
 		Typable var = this.donnees.rechercheParNom(nom);
-		if (var != null) {
-			// if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof
-			// Tableau))
-			return var.getValeur();
-			/*
-			 * else
-			 * return var.getValeur().toString();
-			 */
-		}
-		return null;
+
+		if( var.getValeur() != "true" && var.getValeur() != "false" ) return var.getValeur();
+
+		return var.getValeur() == "true" ? "vrai" : "faux";
 	}
 
 	public String getString(String nom) {
 		Typable var = this.donnees.rechercheParNom(nom);
-		if (var != null) {
-			// if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof
-			// Tableau))
-			return var.toString();
-			/*
-			 * else
-			 * return var.getValeur().toString();
-			 */
+		
+		if (var != null) return var.toString();
 
-		}
 		return null;
-	}
-
-	public boolean estCommenter() {
-		return this.estCommenter;
-	}
-
-	public boolean setCommenter(boolean estCommenter) {
-		return this.estCommenter = estCommenter;
 	}
 
 	/**
@@ -285,7 +266,21 @@ public class Programme {
 
 				String msg = sc.nextLine();
 
-				if (this.alSi != null) {
+				if ( this.lignesFichier.get( this.ligneActive ).contains( "/*" ) )
+				{
+					if ( !this.lignesFichier.get( this.ligneActive ).contains( "*/" ) )
+						commMultiLignes = true;
+				}
+
+				if ( commMultiLignes )
+				{
+					while ( !this.lignesFichier.get( this.ligneActive + 1 ).contains( "*/" ) )
+						this.ligneActive++;
+					commMultiLignes = false;
+					this.listeInstructions.get( this.ligneActive ).interpreterLigne();
+				}
+
+				else if (this.alSi != null) {
 					if (!this.bSi || (!this.alSi.get(this.nombreSi)
 							&& this.listeInstructions.get(this.ligneActive).getInstruction().equals("si"))) {
 						this.siImbrique = 0;
@@ -317,10 +312,9 @@ public class Programme {
 						}
 
 					}
-				} else
-
+				}
 				// Méthode : "L" + numLigne + Entrée ( aller à la ligne numLigne )
-				if (msg.matches("^L\\d+")) {
+				else if (msg.matches("^L\\d+")) {
 					int ecart = this.ligneActive - Integer.parseInt(msg.substring(1));
 
 					int i = Math.abs(ecart);
@@ -336,26 +330,23 @@ public class Programme {
 						if (x < 0)
 							this.listeInstructions.get(this.ligneActive).interpreterLigne();
 					}
-				} else
-
+				}
 				// Méthode : "+ bk" + numLigne ( ajout d'un point d'arrêt )
-				if (msg.matches("^\\+ bk \\d+")) {
+				else if (msg.matches("^\\+ bk \\d+")) {
 					int val = Integer.parseInt(msg.substring(5));
 
 					if (!this.listeBreakPoints.contains(val) && val < this.lignesFichier.size())
 						this.listeBreakPoints.add(val);
 
 					this.listeBreakPoints.sort(null); // tri
-				} else
-
+				}
 				// Méthode : "- bk" + numLigne ( suppression d'un point d'arrêt )
-				if (msg.matches("^\\- bk \\d+")) {
+				else if (msg.matches("^\\- bk \\d+")) {
 					int indice = this.listeBreakPoints.indexOf(Integer.parseInt(msg.substring(5)));
 					this.listeBreakPoints.remove(indice);
-				} else
-
+				}
 				// Méthode : "go bk" ( déplacement jusqu'au prochain point d'arrêt )
-				if (msg.equals("go bk")) {
+				else if (msg.equals("go bk")) {
 					int prochainBK = this.lignesFichier.size() - 1;
 
 					for (int i : this.listeBreakPoints)

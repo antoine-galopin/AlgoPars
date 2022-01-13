@@ -8,16 +8,14 @@ import java.util.regex.Matcher;
 
 public class Calculateur {
 	public static String calculer(String expression) {
-
-		if (expression.isEmpty() || expression.isBlank()) {
+		if (expression.isEmpty() || expression.isBlank())
 			return "";
-		}
 
 		switch (getType(expression)) {
 			case "chaine":
 				return "\"" + calculerChaine(expression) + "\"";
 			case "caractere":
-				return String.valueOf(calculerChaine(expression).charAt(0));
+				return expression;
 			case "booleen":
 				switch (Double.toString(calculerMath(expression))) {
 					case "0.0":
@@ -66,11 +64,7 @@ public class Calculateur {
 			return calculerMath(premierePartie + String.valueOf(Math.abs(calculerMath(milieu))) + deuxiemePartie);
 		}
 
-		/*
-		 * if (expr.matches("\w+(\w*)"))
-		 * primitives.find(la foncion)
-		 */
-
+		
 		// Opérateurs unaires
 		char[] tabCar = new char[] { '+', '-' };
 		int[] tabOpe = new int[] { 1, -1 };
@@ -212,12 +206,15 @@ public class Calculateur {
 				if (matcher.find()) {
 					for (String s : expr.split("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])")) {
 						retour += traiterChaine(s);
+						System.out.println(retour);
 					}
 					return retour;
 				}
 			}
 
 		}
+		System.out.println(expr);
+
 
 		return traiterChaine(expr);
 	}
@@ -329,13 +326,13 @@ public class Calculateur {
 		if (expression.replaceAll("^ *", "").charAt(0) == '{')
 			return "tableau de " + getType(expression.substring(expression.indexOf("{") + 1));
 
+		if (expression.startsWith("'"))
+			return "caractere";
+
 		if (expression.contains("(c)") ||
 				expression.contains("©") ||
 				expression.contains("\""))
 			return "chaine";
-
-		if (expression.matches("'.*'"))
-			return "caractere";
 
 		if (expression.contains("<") ||
 				expression.contains(">") ||

@@ -97,7 +97,7 @@ public class Donnee {
     public void add(String nom, String type, String valeur) {
         if (type == null)
             type = Calculateur.getType(valeur);
-
+        
         switch (type) {
             case "booleen": {
                 this.donnees.add(new Booleen(nom, false, valeur.equals("vrai") ? true : false));
@@ -180,20 +180,12 @@ public class Donnee {
     public void affecterValeur(String nom, String valeur) {
         this.var = rechercheParNom(nom);
 
-        if (this.var.getType().equals("Caractere")) {
-            ((Caractere) (this.var)).setValeur(valeur.charAt(0));
-        } else if (this.var.getType().equals("Chaine")) {
-            ((Chaine) (this.var)).setValeur(valeur);
-        } else if (this.var.getType().equals("Reel")) {
-            ((Reel) (this.var)).setValeur(Double.parseDouble(valeur));
-        } else if (this.var.getType().equals("Booleen")) {
-            ((Booleen) (this.var)).setValeur(valeur.matches("vrai"));
-        } else if (this.var.getType().equals("Entier")) {
-            ((Entier) (this.var)).setValeur(Integer.parseInt(valeur));
+        switch(this.var.getType()) {
+            case "Caractere": ((Caractere) (this.var)).setValeur(valeur.charAt(1)          ); break;
+            case "Chaine"   : ((Chaine   ) (this.var)).setValeur(valeur                    ); break;
+            case "Reel"     : ((Reel     ) (this.var)).setValeur(Double.parseDouble(valeur)); break;
+            case "Booleen"  : ((Booleen  ) (this.var)).setValeur(valeur.matches("vrai")    ); break;
+            case "Entier"   : ((Entier   ) (this.var)).setValeur(Integer.parseInt(valeur)  ); break;
         }
-
-        // if(valeur.matches("\w+(\w*)"))
-        //
-
     }
 }

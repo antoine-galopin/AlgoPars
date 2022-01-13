@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class AlgoPars {
     private Programme prgm;
     private Affichage cui;
+    private boolean estCommenter;
 
     /**
      * Constructeur de la classe AlgoPars
@@ -56,11 +57,8 @@ public class AlgoPars {
      */
     public void afficher() {
 
-        /*
-         * System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de
-         * laconsole
-         * System.out.flush();
-         */
+        System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
+        System.out.flush();
 
         this.cui.afficher();
     }
@@ -73,12 +71,6 @@ public class AlgoPars {
     public void ajouterTraceExecution(String trace) {
         this.cui.ajouterTraceExecution(trace);
     }
-
-    /*
-     * public Object executerFonction(String nomFonction, Typable[] parametre) {
-     * return this.prgm.executerFonction(nomFonction, parametre);
-     * }
-     */
 
     /**
      * Méthode qui appelle le constructeur de constantes
@@ -116,9 +108,12 @@ public class AlgoPars {
     }
 
     public String getString(String nom) {
-        String sRet = this.prgm.getString(nom) != null ? this.prgm.getString(nom) : "";
+        String sRet = this.prgm.getString(nom);
 
-        return sRet.replaceAll("\"", "");
+        if (sRet != null && sRet.startsWith("\"\""))
+            return sRet.substring(1, sRet.length() - 1);
+
+        return sRet;
     }
 
     public boolean getBConstante() {
@@ -174,15 +169,14 @@ public class AlgoPars {
     }
 
     public boolean estCommenter() {
-        return this.prgm.estCommenter();
+        return this.estCommenter;
     }
 
     public boolean setCommenter(boolean estCommenter) {
-        return this.prgm.setCommenter(estCommenter);
+        return this.estCommenter = estCommenter;
     }
 
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }
-
 }

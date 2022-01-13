@@ -19,17 +19,26 @@ DEBUT
 
 	/* on
 	fait des
-	test */
+	test0.1 */ ecrire( "test" )
 	
 	/* */
 	ecrire(str)
 	écrire(alpha)
+	ecrire( "Test1" ) /* test avec commentaire */
+	/* test avec commentaire */ ecrire( "Test2" )
+	écrire( "Test3" ) // oui
+	écrire( "Test4" )
 
 	var <--1
 
 	var <--1
 	//un commentaire
 	/*
+	écrire("impossible")
+	écrire("impossible")
+	écrire("impossible")
+	écrire("impossible")
+	écrire("impossible")
 	écrire("impossible")
 	*/
 	  
