@@ -68,7 +68,7 @@ public class ColorationSyntaxique
 	 * Méthode qui colorie la ligne passée en paramètre
 	 * @param ligne Ligne à colorier
 	 * @param ajouterBlanc Nécessité de compenser les caractères ansii
-	 * @return String
+	 * @return Ligne coloriée
 	 */
 	public static String colorierLigne( String ligne, boolean ajouterBlanc )
 	{
@@ -163,6 +163,7 @@ public class ColorationSyntaxique
 		/*------------------------------------*/
 		/* Besoin de compenser des couleurs ? */
 		/*------------------------------------*/
+
 		// Si des couleurs sont ajoutées, alors la ligne ligne aura une longeur plus grande que celle affichée
 		// car des caractères seront invisibles. On compense donc avec des espaces.
 		if( ajouterBlanc ) 
@@ -189,7 +190,7 @@ public class ColorationSyntaxique
 	/**
 	 * Méthode qui renvoit une couleur grâce à son identifiant
 	 * @param id
-	 * @return String
+	 * @return Couleur en Ansii
 	 */
 	public static String getCouleurFromId( String id )
 	{
