@@ -153,7 +153,7 @@ public class Affichage {
                 if( cpt - posDebut <= variablesSuivies.size() + 1 ) {
                     String nomVar = this.variablesSuivies.get(cpt - posDebut - 2);
 
-                    if( this.ctrl.getString( this.variablesSuivies.get(cpt - posDebut - 2) ) != "" ) {
+                    if( this.ctrl.getString( nomVar ) != null ) {
                         sRet += "│ ";
 
                         sRet += nomVar.length() <= longueurNoms

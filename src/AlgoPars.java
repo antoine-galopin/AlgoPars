@@ -113,9 +113,13 @@ public class AlgoPars {
     }
 
     public String getString(String nom) {
-        String sRet = this.prgm.getString(nom) != null ? this.prgm.getString(nom) : "";
+        String sRet = this.prgm.getString(nom);
 
-        return sRet.replaceAll("\"", "");
+        if( sRet == "" || sRet == null ) return "";
+
+        if( sRet.startsWith("\"\"") ) return sRet.substring(1, sRet.length()-1);
+
+        return sRet;
     }
 
     public boolean getBConstante() {
