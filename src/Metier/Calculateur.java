@@ -8,10 +8,8 @@ import java.util.regex.Matcher;
 
 public class Calculateur {
 	public static String calculer(String expression) {
-
-		if (expression.isEmpty() || expression.isBlank()) {
+		if (expression.isEmpty() || expression.isBlank())
 			return "";
-		}
 
 		switch (getType(expression)) {
 			case "chaine":
@@ -208,12 +206,15 @@ public class Calculateur {
 				if (matcher.find()) {
 					for (String s : expr.split("(( *© *)|( *\\(c\\) *))(?=[\"'].*[\"'])")) {
 						retour += traiterChaine(s);
+						System.out.println(retour);
 					}
 					return retour;
 				}
 			}
 
 		}
+		System.out.println(expr);
+
 
 		return traiterChaine(expr);
 	}

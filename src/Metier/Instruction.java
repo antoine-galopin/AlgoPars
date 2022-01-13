@@ -260,9 +260,8 @@ public class Instruction {
                 String sRet = matcher.group();
                 if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find()
                         && !this.containsComparateur(sRet))
-                    str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
+                    str = str.replaceAll(sRet, this.ctrl.getString(sRet));
             }
-            System.out.println(str);
         return str;
     }
 
