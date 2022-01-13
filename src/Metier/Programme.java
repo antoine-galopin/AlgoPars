@@ -286,14 +286,8 @@ public class Programme {
 				String msg = sc.nextLine();
 
 				if (this.alSi != null) {
-					System.out.println(this.alSi);
-					System.out.println(!this.bSi || !this.alSi.get(this.nombreSi));
-					System.out.println(((this.alSi.get(this.nombreSi)
-							&& this.listeInstructions.get(this.ligneActive).getInstruction().equals("sinon"))
-							&& this.bSi)
-							+ " " + this.listeInstructions.get(this.ligneActive).getInstruction());
-					System.out.println(this.alSi + " " + this.nombreSi + " " + !this.bSi);
-					if (!this.bSi || !this.alSi.get(this.nombreSi)) {
+					if (!this.bSi || (!this.alSi.get(this.nombreSi)
+							&& this.listeInstructions.get(this.ligneActive).getInstruction().equals("si"))) {
 						this.siImbrique = 0;
 						while (!this.bSi || (this.siImbrique > -1 && !this.alSi.get(this.nombreSi))) {
 							this.siImbrique += this.listeInstructions.get(++this.ligneActive)
@@ -309,7 +303,6 @@ public class Programme {
 					} else if ((this.alSi.get(this.nombreSi)
 							&& this.listeInstructions.get(this.ligneActive).getInstruction().equals("sinon"))
 							&& this.bSi) {
-						System.out.println("je force");
 						this.siImbrique = 0;
 						while (this.siImbrique > -1 && this.alSi.get(this.nombreSi)) {
 							this.siImbrique += this.listeInstructions.get(++this.ligneActive)
