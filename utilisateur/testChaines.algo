@@ -1,0 +1,26 @@
+ALGORITHME
+
+constante:
+    POLITESSE <-- "Bonjour"
+
+variable:
+    estHomme : booleen
+    txt, homme, femme, nom : chaine
+
+DEBUT
+    homme <-- " monsieur."
+    femme <-- " madame."
+
+    écrire("Vous etes un monsieur ? répondez par vrai ou faux")
+    lire(estHomme)
+
+    txt <-- POLITESSE
+
+    si estHomme alors
+        txt <-- txt © homme
+    sinon
+        txt <-- txt © femme
+    fsi
+
+    écrire(txt)
+FIN
