@@ -74,11 +74,6 @@ public class AlgoPars {
         this.cui.ajouterTraceExecution(trace);
     }
 
-    /*
-     * public Object executerFonction(String nomFonction, Typable[] parametre) {
-     * return this.prgm.executerFonction(nomFonction, parametre);
-     * }
-     */
 
     /**
      * Méthode qui appelle le constructeur de constantes
@@ -118,9 +113,7 @@ public class AlgoPars {
     public String getString(String nom) {
         String sRet = this.prgm.getString(nom);
 
-        if( sRet == "" || sRet == null ) return "";
-
-        if( sRet.startsWith("\"\"") ) return sRet.substring(1, sRet.length()-1);
+        if( sRet != null && sRet.startsWith("\"\"") ) return sRet.substring(1, sRet.length()-1);
 
         return sRet;
     }
@@ -188,5 +181,4 @@ public class AlgoPars {
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }
-
 }
