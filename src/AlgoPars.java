@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class AlgoPars {
     private Programme prgm;
     private Affichage cui;
-
+    private boolean estCommenter;
     /**
      * Constructeur de la classe AlgoPars
      * 
@@ -56,11 +56,8 @@ public class AlgoPars {
      */
     public void afficher() {
 
-        /*
-         * System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la
-         * console
-         * System.out.flush();
-         */
+        System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de laconsole
+        System.out.flush();
 
         this.cui.afficher();
     }
@@ -171,11 +168,11 @@ public class AlgoPars {
     }
 
     public boolean estCommenter() {
-        return this.prgm.estCommenter();
+        return this.estCommenter ;
     }
 
     public boolean setCommenter(boolean estCommenter) {
-        return this.prgm.setCommenter(estCommenter);
+        return this.estCommenter=estCommenter;
     }
 
     public static void main(String[] args) {

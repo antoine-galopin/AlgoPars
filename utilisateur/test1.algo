@@ -1,0 +1,70 @@
+
+
+algorithme Test1
+
+constante:
+	numero : entier <-- 9
+	chiffre: reel <-- 52.4
+	symbole: caractere <-- '$'
+	phrase : chaine <-- "rien de nouveau sous le soleil"
+	verité : booleen <-- vrai
+variable:
+	vBool  :booleen
+	cpt    :entier
+debut
+	cpt <-- 0
+	vBool <-- vrai
+
+	/*
+	écrire("impossible")
+	*/
+
+
+	si verité alors
+		ecrire("les test simple fonctionne")
+	sinon
+		ecrire("On est pas censé etre ici ")
+	fsi
+
+	si vBool alors
+		si verité alors
+			si cpt=0 alors
+				ecrire("les test imbriqué fonctionne")
+			fsi
+		fsi
+	fsi
+
+	lire(numero)
+
+	selon numero
+		cas 1 : ecrire("vous avez ecrit 1")
+		cas 2 : ecrire(phrase)
+		autre cas  : ecrire("par defaut")
+	fselon
+
+/*
+	un commentaire multiligne
+*/
+
+	tq /*condition*/ faire //un commentaire monoLigne
+		/*code*/
+	ftq
+
+	faire 
+		/*code*/
+	tq /*condition*/ ftq
+
+	pour cpt de 1 à 20 pas 5
+		ecrire("on ecrit n:" (c) enChaine(cpt))
+	fpour
+
+	repeter
+		 /*code*/
+	jusqu'à /*condition*/
+
+	repeter 3 fois 
+		ecrire(aujourdhui())
+	frepeter
+
+
+fin

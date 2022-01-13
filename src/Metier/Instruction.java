@@ -32,12 +32,25 @@ public class Instruction {
 
         this.ligneComplete = ligneComplete.replaceAll("\\/\\*.*\\*\\/", "");
 
+        if (this.ctrl.estCommenter()) {
+            if (ligneComplete.matches("\\*\\/")) {
+                ctrl.setCommenter(false);
+                ligneComplete.replaceAll("^.*\\*\\/", "");
+            } else
+                ligneComplete = "";
+        } else {
+            if (ligneComplete.matches("\\/\\*")) {
+                ctrl.setCommenter(true);
+                ligneComplete.replaceAll("\\/\\*.*$", "");
+            }
+        }
+
         // Initialisation regex pour trouver des fonctions
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
         Matcher matcher = pattern.matcher(ligneRecue);
 
-        if (this.ligneComplete.matches("(\\/\\*)|(\\*\\/)")) {
-            this.ligne = new String[] { "/*" };/**/
+        if (this.ligneComplete.matches("(\\/\\*)|(\\*\\/)") || this.ctrl.estCommenter()) {
+            this.ligne = new String[] { "//" };
         } else {
 
             // Traitement des cas lire et écrire ( fonctions à paramètres )
@@ -95,24 +108,6 @@ public class Instruction {
                 case "tq":
                 case "tant":
                     // this.tq();
-                    break;
-                case "/*":
-
-                    if (this.ctrl.estCommenter()) {
-                        if (ligneComplete.matches("\\*\\/")) {
-                            ctrl.setCommenter(false);
-                            ligneComplete.replaceAll("^.*\\*\\/", "");
-                        } else
-                            ligneComplete = "";
-                    } else {
-                        if (ligneComplete.matches("\\/\\*")) {
-                            ctrl.setCommenter(true);
-                            ligneComplete.replaceAll("\\/\\*.*$", "");
-                        } else
-                            ligneComplete = "";
-                    }
-
-                    (new Instruction(ctrl, primit, ligneComplete)).interpreterLigne();
                     break;
                 default:
 
