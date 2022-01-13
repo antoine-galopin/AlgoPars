@@ -9,12 +9,6 @@ import java.util.regex.Matcher;
 
 public class Donnee {
     private ArrayList<Typable> donnees;
-    /*
-     * private final String[][] tabRegex = new String[][] {
-     * { "'.'", "\"[^\\\"]*\"", "\\d,\\d+", "vrai", "faux", "\\d+" },
-     * { "caractere", "chaine", "reel", "booleen", "entier" }
-     * };
-     */
 
     Typable var;
 

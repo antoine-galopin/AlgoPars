@@ -29,115 +29,114 @@ implements Collection<T> // C'est une collection
      */
     private final int TAILLE;
 
+
+    /**
+     * Le constructeur du tableau.
+     * @param nom Le nom du tableau.
+     * @param modifiable indique si le tableau est une constante.
+     * @param valeur la valeur du tableau.
+     */
     public Tableau(String nom, boolean modifiable, Collection<T> valeur) {
         super(nom, modifiable, valeur);
         this.TAILLE = valeur.size();
     }
 
     /**
-     * on fait passer Tableau pour une collection pour faire des tableaux de tableaux
-     *
+     * On ajoute un élément au tableau.
+     * @param e L'élément à ajouté.
      */
     public boolean add(T e) {
         return valeur.add(e);
     }
 
     /**
-     * -->IDEM
+     * Ajoute tout les éléments d'une collection dans le tableau.
+     * @param c La Collection contenant les éléments à ajoutés.
      */
     public boolean addAll(Collection<? extends T> c) {
         return valeur.addAll(c);
     }
 
     /**
-     * -->IDEM
+     * Supprime tout les éléments du tableau.
      */
     public void clear() {
         valeur.clear();
     }
 
     /**
-     * -->IDEM
+     * Regarde si le tableau contient un élément.
+     * @param o L'objet dont il faut vérifier la présence dans le tableau.
+     * @return Un booléen indiquant si l'objet se trouve dans le tableau.
      */
     public boolean contains(Object o) {
         return valeur.contains(o);
     }
 
     /**
-     * -->IDEM
+     * Regarde si le tableau contient tout les éléments de la Collection passée en paramètre.
+     * @param c La Collection dont il faut comparer le contenu avec le tableau.
+     * @return Un booléen indiquant si le tableau contient tout les éléments de la Collection.
      */
     public boolean containsAll(Collection<?> c) {
         return valeur.contains(c);
     }
 
     /**
-     * -->IDEM
+     * Compare deux tableaux entre eux.
+     * @param o Le tableau à comparer avec le tableau de l'instance.
+     * @return Un booléen indiquant si les tableaux sont égaux.
      */
     public boolean equals(Object o) {
         return valeur.equals(o);
     }
 
     /**
-     * -->IDEM
-     */
-    public int hashCode() {
-        return valeur.hashCode();
-    }
-
-    /**
-     * -->IDEM
+     * Retourne un booléen indiquant si le tableau est vide.
+     * @return Le booléen.
      */
     public boolean isEmpty() {
         return valeur.isEmpty();
     }
 
     /**
-     * -->IDEM
+     * Retourne l'Iterator du tableau.
+     * @return L'objet Iterator du tableau. 
      */
     public Iterator<T> iterator() {
         return valeur.iterator();
     }
 
     /**
-     * -->IDEM
+     * supprime un élément du tableau.
+     * @return Un booléen indiquant si l'élément a été supprimé.
      */
     public boolean remove(Object o) {
         return valeur.remove(o);
     }
 
     /**
-     * -->IDEM
+     * Supprime tout les éléments présent dans la Collection du tableau.
+     * @return Un booléen indiquant si l'opération a été réalisée.
      */
     public boolean removeAll(Collection<?> c) {
         return valeur.removeAll(c);
     }
 
     /**
-     * -->IDEM
-     */
-    public boolean retainAll(Collection<?> c) {
-        return valeur.retainAll(c);
-    }
-
-    /**
-     * -->IDEM
+     * Retourne la taille du tableau.
+     * @return Un int contenant la taille du tableau.
      */
     public int size() {
         return valeur.size();
     }
 
     /**
-     * -->IDEM
+     * Retourne un tableau contenant les valeurs du tableau.
+     * @return Un tableau contenant les valeurs du tableau.
      */
     public Object[] toArray() {
         return valeur.toArray();
-    }
-
-    /**
-     * -->IDEM
-     */
-    public <T> T[] toArray(T[] a) {
-        return valeur.toArray(a);
     }
 
     /**
@@ -156,15 +155,6 @@ implements Collection<T> // C'est une collection
         return s.replaceAll(", \\}", " }").replaceAll("\\}, ", "},\n  ");
     }
 
-    /**
-     * copie le tableau actuel vers le presse papier
-     * --> Pas encore implémenter mais tres simples d'utilisation
-     */
-    public void versPressePapier() {
-        StringSelection ss = new StringSelection(this.toString());
-
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-    }
 
     /*--------------Simplification des instanciation-------------*/
 

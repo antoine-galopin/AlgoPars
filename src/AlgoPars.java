@@ -43,14 +43,25 @@ public class AlgoPars {
         return this.prgm.getLigneActive();
     }
 
+
+    /**
+     * Retourne l'ArrayList contenant les variables suivies.
+     * @return Une ArrayList contenant les variables suivies.
+     */
     public ArrayList<String> getVariablesSuivies() {
         return this.prgm.getVariablesSuivies();
     }
 
+
+    /**
+     * Retourne l'ArrayList contenant les breakpoints.
+     * @return Une ArrayList contenant les breakpoints.
+     */
     public ArrayList<Integer> getListeBreakPoints() {
         return this.prgm.getListeBreakPoints();
     }
 
+    
     /**
      * Méthode qui nettoie la console et affiche la nouvelle étape de
      * l'interprétation
