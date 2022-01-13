@@ -89,7 +89,8 @@ public class Instruction {
                     this.fsi();
                     break;
                 case "sinon":
-                    this.sinon();
+                    this.ctrl.setBSi(true);
+                    // this.sinon();
                     break;
                 case "tq":
                 case "tant":
@@ -123,7 +124,9 @@ public class Instruction {
 
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
-            this.sinon();
+            // this.sinon();
+            this.ctrl.setBSi(true);
+            this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
             return -1;
         }
 
@@ -254,7 +257,8 @@ public class Instruction {
     }
 
     private String remplacerParValeur(String str) {
-        Pattern ptrn = Pattern.compile("\\w+(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)");
+        Pattern ptrn = Pattern
+                .compile("\\w+((?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)(?![^\']*\'[^\']*(?:\'[^\']*\'[^\']*)*$))");
         Matcher matcher = ptrn.matcher(str);
         if (!(str.equals("vrai") || str.equals("faux")))
             while (matcher.find()) {
