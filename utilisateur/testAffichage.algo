@@ -6,9 +6,9 @@ variable:
 	str:chaine
 	alpha: caractere
 DEBUT
-	b<--vrai
-	str<--"bonsoir"
-	var <--1
+	b<-- vrai
+	str<-- "bonsoir"
+	var <-- 1
 	var <--1
 	var <--1
 	var <--1
@@ -22,7 +22,7 @@ DEBUT
 	test0.1 */ ecrire( "test" )
 	
 	/* */
-	écrire(str)
+	ecrire(str)
 	écrire(alpha)
 	ecrire( "Test1" ) /* test avec commentaire */
 	/* test avec commentaire */ ecrire( "Test2" )
@@ -78,6 +78,18 @@ DEBUT
 		écrire("Bonsoir");
 	sinon
 		écrire("beau il est le doggo")
+	fsi
+
+	si non faux alors
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
+	fsi
+
+	si non vrai alors
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
 	fsi
 
 	si 6 > 9 alors

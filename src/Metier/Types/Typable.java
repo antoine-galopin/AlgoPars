@@ -23,7 +23,7 @@ public class Typable<T> {
 	/**
 	 * Accesseur du nom du Typable courant
 	 * 
-	 * @return String
+	 * @return Nom de la donnée sous forme de String
 	 */
 	public String getNom() {
 		return this.nom;
@@ -32,7 +32,7 @@ public class Typable<T> {
 	/**
 	 * Méthode renvoyant la valeur du Typable courant, quel qu'en soit le type
 	 * 
-	 * @return T
+	 * @return Valeur de la donnée sous forme de String
 	 */
 	public String getValeur() {
 		return String.valueOf(this.valeur);
@@ -60,7 +60,8 @@ public class Typable<T> {
 	}
 
 	/**
-	 * Méthode renvoyant la valeur du Typable courant sous forme de String
+	 * toString de la classe Typable
+	 * @return Valeur du Typable courant sous forme de String
 	 */
 	public String toString() {
 		return valeur.toString();

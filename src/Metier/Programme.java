@@ -226,11 +226,13 @@ public class Programme {
 	 * @return String
 	 */
 	public String getValeur(String nom) {
+		if( this.donnees.rechercheParNom(nom) == null ) return null;
+
 		Typable var = this.donnees.rechercheParNom(nom);
 
-		if (var != null) return var.getValeur();
+		if( var.getValeur() != "true" && var.getValeur() != "false" ) return var.getValeur();
 
-		return null;
+		return var.getValeur() == "true" ? "vrai" : "faux";
 	}
 
 	public String getString(String nom) {

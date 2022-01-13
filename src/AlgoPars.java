@@ -10,6 +10,7 @@ public class AlgoPars {
     private Programme prgm;
     private Affichage cui;
     private boolean estCommenter;
+
     /**
      * Constructeur de la classe AlgoPars
      * 
@@ -56,8 +57,8 @@ public class AlgoPars {
      */
     public void afficher() {
 
-        /* System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de laconsole
-        System.out.flush(); */
+        System.out.print("\033[H\033[2J"); // Réinitialisation de l'affichage de la console
+        System.out.flush();
 
         this.cui.afficher();
     }
@@ -70,7 +71,6 @@ public class AlgoPars {
     public void ajouterTraceExecution(String trace) {
         this.cui.ajouterTraceExecution(trace);
     }
-
 
     /**
      * Méthode qui appelle le constructeur de constantes
@@ -110,7 +110,8 @@ public class AlgoPars {
     public String getString(String nom) {
         String sRet = this.prgm.getString(nom);
 
-        if( sRet != null && sRet.startsWith("\"\"") ) return sRet.substring(1, sRet.length()-1);
+        if (sRet != null && sRet.startsWith("\"\""))
+            return sRet.substring(1, sRet.length() - 1);
 
         return sRet;
     }
@@ -168,11 +169,11 @@ public class AlgoPars {
     }
 
     public boolean estCommenter() {
-        return this.estCommenter ;
+        return this.estCommenter;
     }
 
     public boolean setCommenter(boolean estCommenter) {
-        return this.estCommenter=estCommenter;
+        return this.estCommenter = estCommenter;
     }
 
     public static void main(String[] args) {
