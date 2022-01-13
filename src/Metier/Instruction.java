@@ -259,7 +259,8 @@ public class Instruction {
         if (!(str.equals("vrai") || str.equals("faux")))
             while (matcher.find()) {
                 String sRet = matcher.group();
-                if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find())
+                if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find()
+                        && !this.containsComparateur(sRet))
                     str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
             }
         return str;
