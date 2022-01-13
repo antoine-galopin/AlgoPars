@@ -23,7 +23,6 @@ public class Programme {
 
 	private ArrayList<Integer> listeBreakPoints;
 	private ArrayList<Boolean> alSi;
-	private ArrayList<Integer> alTq;
 
 	private boolean executionActive;
 	private boolean commMultiLignes;
@@ -33,9 +32,6 @@ public class Programme {
 
 	private int nombreSi;
 	private int siImbrique;
-	private int nombreTq;
-	private int tqImbrique;
-	private String nom;
 
 	/**
 	 * Constructeur de la classe Programme
@@ -69,8 +65,6 @@ public class Programme {
 		this.commMultiLignes = false;
 		this.bConstante = false;
 		this.bVariable = false;
-
-		this.nom = cheminFichier;// par defaut
 
 		try {
 			// Lecture du programme.
@@ -193,10 +187,6 @@ public class Programme {
 	 */
 	public ArrayList<Integer> getListeBreakPoints() {
 		return this.listeBreakPoints;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
 	}
 
 	public void setBSi(boolean bSi) {
