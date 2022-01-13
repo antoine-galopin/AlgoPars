@@ -19,29 +19,29 @@ public class Instruction {
 
     /**
      * Constructeur de la classe Instruction
+     * 
      * @param ctrl
      * @param primit
      * @param ligneRecue
      */
     public Instruction(AlgoPars ctrl, Primitives primit, String ligneRecue) {
-        this.ctrl          = ctrl;
-        this.primit        = primit;
+        this.ctrl = ctrl;
+        this.primit = primit;
 
         this.ligneComplete = this.suppEspace(ligneRecue);
 
-        this.ligneComplete=ligneComplete.replaceAll("\\/\\*.*\\*\\/", "");
+        this.ligneComplete = ligneComplete.replaceAll("\\/\\*.*\\*\\/", "");
 
         // Initialisation regex pour trouver des fonctions
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
         Matcher matcher = pattern.matcher(ligneRecue);
 
-        if (ligneRecue.matches("(\\/\\*)|(\\*\\/)")) {
-            this.ligne=new String[]{"/*"};
-        }
-        else{
+        if (this.ligneComplete.matches("(\\/\\*)|(\\*\\/)")) {
+            this.ligne = new String[] { "/*" };
+        } else {
 
             // Traitement des cas lire et écrire ( fonctions à paramètres )
-            if( ligneRecue.contains("écrire") || ligneRecue.contains("lire") ) {
+            if (ligneRecue.contains("écrire") || ligneRecue.contains("lire")) {
                 pattern = Pattern.compile("\"\\w+ *\\(.*\"");
                 matcher = pattern.matcher(ligneRecue);
 
@@ -50,7 +50,7 @@ public class Instruction {
                     this.ligne = ligneRecue.split("\\(");
                     this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
                 }
-            }else
+            } else
                 this.ligne = ligneRecue.strip().split(" ");
         }
         this.prefixe = this.ligne[0];
@@ -70,17 +70,20 @@ public class Instruction {
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(true);
                     break;
-                case "debut": case "début":
+                case "debut":
+                case "début":
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(false);
                     break;
-                case "ecrire": case "écrire":
+                case "ecrire":
+                case "écrire":
                     this.primit.ecrire(this.ligne[1]);
                     break;
                 case "lire":
                     this.lire();
                     break;
                 case "si":
+                    this.ctrl.setBSi(true);
                     this.si();
                     break;
                 case "fsi":
@@ -89,26 +92,27 @@ public class Instruction {
                 case "sinon":
                     this.sinon();
                     break;
+                case "tq":
+                case "tant":
+                    // this.tq();
+                    break;
                 case "/*":
 
                     if (this.ctrl.estCommenter()) {
                         if (ligneComplete.matches("\\*\\/")) {
                             ctrl.setCommenter(false);
-                            ligneComplete.replaceAll("^.*\\*\\/","");
-                        }
-                        else 
-                            ligneComplete = "" ;
-                    }
-                    else {
+                            ligneComplete.replaceAll("^.*\\*\\/", "");
+                        } else
+                            ligneComplete = "";
+                    } else {
                         if (ligneComplete.matches("\\/\\*")) {
                             ctrl.setCommenter(true);
-                            ligneComplete.replaceAll("\\/\\*.*$","");
-                        }
-                        else 
-                            ligneComplete = "" ;
+                            ligneComplete.replaceAll("\\/\\*.*$", "");
+                        } else
+                            ligneComplete = "";
                     }
 
-                    (new Instruction(ctrl,primit,ligneComplete)).interpreterLigne();
+                    (new Instruction(ctrl, primit, ligneComplete)).interpreterLigne();
                     break;
                 default:
 
@@ -116,7 +120,7 @@ public class Instruction {
                     break;
             }
         }
-    }
+    }/**/
 
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
@@ -131,7 +135,9 @@ public class Instruction {
 
         switch (this.ligne[0]) {
             case "si":
-                this.si();
+                this.ctrl.setBSi(false);
+                this.ctrl.setNbSi(this.ctrl.getNbSi() + 1);
+                // this.si();
                 return 1;
             case "fsi":
                 this.fsi();
@@ -183,7 +189,7 @@ public class Instruction {
         }
 
         for (String nom : noms)
-            this.ctrl.add(nom, type, Calculateur.calculer(executerFonction(valeur)));
+            this.ctrl.add(nom, type, Calculateur.calculer(this.remplacerParValeur(this.executerFonction(valeur))));
     }
 
     /**
@@ -194,7 +200,7 @@ public class Instruction {
         String valeur = this.ligneComplete.split("<--")[1];
 
         for (String nom : noms)
-            this.ctrl.affecterValeur(nom, valeur);
+            this.ctrl.affecterValeur(nom, Calculateur.calculer(this.remplacerParValeur(this.executerFonction(valeur))));
     }
 
     /**
@@ -243,19 +249,21 @@ public class Instruction {
     private void fsi() {
         if (this.ctrl.getNbSi() == 0)
             this.ctrl.setAlSi(null);
-        else if (this.ctrl.getAlSi().get(this.ctrl.getNbSi()) != null)
+        else if (this.ctrl.getBSi() && (this.ctrl.getAlSi().get(this.ctrl.getNbSi()) != null))
             this.ctrl.getAlSi().remove(this.ctrl.getNbSi());
+        this.ctrl.setBSi(true);
         this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
     }
 
     private String remplacerParValeur(String str) {
         Pattern ptrn = Pattern.compile("\\w+(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)");
         Matcher matcher = ptrn.matcher(str);
-        while (matcher.find()) {
-            String sRet = matcher.group();
-            if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find())
-                str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
-        }
+        if (!(str.equals("vrai") || str.equals("faux")))
+            while (matcher.find()) {
+                String sRet = matcher.group();
+                if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find())
+                    str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
+            }
         return str;
     }
 
@@ -274,9 +282,6 @@ public class Instruction {
     /*--------------------------------------*/
 
     private String executerFonction(String str) {
-
-        System.out.println(str);
-
         Pattern ptrn = Pattern.compile("\\w+ ?\\(.*\\)");
         Matcher matcher = ptrn.matcher(str);
 
@@ -294,8 +299,6 @@ public class Instruction {
                     sRet.substring(0, sRet.indexOf("(")),
                     sRet.substring(sRet.indexOf("(") + 1, sRet.indexOf(")"))));
         }
-
-        System.out.println(str);
         return str;
     }
 
@@ -327,25 +330,5 @@ public class Instruction {
     public String getInstruction() {
         return this.prefixe;
     }
-
-    /**
-     * convertie une chaine en sont tableau de typable pour utiliser les fonctions
-     * 
-     * @param param chaine des caractere sans les parenthese exterieur
-     */
-    /*
-     * private Typable[] convertParam(String param) {
-     * // on separe la chaine
-     * String[] args = param.split(" *, *");
-     * Typable[] retour = new Typable[args.length];
-     * 
-     * int index = 0;
-     * for (String s : args) {
-     * retour[index] = ctrl.getTypable(s);
-     * index++;
-     * }
-     * return retour;
-     * }
-     */
 
 }

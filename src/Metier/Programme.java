@@ -10,15 +10,15 @@ import java.util.Scanner;
 import java.io.FileInputStream;
 
 public class Programme {
-	private AlgoPars   ctrl;
+	private AlgoPars ctrl;
 	private Primitives primitives;
 
-	private int               ligneActive;
+	private int ligneActive;
 	private ArrayList<String> lignesFichier;
 	private ArrayList<String> lignesFichierColorie;
 
-	private Donnee                 donnees;
-	private ArrayList<String>      listeVarSuivies;
+	private Donnee donnees;
+	private ArrayList<String> listeVarSuivies;
 	private ArrayList<Instruction> listeInstructions;
 
 	private ArrayList<Integer> listeBreakPoints;
@@ -26,8 +26,12 @@ public class Programme {
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
-	private boolean estCommenter ;
+	private boolean estCommenter;
+	private boolean bSi;
 	private ArrayList<Boolean> alSi;
+	private ArrayList<Integer> alTq;
+	private int nombreTq;
+	private int tqImbrique;
 	private int nombreSi;
 	private int siImbrique;
 	private String nom;
@@ -40,7 +44,7 @@ public class Programme {
 	 */
 	public Programme(AlgoPars ctrl, String cheminFichier) {
 		// Important car cela permet de charger le fichier XML des couleurs.
-		ColorationSyntaxique.chargerCouleurs();
+		ColorationSyntaxique.chargerCouleursXML();
 
 		this.ctrl = ctrl;
 		this.primitives = new Primitives(this.ctrl);
@@ -57,12 +61,13 @@ public class Programme {
 		this.alSi = null;
 		this.nombreSi = -1;
 		this.siImbrique = 0;
+		this.bSi = true;
 
 		this.listeBreakPoints = new ArrayList<Integer>();
 
 		this.bConstante = false;
 		this.bVariable = false;
-		this.estCommenter = false ;
+		this.estCommenter = false;
 
 		this.nom = cheminFichier;// par defaut
 
@@ -107,6 +112,10 @@ public class Programme {
 	 */
 	public boolean getBVariable() {
 		return this.bVariable;
+	}
+
+	public boolean getBSi() {
+		return this.bSi;
 	}
 
 	/**
@@ -193,6 +202,10 @@ public class Programme {
 		this.nom = nom;
 	}
 
+	public void setBSi(boolean bSi) {
+		this.bSi = bSi;
+	}
+
 	public void setNbSi(int nbSi) {
 		this.nombreSi = nbSi;
 	}
@@ -239,12 +252,13 @@ public class Programme {
 		}
 		return null;
 	}
-	public boolean estCommenter(){
-		return this.estCommenter ;
+
+	public boolean estCommenter() {
+		return this.estCommenter;
 	}
 
-	public boolean setCommenter(boolean estCommenter){
-		return this.estCommenter=estCommenter ;
+	public boolean setCommenter(boolean estCommenter) {
+		return this.estCommenter = estCommenter;
 	}
 
 	/**
@@ -271,9 +285,12 @@ public class Programme {
 				String msg = sc.nextLine();
 
 				if (this.alSi != null) {
-					if (!this.alSi.get(this.nombreSi)) {
+					if (!this.bSi || !this.alSi.get(this.nombreSi)) {
 						this.siImbrique = 0;
-						while (this.siImbrique > -1 && !this.alSi.get(this.nombreSi)) {
+						System.out.println(!this.bSi + " " + this.siImbrique + " "
+								+ (this.siImbrique > -1 && !this.alSi.get(this.nombreSi)));
+						while (!this.bSi || (this.siImbrique > -1 && !this.alSi.get(this.nombreSi))) {
+							System.out.println(!this.bSi);
 							this.siImbrique += this.listeInstructions.get(++this.ligneActive)
 									.interpreterLigne(this.siImbrique);
 						}
