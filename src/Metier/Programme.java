@@ -23,7 +23,6 @@ public class Programme {
 
 	private ArrayList<Integer> listeBreakPoints;
 	private ArrayList<Boolean> alSi;
-	private ArrayList<Integer> alTq;
 
 	private boolean executionActive;
 	private boolean commMultiLignes;
@@ -33,9 +32,6 @@ public class Programme {
 
 	private int nombreSi;
 	private int siImbrique;
-	private int nombreTq;
-	private int tqImbrique;
-	private String nom;
 
 	/**
 	 * Constructeur de la classe Programme
@@ -205,13 +201,6 @@ public class Programme {
 		return this.listeBreakPoints;
 	}
 
-	/**
-	 * Méthode changeant le nom du programme
-	 * @param nom
-	 */
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
 
 	/**
 	 * Méthode changeant bsi
@@ -261,6 +250,11 @@ public class Programme {
 		return var.getValeur() == "true" ? "vrai" : "faux";
 	}
 
+	/**
+	 * Renvoit la valeur d'une variable par son nom
+	 * @param nom
+	 * @return valeur en String
+	 */
 	public String getString(String nom) {
 		Typable var = this.donnees.rechercheParNom(nom);
 		

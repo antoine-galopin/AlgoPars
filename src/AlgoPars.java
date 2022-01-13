@@ -103,10 +103,21 @@ public class AlgoPars {
         this.prgm.affecterValeur(nom, valeur);
     }
 
+    /**
+     * Retourne la valeur d'une variable.
+     * @param nom Le nom de la variable.
+     * @return La valeur de la variable comprise dans une chaîne de caractères.
+     */
     public String getValeur(String nom) {
         return this.prgm.getValeur(nom);
     }
 
+
+    /**
+     * Équivalent de toString pour les variables.
+     * @param nom Le nom de la variable.
+     * @return La chaîne de caractères générée.
+     */
     public String getString(String nom) {
         String sRet = this.prgm.getString(nom);
 
@@ -116,62 +127,129 @@ public class AlgoPars {
         return sRet;
     }
 
+
+    /**
+     * Retourne un booléen indiquant si l'interprétation est en train de lire les constantes.
+     * @return Un booléen.
+     */
     public boolean getBConstante() {
         return this.prgm.getBConstante();
     }
 
+
+    /**
+     * Retourne un booléen indiquant si l'interprétation est en train de lire les variables.
+     * @return Un booléen.
+     */
     public boolean getBVariable() {
         return this.prgm.getBVariable();
     }
 
+
+    /**
+     * Retourne un booléen indiquant si l'interprétation est en dans un SI.
+     * @return Un booléen.
+     */
     public boolean getBSi() {
         return this.prgm.getBSi();
     }
 
+
+    /**
+     * Permet de changer la valeur du booléen indiquant si on est dans les constantes.
+     * @param bConstante La nouvelle valeur de la variable.
+     */
     public void setBConstante(boolean bConstante) {
         this.prgm.setBConstante(bConstante);
     }
 
+
+    /**
+     * Permet de changer la valeur du booléen indiquant si on est dans les variables.
+     * @param bConstante La nouvelle valeur de la variable.
+     */
     public void setBVariable(boolean bVariable) {
         this.prgm.setBVariable(bVariable);
     }
 
+
+    /**
+     * Permet de changer la valeur de l'ArrayList contenant les booléens des expressions des SI.
+     * @param bConstante La nouvelle ArrayList.
+     */
     public void setAlSi(ArrayList<Boolean> alSi) {
         this.prgm.setAlSi(alSi);
     }
 
+
+    /**
+     * Permet de changer la valeur du booléen indiquant si on est dans un SI imbriqué.
+     * @param bConstante La nouvelle valeur de la variable.
+     */
     public void setBSi(boolean bSi) {
         this.prgm.setBSi(bSi);
     }
 
+
+    /**
+     * Permet de changer la valeur du int indiquant le nombre de SI actuel.
+     * @param bConstante La nouvelle valeur de la variable.
+     */
     public void setNbSi(int nbSi) {
         this.prgm.setNbSi(nbSi);
     }
 
+
+    /**
+     * Permet de changer la valeur du int indiquant le nombre de SI imbriqués actuel.
+     * @param bConstante La nouvelle valeur de la variable.
+     */
     public void setSiImbrique(int nbSi) {
         this.prgm.setSiImbrique(nbSi);
     }
 
+
+    /**
+     * Indique dans combien de SI l'interpréteur est.
+     * @return Un int contenant le nombre de SI.
+     */
     public int getNbSi() {
         return this.prgm.getNbSi();
     }
 
+
+    /**
+     * Retourne une ArrayList contenant les booléens des conditions des SI.
+     * @return L'ArrayList des booléens.
+     */
     public ArrayList<Boolean> getAlSi() {
         return this.prgm.getAlSi();
     }
 
-    public void setNom(String nom) {
-        this.prgm.setNom(nom);
-    }
 
+    /**
+     * Indique si l'interpréteur est actuellement dans des lignes qui sont commentées.
+     * @return
+     */
     public boolean estCommenter() {
         return this.estCommenter;
     }
 
+
+    /**
+     * Permet de changer la valeur de la variable indiquant si on est dans des lignes commentées.
+     * @param estCommenter
+     * @return
+     */
     public boolean setCommenter(boolean estCommenter) {
         return this.estCommenter = estCommenter;
     }
 
+    
+    /**
+     * Le main exécutant le programme.
+     * @param args
+     */
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }
