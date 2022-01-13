@@ -3,8 +3,10 @@ ALGORITHME Test
 variable:
 	var:entier
 	b:booleen
+	str:chaine
 DEBUT
 	b<--vrai
+	str<--"bonsoir"
 	var <--1
 	var <--1
 	var <--1
@@ -18,12 +20,15 @@ DEBUT
 	test */
 	
 	/* */
+	écrire(str)
 
 	var <--1
 
 	var <--1
 	//un commentaire
-	/*ecrire("impossible")*/
+	/*
+	écrire("impossible")
+	*/
 	  
 	si faux alors
 		si faux alors

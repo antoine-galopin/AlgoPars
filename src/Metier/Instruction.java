@@ -235,7 +235,7 @@ public class Instruction {
             if (str.equals("vrai") || str.equals("faux"))
                 this.primit.si(str);
             else {
-                this.primit.si(this.ctrl.getString(str));
+                this.primit.si(this.ctrl.getValeur(str));
             }
         }
     }
