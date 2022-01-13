@@ -58,7 +58,7 @@ public class Primitives {
                 result += param.replace("\"", "") + " ";
             else if (param.equals("vrai") || param.equals("faux"))
                 result += param + " ";
-            else if (this.ctrl.getString(param) != null)
+            else if (this.ctrl.getValeur(param) != null)
                 result += this.ctrl.getValeur(param).replace("\"", "") + " ";
             else
                 result += param + " ";
