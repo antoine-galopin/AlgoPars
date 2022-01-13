@@ -54,7 +54,7 @@ public class Instruction {
         } else {
 
             // Traitement des cas lire et écrire ( fonctions à paramètres )
-            if (ligneRecue.contains("écrire") || ligneRecue.contains("lire")) {
+            if (ligneRecue.contains("écrire") || ligneRecue.contains("ecrire") || ligneRecue.contains("lire")) {
                 pattern = Pattern.compile("\"\\w+ *\\(.*\"");
                 matcher = pattern.matcher(ligneRecue);
 

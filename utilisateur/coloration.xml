@@ -11,6 +11,7 @@
 
     <ecrire idCoul="1" poids="false">
         <mot>écrire</mot>
+        <mot>ecrire</mot>
     </ecrire>
 
     <lire idCoul="2" poids="false">

@@ -19,11 +19,15 @@ DEBUT
 
 	/* on
 	fait des
-	test */
+	test */ ecrire( "test" )
 	
 	/* */
 	écrire(str)
 	écrire(alpha)
+	ecrire( "Test du écrire avec accent !" )
+	ecrire( "Test du ecrire sans accent !" )
+	écrire( "Test du écrire avec accent !" )
+	écrire( "Test du ecrire sans accent !" )
 
 	var <--1
 
