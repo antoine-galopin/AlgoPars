@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"AlgoPars"},{"l":"AlgoPars.CUI"},{"l":"AlgoPars.Metier"},{"l":"AlgoPars.Metier.Types"},{"l":"All Packages","u":"allpackages-index.html"}];updateSearchResults();

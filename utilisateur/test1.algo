@@ -19,8 +19,6 @@ debut
 	écrire("impossible")
 	*/
 
-	ecrire(aujourdhui())
-
 	si verite ou faux alors
 		ecrire("écrire" © " biensur")
 	sinon
