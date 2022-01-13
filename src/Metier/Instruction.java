@@ -35,15 +35,16 @@ public class Instruction {
         this.ligneComplete = this.suppEspace(ligneRecue);
         
         if (this.ctrl.estCommenter()) {
-            if (ligneRecue.matches("\\*\\/")) {
+            if (ligneRecue.contains("*/")) {
                 ctrl.setCommenter(false);
                 ligneRecue.replaceAll("^.*\\*\\/", "");
+                ligneRecue = ligneRecue.substring( ligneRecue.indexOf( "*/" ) + 2, ligneRecue.length() );
             } else
                 ligneRecue = "";
         } else {
-            if (ligneRecue.matches("\\/\\*")) {
+            if (ligneRecue.contains("/*")) {
                 ctrl.setCommenter(true);
-                ligneRecue.replaceAll("\\/\\*.*$", "");
+                ligneRecue = ligneRecue.substring( 0, ligneRecue.indexOf("/*") );
             }
         }
 

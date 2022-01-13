@@ -19,7 +19,7 @@ DEBUT
 
 	/* on
 	fait des
-	test */ ecrire( "test" )
+	test0.1 */ ecrire( "test" )
 	
 	/* */
 	écrire(str)

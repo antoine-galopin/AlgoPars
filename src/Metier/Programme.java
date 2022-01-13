@@ -275,6 +275,7 @@ public class Programme {
 					while ( !this.lignesFichier.get( this.ligneActive + 1 ).contains( "*/" ) )
 						this.ligneActive++;
 					commMultiLignes = false;
+					this.listeInstructions.get( this.ligneActive ).interpreterLigne();
 				}
 
 				else if (this.alSi != null) {
