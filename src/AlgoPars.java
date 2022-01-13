@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class AlgoPars {
     private Programme prgm;
     private Affichage cui;
-
+    private boolean estCommenter;
     /**
      * Constructeur de la classe AlgoPars
      * 
@@ -171,11 +171,11 @@ public class AlgoPars {
     }
 
     public boolean estCommenter() {
-        return this.prgm.estCommenter();
+        return this.estCommenter ;
     }
 
     public boolean setCommenter(boolean estCommenter) {
-        return this.prgm.setCommenter(estCommenter);
+        return this.estCommenter=estCommenter;
     }
 
     public static void main(String[] args) {

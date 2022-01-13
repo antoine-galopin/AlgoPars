@@ -28,7 +28,6 @@ public class Programme {
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
-	private boolean estCommenter;
 	private boolean bSi;
 
 	private int nombreSi;
@@ -68,7 +67,6 @@ public class Programme {
 
 		this.bConstante = false;
 		this.bVariable = false;
-		this.estCommenter = false;
 
 		this.nom = cheminFichier;// par defaut
 
@@ -252,14 +250,6 @@ public class Programme {
 
 		}
 		return null;
-	}
-
-	public boolean estCommenter() {
-		return this.estCommenter;
-	}
-
-	public boolean setCommenter(boolean estCommenter) {
-		return this.estCommenter = estCommenter;
 	}
 
 	/**
