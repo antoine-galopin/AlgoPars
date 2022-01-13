@@ -18,6 +18,7 @@ implements Collection<T>				// C'est une collection
     {
         super(nom, modifiable, valeur);
         this.taille = valeur.size();
+        System.out.println(this);
     }
 
     /*------------Methodes de collection-----------*/
@@ -96,6 +97,17 @@ implements Collection<T>				// C'est une collection
     	}
 
 		return new Tableau<Tableau<Tableau<Typable>>>(nom,modifiable,list3);
+    }
+
+    public static Tableau new_TableauXD(String nom, boolean modifiable, int dimension)
+    {   
+        switch (dimension) {
+            case 1 : return (Tableau)new_Tableau1D(nom,modifiable,new Typable[]{});
+            case 2 : return (Tableau)new_Tableau2D(nom,modifiable,new Typable[][]{});
+            case 3 : return (Tableau)new_Tableau3D(nom,modifiable,new Typable[][][]{});
+        }
+
+        return null ;
     }
 
     public static void main(String[] args) 

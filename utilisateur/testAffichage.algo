@@ -3,7 +3,6 @@ ALGORITHME Test
 variable:
 	var:entier
 	b:booleen
-
 DEBUT
 	b<--vrai
 	var <--1

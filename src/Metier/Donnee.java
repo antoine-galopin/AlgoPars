@@ -4,6 +4,10 @@ import AlgoPars.Metier.Types.*;
 
 import java.util.ArrayList;
 
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class Donnee {
     private ArrayList<Typable> donnees;
 /*
@@ -49,9 +53,39 @@ public class Donnee {
                 this.donnees.add(new Reel(nom, true, 0.0));
                 break;
             }
-            // case "tableau" : { this.donnees.add(new Reel (nom, true, 0.0 )); break; }
             default:
-                break;
+
+                int dimension = 0;
+
+                while  (type.indexOf("tableaude")!=-1)
+                {
+                    dimension++;
+                    type=type.replaceFirst("tableaude","");
+                }
+
+                switch(type) {
+                    case "booleen": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "caractere": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        System.out.println("here");
+                        break;
+                    }
+                    case "chaine": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "entier": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "reel": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                }
         }
     }
 
@@ -62,6 +96,7 @@ public class Donnee {
      * @param valeur
      */
     public void add(String nom, String type, String valeur) {
+        System.out.println(type);
         if( type == null )
             type = Calculateur.getType(valeur);
 
@@ -89,7 +124,36 @@ public class Donnee {
             }
             // case "tableau" : { this.donnees.add(new Reel (nom, true , 0.0 )); break; }
             default:
-                break;
+
+                Pattern pattern = Pattern.compile("tableaude");
+                Matcher matcher = pattern.matcher(type);
+
+                int dimension = matcher.groupCount();
+
+                type=type.replaceAll("tableaude","");
+
+                switch(type) {
+                    case "booleen": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "caractere": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "chaine": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "entier": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                    case "reel": {
+                        this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
+                        break;
+                    }
+                }
         }
 
     }
@@ -101,6 +165,7 @@ public class Donnee {
      * @return Typable
      */
     public Typable rechercheParNom(String nom) {
+        System.out.println(donnees);
         for( Typable t : donnees )
             if( t.getNom().equals(nom) )
                 return t;
