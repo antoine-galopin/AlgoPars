@@ -8,9 +8,13 @@ import java.util.regex.Matcher;
 
 
 public class Calculateur {
+	/**
+	 * Méthode générale de calcul qui appelle ensuite les méthodes appropriées aux types utilisés
+	 * @param expression
+	 * @return résultat
+	 */
 	public static String calculer(String expression) {
-		if (expression.isEmpty() || expression.isBlank())
-			return "";
+		if (expression.isEmpty() || expression.isBlank()) return "";
 
 		switch (getType(expression)) {
 			case "chaine":
@@ -25,7 +29,8 @@ public class Calculateur {
 						return "vrai";
 					default:
 						throw new RuntimeException(
-								"cannot implicit convert to Boolean:" + expression + "->" + calculerMath(expression));
+							"cannot implicit convert to Boolean:" + expression + "->" + calculerMath(expression)
+						);
 				}
 			case "reel":
 				return String.valueOf(calculerMath(expression));
@@ -37,10 +42,13 @@ public class Calculateur {
 		}
 	}
 
+	/**
+	 * Méthode de calcul liée aux expressions arythmétiques
+	 * @param expr
+	 * @return résultat sous forme de double ( pour assurer les calculs pour les Doubles et les Entiers )
+	 */
 	private static double calculerMath(String expr) {
 		expr = Calculateur.nettoyer(expr); // nettoyage de l'expression
-
-		/*-----------Remplacer les variables nommées par leur valeurs------------*/
 
 		int index = 0;
 
@@ -55,12 +63,12 @@ public class Calculateur {
 		// traitement des valeurs absolues ( ordre de priorité similaire aux parenthèses
 		// )
 		if ((index = expr.indexOf("|")) != -1) { // s'il y a un pipe
-			int index2 = Calculateur.trouverDeuxiemePipe(expr, index + 1);
-			index = Calculateur.trouverPremierePipe(expr, index2 - 1);
+			int index2 = Calculateur.trouverDeuxiemePipe(expr, index  + 1);
+			index      = Calculateur.trouverPremierePipe(expr, index2 - 1);
 
-			String premierePartie = expr.substring(0, index);
-			String milieu = expr.substring(index + 1, index2);
-			String deuxiemePartie = expr.substring(index2 + 1);
+			String premierePartie = expr.substring(0         , index);
+			String milieu         = expr.substring(index + 1 , index2);
+			String deuxiemePartie = expr.substring(index2 + 1        );
 
 			return calculerMath(premierePartie + String.valueOf(Math.abs(calculerMath(milieu))) + deuxiemePartie);
 		}
@@ -68,7 +76,7 @@ public class Calculateur {
 		
 		// Opérateurs unaires
 		char[] tabCar = new char[] { '+', '-' };
-		int[] tabOpe = new int[] { 1, -1 };
+		int[]  tabOpe = new int [] { 1  , -1  };
 
 		for (int i = 0; i < tabCar.length; i++) {
 			if ((index = expr.indexOf(tabCar[i])) != -1) {
@@ -163,10 +171,20 @@ public class Calculateur {
 		return Double.parseDouble(expr);
 	}
 
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
 	public static String calculerTableau(String expr) {
 		return expr;
 	}
 
+	/**
+	 * Méthode de calcul liée aux chaines et caractères
+	 * @param expr
+	 * @return
+	 */
 	public static String calculerChaine(String expr) {
 		String retour = "";
 
@@ -205,12 +223,15 @@ public class Calculateur {
 			}
 
 		}
-		System.out.println(expr);
-
 
 		return traiterChaine(expr);
 	}
 
+	/**
+	 * Méthode qui supprime les espaces d'avant et d'après la chaine
+	 * @param expr
+	 * @return chaine sans espaces au début ni à la fin
+	 */
 	public static String traiterChaine(String expr) {
 		expr = expr.replaceAll("^ *", "").replaceAll(" *$", "");
 
@@ -220,7 +241,6 @@ public class Calculateur {
 		return expr;
 	}
 
-	/*--------------------------------------------------------------------------*/
 
 	/**
 	 * Méthode qui renvoit le groupe de parenthèse le plus profond dans l'expression
@@ -252,7 +272,7 @@ public class Calculateur {
 	 * 
 	 * @param s
 	 * @param fin
-	 * @return int
+	 * @return indice de a première pipe
 	 */
 	private static int trouverPremierePipe(String s, int fin) {
 		s = s.substring(0, fin);
@@ -271,7 +291,7 @@ public class Calculateur {
 	 * 
 	 * @param s
 	 * @param debut
-	 * @return int
+	 * @return indice de la deuxieme pipe
 	 */
 	private static int trouverDeuxiemePipe(String s, int debut) {
 		int index = s.indexOf("|", debut);
@@ -287,7 +307,7 @@ public class Calculateur {
 	 * Fonction qui nettoie une chaine avant de la traiter plus simplement
 	 * 
 	 * @param s
-	 * @return String
+	 * @return Chaine sans espaces superflus
 	 */
 	private static String nettoyer(String s) {
 		return s.replaceAll(" *\\+ *", "+") // opérateurs
@@ -314,31 +334,32 @@ public class Calculateur {
 				.replaceAll(" *faux *", " 0 ");
 	}
 
+	/**
+	 * Méthode renvoyant le type de l'expression passée en paramètre
+	 * @param expression
+	 * @return Type de la chaine
+	 */
 	public static String getType(String expression) {
 		if (expression.replaceAll("^ *", "").charAt(0) == '{')
 			return "tableau de " + getType(expression.substring(expression.indexOf("{") + 1));
 
-		if (expression.startsWith("'"))
-			return "caractere";
+		if (expression.startsWith("'")) return "caractere";
 
 		if (expression.contains("(c)") ||
-				expression.contains("©") ||
-				expression.contains("\""))
-			return "chaine";
+			expression.contains("©"  ) ||
+			expression.contains("\"")) return "chaine";
 
-		if (expression.contains("<") ||
-				expression.contains(">") ||
-				expression.contains("=") ||
-				expression.contains("/=") ||
-				expression.contains(" et ") ||
-				expression.contains(" ou ") ||
-				expression.contains("non") ||
-				expression.contains("vrai") ||
-				expression.contains("faux"))
-			return "booleen";
+		if (expression.contains("<"   ) ||
+			expression.contains(">"   ) ||
+			expression.contains("="   ) ||
+			expression.contains("/="  ) ||
+			expression.contains(" et ") ||
+			expression.contains(" ou ") ||
+			expression.contains("non" ) ||
+			expression.contains("vrai") ||
+			expression.contains("faux")) return "booleen";
 
-		if (expression.contains("."))
-			return "reel";
+		if (expression.contains(".")) return "reel";
 
 		return "entier";
 	}
