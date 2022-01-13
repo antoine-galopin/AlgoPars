@@ -76,12 +76,12 @@ public class Instruction {
         this.prefixe = this.ligne[0];
     }
 
+    /**
+     * Méthode qui interprète la ligne active
+     */
     public void interpreterLigne() {
         if (this.ligne[0] != "") {
             switch (this.ligne[0].strip().toLowerCase()) {
-                case "algorithme":
-                    this.ctrl.setNom(ligne[0].substring(ligne[0].indexOf("ALGORITHME ") + 11));
-                    break;
                 case "constante":
                     this.ctrl.setBConstante(true);
                     break;
@@ -112,13 +112,17 @@ public class Instruction {
                     this.ctrl.setBSi(true);
                     break;
                 default:
-
                     this.declare();
                     break;
             }
         }
     }
 
+    /**
+     * Méthode qui interprète la ligne active
+     * @param siImbrique
+     * @return décrémetation du siImbriqué
+     */
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
             this.ctrl.setBSi(true);
@@ -145,13 +149,12 @@ public class Instruction {
     }
 
     private void declare() {
-        if (this.ctrl.getBVariable()) {
+        if (this.ctrl.getBVariable())
             this.declareVar();
-        } else if (this.ctrl.getBConstante()) {
+        else if (this.ctrl.getBConstante())
             this.declareConst();
-        } else if (this.ligneComplete.contains("<--")) {
+        else if (this.ligneComplete.contains("<--"))
             this.affecterValeur();
-        }
     }
 
     /**
@@ -159,7 +162,7 @@ public class Instruction {
      */
     private void declareVar() {
         String[] noms = this.ligneComplete.split(":")[0].split(",");
-        String type = this.ligneComplete.split(":")[1];
+        String   type = this.ligneComplete.split(":")[1];
 
         for (String nom : noms) {
             this.ctrl.add(this.suppEspace(nom), this.suppEspace(type));
@@ -237,21 +240,29 @@ public class Instruction {
         } else {
             if (str.equals("vrai") || str.equals("faux"))
                 this.primit.si(str);
-            else {
+            else
                 this.primit.si(this.ctrl.getValeur(str));
-            }
         }
     }
 
+    /**
+     * décrémente le nombre de Si
+     */
     private void fsi() {
         if (this.ctrl.getNbSi() == 0)
             this.ctrl.setAlSi(null);
         else if (this.ctrl.getBSi() && (this.ctrl.getAlSi().get(this.ctrl.getNbSi()) != null))
             this.ctrl.getAlSi().remove(this.ctrl.getNbSi());
+        
         this.ctrl.setBSi(true);
         this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
     }
 
+    /**
+     * Méthode qui remplace les variables par leurs valeurs
+     * @param str
+     * @return Valeur finale, plus de variables dans la chaine
+     */
     private String remplacerParValeur(String str) {
         Pattern ptrn = Pattern
                 .compile("\\w+((?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)(?![^\']*\'[^\']*(?:\'[^\']*\'[^\']*)*$))");
@@ -268,11 +279,24 @@ public class Instruction {
         return str;
     }
 
+    /**
+     * Méthode servant à savoir si la chaine contient des comparateurs
+     * @param str
+     * @return true ou false ( présence ou absence de comparateurs )
+     */
     private boolean containsComparateur(String str) {
-        return str.contains("<") || str.contains(">") || str.contains("=") || str.contains("ou") || str.contains("xou")
-                || str.contains("et") || str.contains("non");
+        return str.contains("<"  ) ||
+               str.contains(">"  ) ||
+               str.contains("="  ) ||
+               str.contains("ou" ) ||
+               str.contains("xou") ||
+               str.contains("et" ) ||
+               str.contains("non");
     }
 
+    /**
+     * Appelle la lecture de la prochaine entrée clavier
+     */
     private void lire() {
         String[] vars = this.suppEspace(this.ligne[1]).split(",");
 
@@ -280,8 +304,12 @@ public class Instruction {
             this.primit.lire(nomVar);
     }
 
-    /*--------------------------------------*/
 
+    /**
+     * Appelle une fonction en fonction de son nom
+     * @param str
+     * @return Remplace la fonction appelée par sa valeur
+     */
     private String executerFonction(String str) {
         Pattern ptrn = Pattern.compile("\\w+ ?\\(.*\\)");
         Matcher matcher = ptrn.matcher(str);
@@ -304,13 +332,12 @@ public class Instruction {
     }
 
     /**
-     * Méthode qui renvoie le resultat d'une méthode de primitive executée
+     * Méthode qui renvoie le resultat d'une méthode primitive executée
      * 
      * @param nomFonction nom de la méthode à executer
      * @param parametre   paramètres que la méthode prend
-     * @return Object que la fonction renvoie
+     * @return Valeur
      */
-
     private String executerFonction(String nomFonction, String parametres) {
         for (Method m : primit.listePrimitives) {
             if (m.getName().equals(nomFonction)) {
@@ -328,8 +355,11 @@ public class Instruction {
         return null;
     }
 
+    /**
+     * Méthode pour accéder aux instructions
+     * @return Nom de la prochaine instruction
+     */
     public String getInstruction() {
         return this.prefixe;
     }
-
 }

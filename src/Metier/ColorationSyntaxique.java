@@ -18,13 +18,13 @@ import java.io.File;
 
 public class ColorationSyntaxique
 {
+	private static final int LONGUEUR_LIGNES = 75;
+
 	private static HashMap<String, String > hashCoulMotCles;
 	private static HashMap<String, Pattern> patternsMotCles;
 
 	private static String couleurCommentaire;
 	private static boolean commMultiLignes = false;
-
-	private static final int longueurLignes = 75;
 
 
 	/**
@@ -68,7 +68,7 @@ public class ColorationSyntaxique
 	 * Méthode qui colorie la ligne passée en paramètre
 	 * @param ligne Ligne à colorier
 	 * @param ajouterBlanc Nécessité de compenser les caractères ansii
-	 * @return String
+	 * @return Ligne coloriée
 	 */
 	public static String colorierLigne( String ligne, boolean ajouterBlanc )
 	{
@@ -95,7 +95,7 @@ public class ColorationSyntaxique
 					+ "\033[0m"
 					+ colorierLigne( ligne.substring( ligne.indexOf( "*/") + 2, ligne.length() ), false );
 
-				return ligne + " ".repeat( longueurLignes - longueurLigneInitiale );
+				return ligne + " ".repeat( LONGUEUR_LIGNES - longueurLigneInitiale );
 			}
 			// Indique qu'on est actuellement dans un commmentaire multilignes.
 			commMultiLignes = true;
@@ -105,7 +105,7 @@ public class ColorationSyntaxique
 				  + couleurCommentaire
 				  + ligne.substring( ligne.indexOf( "/*" ), ligne.length() )
 				  + "\033[0m"
-				  + " ".repeat( longueurLignes - longueurLigneInitiale );
+				  + " ".repeat( LONGUEUR_LIGNES - longueurLigneInitiale );
 		}
 
 		// Si un commentaire multiligne a été démarré mais pas encore fini
@@ -120,14 +120,14 @@ public class ColorationSyntaxique
 					  + ligne.substring( 0, ligne.indexOf( "*/" ) + 2 )
 					  + "\033[0m"
 					  + colorierLigne( ligne.substring( ligne.indexOf( "*/" ) + 2, ligne.length() ), false );
-				return ligne + " ".repeat( longueurLignes - longueurLigneInitiale );
+				return ligne + " ".repeat( LONGUEUR_LIGNES - longueurLigneInitiale );
 			}
 
 			// Pas fin de commentaire, coloration en vert
 			return couleurCommentaire
 				  + ligne
 				  + "\033[0m"
-				  + " ".repeat( longueurLignes - longueurLigneInitiale );
+				  + " ".repeat( LONGUEUR_LIGNES - longueurLigneInitiale );
 		}
 
 		/*----------------------*/
@@ -139,7 +139,7 @@ public class ColorationSyntaxique
 					+ couleurCommentaire 
 					+ ligne.substring( ligne.indexOf( "//" ), ligne.length() ) 
 					+ "\033[0m"
-					+ " ".repeat( longueurLignes - longueurLigneInitiale ) ;
+					+ " ".repeat( LONGUEUR_LIGNES - longueurLigneInitiale ) ;
 		}
 
 		/*-----------------------*/
@@ -163,10 +163,11 @@ public class ColorationSyntaxique
 		/*------------------------------------*/
 		/* Besoin de compenser des couleurs ? */
 		/*------------------------------------*/
+
 		// Si des couleurs sont ajoutées, alors la ligne ligne aura une longeur plus grande que celle affichée
 		// car des caractères seront invisibles. On compense donc avec des espaces.
 		if( ajouterBlanc ) 
-			ligne += " ".repeat( longueurLignes - longueurLigneInitiale );
+			ligne += " ".repeat( LONGUEUR_LIGNES - longueurLigneInitiale );
 		
 		return ligne;
 	}
@@ -189,7 +190,7 @@ public class ColorationSyntaxique
 	/**
 	 * Méthode qui renvoit une couleur grâce à son identifiant
 	 * @param id
-	 * @return String
+	 * @return Couleur en Ansii
 	 */
 	public static String getCouleurFromId( String id )
 	{

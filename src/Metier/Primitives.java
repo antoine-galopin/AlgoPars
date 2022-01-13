@@ -25,6 +25,7 @@ public class Primitives {
         this.listePrimitives = this.getClass().getDeclaredMethods();
     }
 
+
     /**
      * Correspond à l'appel de la fonction lire en pseudo-code.
      * 
@@ -38,6 +39,7 @@ public class Primitives {
         this.ctrl.affecterValeur(nom, valeur);
     }
 
+    
     /**
      * Correspond à l'appel de la fonction écrire en pseudo-code.
      * Elle peut afficher des valeurs brutes ou des variables.
@@ -133,34 +135,58 @@ public class Primitives {
         return String.valueOf((int) caractere.charAt(0));
     }
 
-    // convertit un réel en chaine
+    /**
+     * Convertie une variable en chaîne de caractères..
+     * @param chaine La variable à convertir.
+     * @return La chaîne de caractères contenant la valeur de la variable.
+     */
     public static String enChaine(String str) {
         return "\"" + str + "\"";
     }
 
-    // convertit une chaine en entier
+    /**
+     * Convertie une chaîne de caractères en Entier.
+     * @param chaine La chaîne de caractères à convertir.
+     * @return L'Entier contenu dans une chaîne de caractères.
+     */
     public static String enEntier(String chaine) {
         return chaine.replaceAll("\"", "");
     }
 
-    // convertit une chaine en réel
+    /**
+     * Convertie une chaîne de caractères en Réel.
+     * @param chaine La chaîne de caractères à convertir.
+     * @return Le Réel contenu dans une chaîne de caractères.
+     */
     public static String enReel(String chaine) {
         return chaine.replaceAll("\"", "");
 
     }
 
-    // retourne l'entier le plus proche d'un réel vers le bas
+    /**
+     * Retourne l'entier le plus proche d'un réel vers le bas.
+     * @param reel Le réel à partir duquel chercher le prochain entier inférieur.
+     * @return Une chaîne de caractères contentant l'entier.
+     */
     public static String plancher(String reel) {
         return String.valueOf(Math.floor(Double.parseDouble(reel)));
     }
 
-    // retourne l'entier le plus proche d'un réel vers le haut
+
+    /**
+     * Retourne l'entier le plus proche d'un réel vers le haut.
+     * @param reel Le réel à partir duquel chercher le prochain entier supérieur.
+     * @return Une chaîne de caractères contentant l'entier.
+     */
     public static String plafond(String reel) {
         return String.valueOf(Math.ceil(Double.parseDouble(reel)));
     }
 
-    // retourne l'entier le plus proche d'un réel ( par convention, arrondi de x,5
-    // vaut x+1 )
+    /**
+     * Retourne l'arrondi au supérieur d'un réel.
+     * @param reel Le réel à arrondir.
+     * @return La valeur arrondie dans une chaîne de caractères.
+     */
     public static String arrondi(String reel) {
         return String.valueOf(Math.round(Double.parseDouble(reel)));
     }
@@ -177,40 +203,62 @@ public class Primitives {
         return "\"" + (date.format(format)) + "\"";
     }
 
-    // retourne la partie jour d'une chaine correspondant à une date au format
-    // jj/mm/aaaa
+    
+    /**
+     * Retourne la partie jour de la date actuelle.
+     * La date est sous la forme 'jj/mm/aaaa'.
+     * 
+     * @return Une chaîne de caractère contenant le jour.
+     */
     public static String jour(String chaine) {
         return String.valueOf(chaine.substring(0, 2));
     }
 
-    // retourne la partie mois d'une chaine correspondant à une date au format
-    // jj/mm/aaaa
+    /**
+     * Retourne la partie mois de la date actuelle.
+     * La date est sous la forme 'jj/mm/aaaa'.
+     * 
+     * @return Une chaîne de caractère contenant le mois.
+     */
     public static String mois(String chaine) {
         return String.valueOf(chaine.substring(3, 5));
     }
 
-    // retourne la partie année d'une chaine correspondant à une date au format
-    // jj/mm/aaaa
+    /**
+     * Retourne la partie année de la date actuelle.
+     * La date est sous la forme 'jj/mm/aaaa'.
+     * 
+     * @return Une chaîne de caractère contenant l'année.
+     */
     public static String annee(String chaine) {
         return String.valueOf(chaine.substring(6, 10));
     }
 
-    // indique si la chaine peut être convertie en réel
+    /**
+     * Indique si une chaîne de caractères peut être convertie en réel.
+     * @param chaine La chaîne de caractères à vérifier.
+     * @return Une chaîne de caractères contenant le booléen.
+     */
     public static String estReel(String chaine) {
         return chaine.matches("^\\d+\\.\\d+$") == true ? "vrai" : "faux";
     }
 
-    // indique si la chaine peut être convertie en entier
+    /**
+     * Indique si une chaîne de caractères peut être convertie en entier.
+     * @param chaine La chaîne de caractères à vérifier.
+     * @return Une chaîne de caractères contenant le booléen.
+     */
     public static String estEntier(String chaine) {
         return chaine.matches("^\\d+$") == true ? "vrai" : "faux";
     }
 
     // retourne une valeur entière prise au hasard sur l'intervalle [ 0; paramètre ]
+    /**
+     * Retourne une valeure entière prise au hasard dans l'intervalle [ 0; entier ].
+     * @param entier La deuxième borne de l'intervalle.
+     * @return Une chaîne de caractères contenant l'entier généré. 
+     */
     public static String hasard(String entier) {
         return String.valueOf(Math.random() * Integer.parseInt(entier));
-    }
-
-    public void addValAlSi(Boolean val) {
-        this.ctrl.addValAlSi(val);
     }
 }
