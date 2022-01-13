@@ -6,15 +6,17 @@ import AlgoPars.Metier.Types.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-
 public class Calculateur {
 	/**
-	 * Méthode générale de calcul qui appelle ensuite les méthodes appropriées aux types utilisés
+	 * Méthode générale de calcul qui appelle ensuite les méthodes appropriées aux
+	 * types utilisés
+	 * 
 	 * @param expression
 	 * @return résultat
 	 */
 	public static String calculer(String expression) {
-		if (expression.isEmpty() || expression.isBlank()) return "";
+		if (expression.isEmpty() || expression.isBlank())
+			return "";
 
 		switch (getType(expression)) {
 			case "chaine":
@@ -29,8 +31,7 @@ public class Calculateur {
 						return "vrai";
 					default:
 						throw new RuntimeException(
-							"cannot implicit convert to Boolean:" + expression + "->" + calculerMath(expression)
-						);
+								"cannot implicit convert to Boolean:" + expression + "->" + calculerMath(expression));
 				}
 			case "reel":
 				return String.valueOf(calculerMath(expression));
@@ -44,8 +45,10 @@ public class Calculateur {
 
 	/**
 	 * Méthode de calcul liée aux expressions arythmétiques
+	 * 
 	 * @param expr
-	 * @return résultat sous forme de double ( pour assurer les calculs pour les Doubles et les Entiers )
+	 * @return résultat sous forme de double ( pour assurer les calculs pour les
+	 *         Doubles et les Entiers )
 	 */
 	private static double calculerMath(String expr) {
 		expr = Calculateur.nettoyer(expr); // nettoyage de l'expression
@@ -63,20 +66,19 @@ public class Calculateur {
 		// traitement des valeurs absolues ( ordre de priorité similaire aux parenthèses
 		// )
 		if ((index = expr.indexOf("|")) != -1) { // s'il y a un pipe
-			int index2 = Calculateur.trouverDeuxiemePipe(expr, index  + 1);
-			index      = Calculateur.trouverPremierePipe(expr, index2 - 1);
+			int index2 = Calculateur.trouverDeuxiemePipe(expr, index + 1);
+			index = Calculateur.trouverPremierePipe(expr, index2 - 1);
 
-			String premierePartie = expr.substring(0         , index);
-			String milieu         = expr.substring(index + 1 , index2);
-			String deuxiemePartie = expr.substring(index2 + 1        );
+			String premierePartie = expr.substring(0, index);
+			String milieu = expr.substring(index + 1, index2);
+			String deuxiemePartie = expr.substring(index2 + 1);
 
 			return calculerMath(premierePartie + String.valueOf(Math.abs(calculerMath(milieu))) + deuxiemePartie);
 		}
 
-		
 		// Opérateurs unaires
 		char[] tabCar = new char[] { '+', '-' };
-		int[]  tabOpe = new int [] { 1  , -1  };
+		int[] tabOpe = new int[] { 1, -1 };
 
 		for (int i = 0; i < tabCar.length; i++) {
 			if ((index = expr.indexOf(tabCar[i])) != -1) {
@@ -182,6 +184,7 @@ public class Calculateur {
 
 	/**
 	 * Méthode de calcul liée aux chaines et caractères
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -229,6 +232,7 @@ public class Calculateur {
 
 	/**
 	 * Méthode qui supprime les espaces d'avant et d'après la chaine
+	 * 
 	 * @param expr
 	 * @return chaine sans espaces au début ni à la fin
 	 */
@@ -240,7 +244,6 @@ public class Calculateur {
 
 		return expr;
 	}
-
 
 	/**
 	 * Méthode qui renvoit le groupe de parenthèse le plus profond dans l'expression
@@ -336,6 +339,7 @@ public class Calculateur {
 
 	/**
 	 * Méthode renvoyant le type de l'expression passée en paramètre
+	 * 
 	 * @param expression
 	 * @return Type de la chaine
 	 */
@@ -343,23 +347,27 @@ public class Calculateur {
 		if (expression.replaceAll("^ *", "").charAt(0) == '{')
 			return "tableau de " + getType(expression.substring(expression.indexOf("{") + 1));
 
-		if (expression.startsWith("'")) return "caractere";
+		if (expression.startsWith("'"))
+			return "caractere";
 
 		if (expression.contains("(c)") ||
-			expression.contains("©"  ) ||
-			expression.contains("\"")) return "chaine";
+				expression.contains("©") ||
+				expression.contains("\""))
+			return "chaine";
 
-		if (expression.contains("<"   ) ||
-			expression.contains(">"   ) ||
-			expression.contains("="   ) ||
-			expression.contains("/="  ) ||
-			expression.contains(" et ") ||
-			expression.contains(" ou ") ||
-			expression.contains("non" ) ||
-			expression.contains("vrai") ||
-			expression.contains("faux")) return "booleen";
+		if (expression.contains("<") ||
+				expression.contains(">") ||
+				expression.contains("=") ||
+				expression.contains("/=") ||
+				expression.contains(" et ") ||
+				expression.contains(" ou ") ||
+				expression.contains("non") ||
+				expression.contains("vrai") ||
+				expression.contains("faux"))
+			return "booleen";
 
-		if (expression.contains(".")) return "reel";
+		if (expression.contains("."))
+			return "reel";
 
 		return "entier";
 	}
