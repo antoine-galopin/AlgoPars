@@ -111,6 +111,8 @@ DEBUT
 	fsi
 	écrire(var)
 	lire(var)
+
+	// Zone de tests de l'affichage
 	var <--1
 	var <--1
 	var <--1
