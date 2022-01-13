@@ -21,6 +21,8 @@ public class Affichage {
     private final int tailleAffichage = 40; // Nombre de lignes du programme affichées
     private final int margeAffichage  = 8;  // Marge de l'affichage du programme
     private final int tailleConsole   = 3;  // Nombre de lignes de la console affichées
+    private final int longueurNoms    = 14;
+    private final int longueurValeurs = 19;
 
     /**
      * Constructeur de la classe Affichage
@@ -122,7 +124,7 @@ public class Affichage {
             // Présence de curseur ou non ( selon la ligne courante )
             charCurseur = cpt == numLigne ? '>' : ' ';
 
-            // Indication des conditions des SI/SINON.
+            // Indication des conditions des si/sinon
             if ( cpt == numLigne && fichier.get( cpt ).contains( "sinon" ) )
             {
                 sRet += (!listeConditionsIf.get( listeConditionsIf.size() - 1 )) 
@@ -145,16 +147,26 @@ public class Affichage {
             /* Trace des variables */
             /*---------------------*/
 
-            if     ( cpt == posDebut     ) sRet += "│      NOM       │        VALEUR       │\n"; // Ligne 1
+            if     ( cpt == posDebut     ) sRet += "│      NOM       │      VALEUR         │\n"; // Ligne 1
             else if( cpt == posDebut + 1 ) sRet += "├────────────────┼─────────────────────┤\n"; // Ligne 2
             else {
-                if( cpt - posDebut <= variablesSuivies.size() ) {
-                    if( this.ctrl.getValeur( this.variablesSuivies.get(cpt - posDebut - 2) ) != null ) {
-                        sRet += "│ "
-                            + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut - 2) )
-                            + " │ "
-                            + String.format( "%-19s", this.ctrl.getString( this.variablesSuivies.get(cpt - posDebut - 2) ) )
-                            + " │\n";
+                if( cpt - posDebut <= variablesSuivies.size() + 1 ) {
+                    String nomVar = this.variablesSuivies.get(cpt - posDebut - 2);
+
+                    if( this.ctrl.getString( this.variablesSuivies.get(cpt - posDebut - 2) ) != "" ) {
+                        sRet += "│ ";
+
+                        sRet += nomVar.length() <= longueurNoms
+                            ? String.format( "%-" + longueurNoms + "s", nomVar )
+                            : nomVar.substring(0, longueurNoms - 3) + "...";
+
+                        sRet += " │ ";
+
+                        sRet += this.ctrl.getString( nomVar ).length() <= longueurValeurs
+                            ? String.format( "%-" + longueurValeurs + "s", this.ctrl.getString( nomVar ) )
+                            : this.ctrl.getString( nomVar ).substring(0, longueurValeurs - 3) + "...";
+                        
+                        sRet += " │\n";
                     }
                     // Variable observée pas encore instanciée, on ne la suit pas
                     else sRet += "│                │                     │\n";
