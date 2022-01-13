@@ -117,7 +117,7 @@ implements Collection<T> // C'est une collection
 
     /**
      * Supprime tout les éléments présent dans la Collection du tableau.
-     * @return Un booléen indiquant si l'opération a été réalisée.
+     * @return Un booléen indiquant si l'opération a été réali
      */
     public boolean removeAll(Collection<?> c) {
         return valeur.removeAll(c);
@@ -137,6 +137,23 @@ implements Collection<T> // C'est une collection
      */
     public Object[] toArray() {
         return valeur.toArray();
+    }
+
+    /**
+     * Hérité de Collection.
+     */
+    public boolean retainAll(Collection<?> c) {
+        return valeur.retainAll(c);
+    }
+
+
+    /**
+     * Met les éléments du tableau dans le tableau passé en paramètre.
+     * @param a Le tableau de destination.
+     * @return La valeur de retour.
+     */
+    public <T> T[] toArray(T[] a) {
+        return valeur.toArray(a);
     }
 
     /**
