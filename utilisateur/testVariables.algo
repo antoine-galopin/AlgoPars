@@ -7,22 +7,28 @@ constante:
 variable:
     var:booleen
     lettre:caractere
-    txt:chaine
+    txt, texte:chaine
 
 DEBUT
-    /*écrire(CONST)
+    écrire(CONST)
 
-    var <-- vrai 
+    var <-- faux 
 
-    écrire(var)*/
+    écrire(var)
+    txt <-- "Bonjour"
 
-    txt <-- "Bonjour "
+    lettre <-- '1'
     
-    lettre <-- 'a'
+    texte <-- " monsieur"
+    lire(var)
 
-    txt <-- txt © 'a'
+    txt <-- txt © texte © lettre
 
     écrire(lettre)
     écrire( txt )
     écrire( CAR )
+
+    // écrire(booleen) --> true/false au lieu de vrai/faux
+    // concaténation String et char
+    // commentaire multiligne executé sur milieu et fin
 FIN

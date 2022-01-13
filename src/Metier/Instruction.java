@@ -262,6 +262,7 @@ public class Instruction {
                         && !this.containsComparateur(sRet))
                     str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
             }
+            System.out.println(str);
         return str;
     }
 
