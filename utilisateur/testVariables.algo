@@ -1,0 +1,15 @@
+ALGORITHME testVariables
+
+constante:
+    CONST <-- vrai
+
+variable:
+    var:booleen
+
+DEBUT
+    écrire(CONST)
+
+    var <-- vrai
+
+    écrire(var)
+FIN

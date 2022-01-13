@@ -153,7 +153,7 @@ public class Affichage {
                         sRet += "│ "
                             + String.format( "%-14s", this.variablesSuivies.get(cpt - posDebut - 2) )
                             + " │ "
-                            + String.format( "%-19s", this.ctrl.getValeur( this.variablesSuivies.get(cpt - posDebut - 2) ) )
+                            + String.format( "%-19s", this.ctrl.getString( this.variablesSuivies.get(cpt - posDebut - 2) ) )
                             + " │\n";
                     }
                     // Variable observée pas encore instanciée, on ne la suit pas
