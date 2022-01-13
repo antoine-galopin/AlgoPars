@@ -7,7 +7,7 @@ constante:
 	chiffre: reel <-- 52.4
 	symbole: caractere <-- '$'
 	phrase : chaine <-- "rien de nouveau sous le soleil"
-	verité : booleen <-- vrai
+	verité : booleen <-- vrai et faux ou 0<2
 variable:
 	vBool  :booleen
 	cpt    :entier
