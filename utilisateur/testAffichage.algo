@@ -4,6 +4,7 @@ variable:
 	var:entier
 	b:booleen
 	str:chaine
+	alpha: caractere
 DEBUT
 	b<--vrai
 	str<--"bonsoir"
@@ -14,6 +15,7 @@ DEBUT
 	var <--1
 	var <--1+2+ var
 	var <--36 /* test */ +56
+	alpha<-- 'a'
 
 	/* on
 	fait des
@@ -21,6 +23,7 @@ DEBUT
 	
 	/* */
 	écrire(str)
+	écrire(alpha)
 
 	var <--1
 
@@ -34,13 +37,13 @@ DEBUT
 		si faux alors
 		fsi
 		si vrai alors
-		écrire("alahwakbah");
+		écrire("Bonsoir");
 		sinon
-		écrire("alahwak")
+		écrire("Bonsoir")
 		fsi
-		écrire("alahwakbah1");
-		écrire("alahwakbah2");
-		écrire("alahwakbah3");
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
 	fsi
 	si b alors
 		si faux alors
@@ -48,42 +51,42 @@ DEBUT
 		fsi
 		écrire("waza")
 		si vrai alors
-			écrire("alahwakbah");
+			écrire("Bonsoir");
 		sinon
 			écrire("alpha");
 		fsi
-		écrire("alahwakbah1");
-		écrire("alahwakbah2");
-		écrire("alahwakbah3");
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
 	fsi
 	si 6 = 6 alors
-		écrire("alahwakbah");
+		écrire("Bonsoir");
 	sinon
 		écrire("beau il est le doggo")
 	fsi
 
-	si 6 = 6 alors
-		écrire("alahwakbah");
+	si 6 < 6 alors
+		écrire("Bonsoir");
 	sinon
 		écrire("beau il est le doggo")
 	fsi
 
 	si 6 > 9 alors
-		écrire("alahwakbah1");
-		écrire("alahwakbah2");
-		écrire("alahwakbah3");
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
 	fsi
 
 	si 6 = 9 alors
-		écrire("alahwakbah1");
-		écrire("alahwakbah2");
-		écrire("alahwakbah3");
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
 	fsi
 
 	si enEntier("6") > 9 alors
-		écrire("alahwakbah1");
-		écrire("alahwakbah2");
-		écrire("alahwakbah3");
+		écrire("Bonsoir1");
+		écrire("Bonsoir2");
+		écrire("Bonsoir3");
 	fsi
 	écrire(var)
 	lire(var)
