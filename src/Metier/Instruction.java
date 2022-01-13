@@ -120,6 +120,7 @@ public class Instruction {
 
     /**
      * Méthode qui interprète la ligne active
+     * 
      * @param siImbrique
      * @return décrémetation du siImbriqué
      */
@@ -148,6 +149,10 @@ public class Instruction {
 
     }
 
+    /**
+     * Methode permettant de déclarer les variables et constantes
+     * Ainsi qu'affecter leurs valeurs
+     */
     private void declare() {
         if (this.ctrl.getBVariable())
             this.declareVar();
@@ -162,7 +167,7 @@ public class Instruction {
      */
     private void declareVar() {
         String[] noms = this.ligneComplete.split(":")[0].split(",");
-        String   type = this.ligneComplete.split(":")[1];
+        String type = this.ligneComplete.split(":")[1];
 
         for (String nom : noms) {
             this.ctrl.add(this.suppEspace(nom), this.suppEspace(type));
@@ -253,13 +258,14 @@ public class Instruction {
             this.ctrl.setAlSi(null);
         else if (this.ctrl.getBSi() && (this.ctrl.getAlSi().get(this.ctrl.getNbSi()) != null))
             this.ctrl.getAlSi().remove(this.ctrl.getNbSi());
-        
+
         this.ctrl.setBSi(true);
         this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
     }
 
     /**
      * Méthode qui remplace les variables par leurs valeurs
+     * 
      * @param str
      * @return Valeur finale, plus de variables dans la chaine
      */
@@ -281,17 +287,18 @@ public class Instruction {
 
     /**
      * Méthode servant à savoir si la chaine contient des comparateurs
+     * 
      * @param str
      * @return true ou false ( présence ou absence de comparateurs )
      */
     private boolean containsComparateur(String str) {
-        return str.contains("<"  ) ||
-               str.contains(">"  ) ||
-               str.contains("="  ) ||
-               str.contains("ou" ) ||
-               str.contains("xou") ||
-               str.contains("et" ) ||
-               str.contains("non");
+        return str.contains("<") ||
+                str.contains(">") ||
+                str.contains("=") ||
+                str.contains("ou") ||
+                str.contains("xou") ||
+                str.contains("et") ||
+                str.contains("non");
     }
 
     /**
@@ -304,9 +311,9 @@ public class Instruction {
             this.primit.lire(nomVar);
     }
 
-
     /**
      * Appelle une fonction en fonction de son nom
+     * 
      * @param str
      * @return Remplace la fonction appelée par sa valeur
      */
@@ -357,6 +364,7 @@ public class Instruction {
 
     /**
      * Méthode pour accéder aux instructions
+     * 
      * @return Nom de la prochaine instruction
      */
     public String getInstruction() {
