@@ -6,6 +6,7 @@ import AlgoPars.Metier.Types.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+
 public class Calculateur {
 	public static String calculer(String expression) {
 		if (expression.isEmpty() || expression.isBlank())
@@ -163,15 +164,6 @@ public class Calculateur {
 	}
 
 	public static String calculerTableau(String expr) {
-		// String retour = expression.substring(indexOf) ;
-
-		/*
-		 * for (String s :
-		 * expression.split(",+(?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)")) {
-		 * retour=retour+calculer(s)+",";
-		 * }
-		 */
-
 		return expr;
 	}
 
