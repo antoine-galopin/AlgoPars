@@ -4,12 +4,23 @@ constante:
     CONST <-- vrai
 
 variable:
-    var:booleen
+    vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar:booleen
+    txt:chaine
 
 DEBUT
-    écrire(CONST)
+    /*écrire(CONST)
 
-    var <-- vrai
+    vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar <-- vrai 
 
-    écrire(var)
+    écrire(vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar)*/
+
+    txt <-- "Bonjour à toi"
+
+    si CONST alors
+        txt <-- txt © ", jeune testeur !"
+    sinon
+        txt <-- txt © " connard."
+    fsi
+
+    écrire( txt )
 FIN
