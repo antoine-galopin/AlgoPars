@@ -155,10 +155,6 @@ public class Programme {
 		this.alSi = alSi;
 	}
 
-	public void addValAlSi(Boolean val) {
-		this.alSi.add(val);
-	}
-
 	public int getLigneActive() {
 		return this.ligneActive;
 	}

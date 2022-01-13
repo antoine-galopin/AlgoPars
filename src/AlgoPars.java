@@ -152,10 +152,6 @@ public class AlgoPars {
         this.prgm.setSiImbrique(nbSi);
     }
 
-    public void addValAlSi(Boolean val) {
-        this.prgm.addValAlSi(val);
-    }
-
     public int getNbSi() {
         return this.prgm.getNbSi();
     }
