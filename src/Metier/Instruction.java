@@ -179,7 +179,7 @@ public class Instruction {
         // avec type
         if (this.ligne.length != 1) {
             noms = this.ligne[0].split(",");
-            type = this.ligne[1].split("<--")[0];
+            type = this.ligne[1].split("<--")[0].strip();
         }
         // sans type
         else {

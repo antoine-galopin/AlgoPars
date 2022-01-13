@@ -6,7 +6,6 @@ import AlgoPars.Metier.Types.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-
 public class Calculateur {
 	public static String calculer(String expression) {
 		if (expression.isEmpty() || expression.isBlank())
@@ -65,7 +64,6 @@ public class Calculateur {
 			return calculerMath(premierePartie + String.valueOf(Math.abs(calculerMath(milieu))) + deuxiemePartie);
 		}
 
-		
 		// Opérateurs unaires
 		char[] tabCar = new char[] { '+', '-' };
 		int[] tabOpe = new int[] { 1, -1 };
@@ -206,7 +204,6 @@ public class Calculateur {
 
 		}
 		System.out.println(expr);
-
 
 		return traiterChaine(expr);
 	}

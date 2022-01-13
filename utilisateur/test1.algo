@@ -1,5 +1,3 @@
-
-
 algorithme Test1
 
 constante:
@@ -7,28 +5,43 @@ constante:
 	chiffre: reel <-- 52.4
 	symbole: caractere <-- '$'
 	phrase : chaine <-- "rien de nouveau sous le soleil"
-	verité : booleen <-- vrai
+	verite <-- vrai
 variable:
 	vBool  :booleen
 	cpt    :entier
+	str    :chaine
 debut
-	cpt <-- 0
+	cpt <-- 10 / 3
 	vBool <-- vrai
+	str <-- enChaine(6)
 
 	/*
 	écrire("impossible")
 	*/
 
+	ecrire(aujourdhui())
 
-	si verité alors
-		ecrire("les test simple fonctionne")
+	si verite ou faux alors
+		ecrire("écrire" © " biensur")
+	sinon
+		ecrire("On est pas censé etre ici ")
+	fsi
+
+	si verite et faux alors
+		ecrire("écrire")
+	sinon
+		ecrire(verite)
+	fsi
+
+	si verite xou faux alors
+		écrire("les test simple fonctionne")
 	sinon
 		ecrire("On est pas censé etre ici ")
 	fsi
 
 	si vBool alors
 		si verité alors
-			si cpt=0 alors
+			si faux alors
 				ecrire("les test imbriqué fonctionne")
 			fsi
 		fsi
@@ -36,35 +49,8 @@ debut
 
 	lire(numero)
 
-	selon numero
-		cas 1 : ecrire("vous avez ecrit 1")
-		cas 2 : ecrire(phrase)
-		autre cas  : ecrire("par defaut")
-	fselon
-
 /*
 	un commentaire multiligne
 */
-
-	tq /*condition*/ faire //un commentaire monoLigne
-		/*code*/
-	ftq
-
-	faire 
-		/*code*/
-	tq /*condition*/ ftq
-
-	pour cpt de 1 à 20 pas 5
-		ecrire("on ecrit n:" (c) enChaine(cpt))
-	fpour
-
-	repeter
-		 /*code*/
-	jusqu'à /*condition*/
-
-	repeter 3 fois 
-		ecrire(aujourdhui())
-	frepeter
-
 
 fin
