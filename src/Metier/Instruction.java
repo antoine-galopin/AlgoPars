@@ -27,21 +27,23 @@ public class Instruction {
     public Instruction(AlgoPars ctrl, Primitives primit, String ligneRecue) {
         this.ctrl = ctrl;
         this.primit = primit;
+        ligneRecue = ligneRecue.replaceAll("\\/\\*.*\\*\\/", "");
+
+        if ( ligneRecue.contains( "//" ) )
+            ligneRecue = ligneRecue.substring( 0, ligneRecue.indexOf( "//" ) );
 
         this.ligneComplete = this.suppEspace(ligneRecue);
-
-        this.ligneComplete = ligneComplete.replaceAll("\\/\\*.*\\*\\/", "");
-
+        
         if (this.ctrl.estCommenter()) {
-            if (ligneComplete.matches("\\*\\/")) {
+            if (ligneRecue.matches("\\*\\/")) {
                 ctrl.setCommenter(false);
-                ligneComplete.replaceAll("^.*\\*\\/", "");
+                ligneRecue.replaceAll("^.*\\*\\/", "");
             } else
-                ligneComplete = "";
+                ligneRecue = "";
         } else {
-            if (ligneComplete.matches("\\/\\*")) {
+            if (ligneRecue.matches("\\/\\*")) {
                 ctrl.setCommenter(true);
-                ligneComplete.replaceAll("\\/\\*.*$", "");
+                ligneRecue.replaceAll("\\/\\*.*$", "");
             }
         }
 
@@ -49,23 +51,20 @@ public class Instruction {
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
         Matcher matcher = pattern.matcher(ligneRecue);
 
-        if (this.ligneComplete.matches("(\\/\\*)|(\\*\\/)") || this.ctrl.estCommenter()) {
-            this.ligne = new String[] { "//" };
-        } else {
 
-            // Traitement des cas lire et écrire ( fonctions à paramètres )
-            if (ligneRecue.contains("écrire") || ligneRecue.contains("ecrire") || ligneRecue.contains("lire")) {
-                pattern = Pattern.compile("\"\\w+ *\\(.*\"");
-                matcher = pattern.matcher(ligneRecue);
 
-                // si ce n'est pas une chaine comme "fonc("
-                if (!matcher.find()) {
-                    this.ligne = ligneRecue.split("\\(");
-                    this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
-                }
-            } else
-                this.ligne = ligneRecue.strip().split(" ");
-        }
+        // Traitement des cas lire et écrire ( fonctions à paramètres )
+        if (ligneRecue.contains("écrire") || ligneRecue.contains("ecrire") || ligneRecue.contains("lire")) {
+            pattern = Pattern.compile("\"\\w+ *\\(.*\"");
+            matcher = pattern.matcher(ligneRecue);
+
+            // si ce n'est pas une chaine comme "fonc("
+            if (!matcher.find()) {
+                this.ligne = ligneRecue.split("\\(");
+                this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
+            }
+        } else
+            this.ligne = ligneRecue.strip().split(" ");
         this.prefixe = this.ligne[0];
     }
 

@@ -24,16 +24,21 @@ DEBUT
 	/* */
 	écrire(str)
 	écrire(alpha)
-	ecrire( "Test du écrire avec accent !" )
-	ecrire( "Test du ecrire sans accent !" )
-	écrire( "Test du écrire avec accent !" )
-	écrire( "Test du ecrire sans accent !" )
+	ecrire( "Test1" ) /* test avec commentaire */
+	/* test avec commentaire */ ecrire( "Test2" )
+	écrire( "Test3" ) // oui
+	écrire( "Test4" )
 
 	var <--1
 
 	var <--1
 	//un commentaire
 	/*
+	écrire("impossible")
+	écrire("impossible")
+	écrire("impossible")
+	écrire("impossible")
+	écrire("impossible")
 	écrire("impossible")
 	*/
 	  
