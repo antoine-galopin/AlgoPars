@@ -225,30 +225,17 @@ public class Programme {
 	 */
 	public String getValeur(String nom) {
 		Typable var = this.donnees.rechercheParNom(nom);
-		if (var != null) {
-			// if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof
-			// Tableau))
-			return var.getValeur();
-			/*
-			 * else
-			 * return var.getValeur().toString();
-			 */
-		}
+
+		if (var != null) return var.getValeur();
+
 		return null;
 	}
 
 	public String getString(String nom) {
 		Typable var = this.donnees.rechercheParNom(nom);
-		if (var != null) {
-			// if ((var instanceof Booleen) || (var instanceof Reel) || (var instanceof
-			// Tableau))
-			return var.toString();
-			/*
-			 * else
-			 * return var.getValeur().toString();
-			 */
+		
+		if (var != null) return var.toString();
 
-		}
 		return null;
 	}
 

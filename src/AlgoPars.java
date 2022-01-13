@@ -71,11 +71,6 @@ public class AlgoPars {
         this.cui.ajouterTraceExecution(trace);
     }
 
-    /*
-     * public Object executerFonction(String nomFonction, Typable[] parametre) {
-     * return this.prgm.executerFonction(nomFonction, parametre);
-     * }
-     */
 
     /**
      * Méthode qui appelle le constructeur de constantes
@@ -113,9 +108,11 @@ public class AlgoPars {
     }
 
     public String getString(String nom) {
-        String sRet = this.prgm.getString(nom) != null ? this.prgm.getString(nom) : "";
+        String sRet = this.prgm.getString(nom);
 
-        return sRet.replaceAll("\"", "");
+        if( sRet != null && sRet.startsWith("\"\"") ) return sRet.substring(1, sRet.length()-1);
+
+        return sRet;
     }
 
     public boolean getBConstante() {
@@ -181,5 +178,4 @@ public class AlgoPars {
     public static void main(String[] args) {
         new AlgoPars(args[0]);
     }
-
 }

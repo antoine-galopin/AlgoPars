@@ -2,25 +2,27 @@ ALGORITHME testVariables
 
 constante:
     CONST <-- vrai
+    CAR <-- 'a'
 
 variable:
-    vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar:booleen
+    var:booleen
+    lettre:caractere
     txt:chaine
 
 DEBUT
     /*écrire(CONST)
 
-    vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar <-- vrai 
+    var <-- vrai 
 
-    écrire(vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaar)*/
+    écrire(var)*/
 
-    txt <-- "Bonjour à toi"
+    txt <-- "Bonjour "
+    
+    lettre <-- 'a'
 
-    si CONST alors
-        txt <-- txt © ", jeune testeur !"
-    sinon
-        txt <-- txt © " connard."
-    fsi
+    txt <-- txt © 'a'
 
+    écrire(lettre)
     écrire( txt )
+    écrire( CAR )
 FIN
