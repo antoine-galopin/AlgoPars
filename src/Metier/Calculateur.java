@@ -10,7 +10,7 @@ public class Calculateur {
 	public static String calculer(String expression) {
 
 		if (expression.isEmpty() || expression.isBlank()) {
-			return "" ;
+			return "";
 		}
 
 		switch (getType(expression)) {
@@ -40,7 +40,6 @@ public class Calculateur {
 
 	private static double calculerMath(String expr) {
 		expr = Calculateur.nettoyer(expr); // nettoyage de l'expression
-		System.out.println(expr);
 
 		/*-----------Remplacer les variables nommées par leur valeurs------------*/
 
@@ -184,8 +183,6 @@ public class Calculateur {
 
 	public static String calculerChaine(String expr) {
 		String retour = "";
-
-		System.out.println(expr);
 
 		Pattern pattern = Pattern.compile("( */= *)(?=[\"'].*[\"'])");
 		Matcher matcher = pattern.matcher(expr);
@@ -355,36 +352,5 @@ public class Calculateur {
 			return "reel";
 
 		return "entier";
-	}
-
-	public static void main(String[] args) {
-		// System.out.println( calculer( "5 × 4 + 3" ) + " = 23 ?" );
-		// System.out.println( calculer( "5×4+3" ) + " = 23 ?" );
-		// System.out.println( calculer( "+21" ) + " = 21 ?" );
-		// System.out.println( calculer( "-21" ) + " = -21 ?" );
-		// System.out.println( calculer( "20 / 8" ) + " = 2.5 ?" );
-		// System.out.println( calculer( "20 div 8" ) + " = 2 ?" );
-		// System.out.println( calculer( "13 mod 5" ) + " = 3 ?" );
-		// System.out.println( calculer( "5 ^ 2 + 3 × 10" ) + " = 55 ?" );
-		// System.out.println( calculer( "(8/(45-(2))+5)" ) + " = 30?" );
-		// System.out.println( calculer( "5-\\/¯(25)+5" ) );
-		// System.out.println( calculer( "|-||9-5+|-5+9||||" ) );
-		// System.out.println( calculer( "non 5<6" ) );
-		// System.out.println( calculer( "vrai xou vrai" ) );
-		// System.out.println( calculer( "\"(c)\\\"cpoa\" © \"n1\" (c) 'vim\"' ") );*/
-
-		/* #~~~~# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #~~~~# */
-		/* #~~~~# Les petits tests d'Antoine #~~~~# */
-		/* #~~~~# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #~~~~# */
-
-		System.out.println(calculer("faux xou 5- 4 < 2"));
-		System.out.println(calculer("5+\\/¯100^5-1"));
-		System.out.println("----------");
-		System.out.println(calculer("5+\\/¯100^5+|-10|-1"));
-		System.out.println(calculer("\"janvierc\"  /= \"fevrier\""));
-
-		// System.out.println( calculer( ) );
-		// System.out.println( calculer( ) );
-		// System.out.println( calculer( ) );
 	}
 }

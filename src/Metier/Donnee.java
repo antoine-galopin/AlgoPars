@@ -4,17 +4,17 @@ import AlgoPars.Metier.Types.*;
 
 import java.util.ArrayList;
 
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class Donnee {
     private ArrayList<Typable> donnees;
-/*
-    private final String[][] tabRegex = new String[][] {
-            { "'.'", "\"[^\\\"]*\"", "\\d,\\d+", "vrai", "faux", "\\d+" },
-            { "caractere", "chaine", "reel", "booleen", "entier" }
-    };*/
+    /*
+     * private final String[][] tabRegex = new String[][] {
+     * { "'.'", "\"[^\\\"]*\"", "\\d,\\d+", "vrai", "faux", "\\d+" },
+     * { "caractere", "chaine", "reel", "booleen", "entier" }
+     * };
+     */
 
     Typable var;
 
@@ -32,7 +32,7 @@ public class Donnee {
      * @param type
      */
     public void add(String nom, String type) {
-        switch(type) {
+        switch (type) {
             case "booleen": {
                 this.donnees.add(new Booleen(nom, true, false));
                 break;
@@ -57,20 +57,18 @@ public class Donnee {
 
                 int dimension = 0;
 
-                while  (type.indexOf("tableaude")!=-1)
-                {
+                while (type.indexOf("tableaude") != -1) {
                     dimension++;
-                    type=type.replaceFirst("tableaude","");
+                    type = type.replaceFirst("tableaude", "");
                 }
 
-                switch(type) {
+                switch (type) {
                     case "booleen": {
                         this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
                         break;
                     }
                     case "caractere": {
                         this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
-                        System.out.println("here");
                         break;
                     }
                     case "chaine": {
@@ -91,13 +89,13 @@ public class Donnee {
 
     /**
      * Méthode qui instancie une constante
+     * 
      * @param nom
      * @param type
      * @param valeur
      */
     public void add(String nom, String type, String valeur) {
-        System.out.println(type);
-        if( type == null )
+        if (type == null)
             type = Calculateur.getType(valeur);
 
         switch (type) {
@@ -130,9 +128,9 @@ public class Donnee {
 
                 int dimension = matcher.groupCount();
 
-                type=type.replaceAll("tableaude","");
+                type = type.replaceAll("tableaude", "");
 
-                switch(type) {
+                switch (type) {
                     case "booleen": {
                         this.donnees.add(Tableau.new_TableauXD(nom, true, dimension));
                         break;
@@ -165,9 +163,8 @@ public class Donnee {
      * @return Typable
      */
     public Typable rechercheParNom(String nom) {
-        System.out.println(donnees);
-        for( Typable t : donnees )
-            if( t.getNom().equals(nom) )
+        for (Typable t : donnees)
+            if (t.getNom().equals(nom))
                 return t;
 
         return null;
@@ -183,19 +180,15 @@ public class Donnee {
     public void affecterValeur(String nom, String valeur) {
         this.var = rechercheParNom(nom);
 
-        if( this.var.getType().equals( "Caractere" ) ) {
+        if (this.var.getType().equals("Caractere")) {
             ((Caractere) (this.var)).setValeur(valeur.charAt(0));
-        }
-        else if( this.var.getType().equals( "Chaine" ) ) {
+        } else if (this.var.getType().equals("Chaine")) {
             ((Chaine) (this.var)).setValeur(valeur);
-        }
-        else if( this.var.getType().equals( "Reel" ) ) {
+        } else if (this.var.getType().equals("Reel")) {
             ((Reel) (this.var)).setValeur(Double.parseDouble(valeur));
-        }
-        else if( this.var.getType().equals( "Booleen" ) ) {
-            ((Booleen) (this.var)).setValeur( valeur.matches("vrai") );
-        }
-        else if( this.var.getType().equals( "Entier" ) ) {
+        } else if (this.var.getType().equals("Booleen")) {
+            ((Booleen) (this.var)).setValeur(valeur.matches("vrai"));
+        } else if (this.var.getType().equals("Entier")) {
             ((Entier) (this.var)).setValeur(Integer.parseInt(valeur));
         }
 

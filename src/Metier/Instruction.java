@@ -37,7 +37,7 @@ public class Instruction {
         Matcher matcher = pattern.matcher(ligneRecue);
 
         if (this.ligneComplete.matches("(\\/\\*)|(\\*\\/)")) {
-            this.ligne = new String[] { "/*" };
+            this.ligne = new String[] { "/*" };/**/
         } else {
 
             // Traitement des cas lire et écrire ( fonctions à paramètres )
@@ -57,7 +57,6 @@ public class Instruction {
     }
 
     public void interpreterLigne() {
-
         if (this.ligne[0] != "") {
             switch (this.ligne[0].strip().toLowerCase()) {
                 case "algorithme":
@@ -120,7 +119,7 @@ public class Instruction {
                     break;
             }
         }
-    }/**/
+    }
 
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
@@ -137,7 +136,6 @@ public class Instruction {
             case "si":
                 this.ctrl.setBSi(false);
                 this.ctrl.setNbSi(this.ctrl.getNbSi() + 1);
-                // this.si();
                 return 1;
             case "fsi":
                 this.fsi();
@@ -310,7 +308,7 @@ public class Instruction {
      * @return Object que la fonction renvoie
      */
 
-    public String executerFonction(String nomFonction, String parametres) {
+    private String executerFonction(String nomFonction, String parametres) {
         for (Method m : primit.listePrimitives) {
             if (m.getName().equals(nomFonction)) {
                 try {

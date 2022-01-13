@@ -22,18 +22,19 @@ public class Programme {
 	private ArrayList<Instruction> listeInstructions;
 
 	private ArrayList<Integer> listeBreakPoints;
+	private ArrayList<Boolean> alSi;
+	private ArrayList<Integer> alTq;
 
 	private boolean executionActive;
 	private boolean bConstante;
 	private boolean bVariable;
 	private boolean estCommenter;
 	private boolean bSi;
-	private ArrayList<Boolean> alSi;
-	private ArrayList<Integer> alTq;
-	private int nombreTq;
-	private int tqImbrique;
+
 	private int nombreSi;
 	private int siImbrique;
+	private int nombreTq;
+	private int tqImbrique;
 	private String nom;
 
 	/**
@@ -287,10 +288,7 @@ public class Programme {
 				if (this.alSi != null) {
 					if (!this.bSi || !this.alSi.get(this.nombreSi)) {
 						this.siImbrique = 0;
-						System.out.println(!this.bSi + " " + this.siImbrique + " "
-								+ (this.siImbrique > -1 && !this.alSi.get(this.nombreSi)));
 						while (!this.bSi || (this.siImbrique > -1 && !this.alSi.get(this.nombreSi))) {
-							System.out.println(!this.bSi);
 							this.siImbrique += this.listeInstructions.get(++this.ligneActive)
 									.interpreterLigne(this.siImbrique);
 						}
