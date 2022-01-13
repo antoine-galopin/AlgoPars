@@ -28,9 +28,7 @@ public class Instruction {
         this.ctrl = ctrl;
         this.primit = primit;
 
-        this.ligneComplete = this.suppEspace(ligneRecue);
-
-        this.ligneComplete = ligneComplete.replaceAll("\\/\\*.*\\*\\/", "");
+        this.ligneComplete = ligneRecue.replaceAll("\\/\\*.*\\*\\/", "");
 
         // Initialisation regex pour trouver des fonctions
         Pattern pattern = Pattern.compile("\\w+ ?\\(");
@@ -41,7 +39,7 @@ public class Instruction {
         } else {
 
             // Traitement des cas lire et écrire ( fonctions à paramètres )
-            if (ligneRecue.contains("écrire") || ligneRecue.contains("lire")) {
+            if (ligneRecue.contains("écrire") || ligneRecue.contains("ecrire") || ligneRecue.contains("lire")) {
                 pattern = Pattern.compile("\"\\w+ *\\(.*\"");
                 matcher = pattern.matcher(ligneRecue);
 
@@ -50,8 +48,18 @@ public class Instruction {
                     this.ligne = ligneRecue.split("\\(");
                     this.ligne[1] = this.ligne[1].replace("\\(", "").replace(")", "").strip();
                 }
-            } else
-                this.ligne = ligneRecue.strip().split(" ");
+            } else {
+                ligneRecue = ligneRecue.strip();
+                Pattern ptn = Pattern.compile("^\\w+");
+                Matcher match = ptn.matcher(ligneRecue);
+                while (match.find()) {
+                    this.ligne = new String[] { match.group() };
+                }
+                if (this.ligne == null)
+                    this.ligne = new String[] { ligneRecue };
+
+            }
+
         }
         this.prefixe = this.ligne[0];
     }
@@ -62,10 +70,10 @@ public class Instruction {
                 case "algorithme":
                     this.ctrl.setNom(ligne[0].substring(ligne[0].indexOf("ALGORITHME ") + 11));
                     break;
-                case "constante:":
+                case "constante":
                     this.ctrl.setBConstante(true);
                     break;
-                case "variable:":
+                case "variable":
                     this.ctrl.setBConstante(false);
                     this.ctrl.setBVariable(true);
                     break;
@@ -90,11 +98,6 @@ public class Instruction {
                     break;
                 case "sinon":
                     this.ctrl.setBSi(true);
-                    // this.sinon();
-                    break;
-                case "tq":
-                case "tant":
-                    // this.tq();
                     break;
                 case "/*":
 
@@ -124,7 +127,6 @@ public class Instruction {
 
     public int interpreterLigne(int siImbrique) {
         if (this.ligne[0].equals("sinon") && siImbrique == 0) {
-            // this.sinon();
             this.ctrl.setBSi(true);
             this.ctrl.setNbSi(this.ctrl.getNbSi() - 1);
             return -1;
@@ -165,8 +167,10 @@ public class Instruction {
         String[] noms = this.ligneComplete.split(":")[0].split(",");
         String type = this.ligneComplete.split(":")[1];
 
-        for (String nom : noms)
-            this.ctrl.add(nom, type);
+        for (String nom : noms) {
+            System.out.println(nom);
+            this.ctrl.add(this.suppEspace(nom), this.suppEspace(type));
+        }
     }
 
     /**
@@ -190,7 +194,8 @@ public class Instruction {
         }
 
         for (String nom : noms)
-            this.ctrl.add(nom, type, Calculateur.calculer(this.remplacerParValeur(this.executerFonction(valeur))));
+            this.ctrl.add(this.suppEspace(nom), type, this.suppEspace(
+                    Calculateur.calculer(this.remplacerParValeur(this.executerFonction(valeur)))));
     }
 
     /**
@@ -201,7 +206,8 @@ public class Instruction {
         String valeur = this.ligneComplete.split("<--")[1];
 
         for (String nom : noms)
-            this.ctrl.affecterValeur(nom, Calculateur.calculer(this.remplacerParValeur(this.executerFonction(valeur))));
+            this.ctrl.affecterValeur(this.suppEspace(nom), this.suppEspace(
+                    Calculateur.calculer(this.remplacerParValeur(this.executerFonction(valeur)))));
     }
 
     /**
@@ -228,6 +234,7 @@ public class Instruction {
     private void si() {
         String str = this.ligneComplete.substring(this.ligneComplete.indexOf("si") + 2,
                 this.ligneComplete.indexOf("alors"));
+        str = str.strip();
 
         if (this.containsComparateur(str)) {
             str = this.executerFonction(str);
@@ -243,10 +250,6 @@ public class Instruction {
         }
     }
 
-    private void sinon() {
-
-    }
-
     private void fsi() {
         if (this.ctrl.getNbSi() == 0)
             this.ctrl.setAlSi(null);
@@ -260,13 +263,15 @@ public class Instruction {
         Pattern ptrn = Pattern
                 .compile("\\w+((?![^\"]*\"[^\"]*(?:\"[^\"]*\"[^\"]*)*$)(?![^\']*\'[^\']*(?:\'[^\']*\'[^\']*)*$))");
         Matcher matcher = ptrn.matcher(str);
-        if (!(str.equals("vrai") || str.equals("faux")))
-            while (matcher.find()) {
-                String sRet = matcher.group();
-                if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find()
-                        && !this.containsComparateur(sRet))
-                    str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
+        str = str.strip();
+
+        while (matcher.find()) {
+            String sRet = matcher.group();
+            if (!Pattern.compile("\\b(?<!\\.)\\d+(?!\\.)\\b").matcher(sRet).find()
+                    && !this.containsComparateur(sRet) && (!(sRet.equals("vrai") || sRet.equals("faux")))) {
+                str = str.replaceAll(sRet, this.ctrl.getValeur(sRet));
             }
+        }
         return str;
     }
 
