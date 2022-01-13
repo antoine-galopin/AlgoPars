@@ -100,7 +100,7 @@ public class Programme {
 	/**
 	 * Accesseur de BConstante
 	 * 
-	 * @return boolean
+	 * @return booleen indiquant si l'on est dans la zone de déclaration des constantes
 	 */
 	public boolean getBConstante() {
 		return this.bConstante;
@@ -109,12 +109,17 @@ public class Programme {
 	/**
 	 * Accesseur de BVariable
 	 * 
-	 * @return boolean
+	 * @return booleen indiquant si l'on est dans la zone de déclaration des variables
 	 */
 	public boolean getBVariable() {
 		return this.bVariable;
 	}
 
+	/**
+	 * Accesseur de bSi
+	 * 
+	 * @return booleen indiquant si l'on est dans un si
+	 */
 	public boolean getBSi() {
 		return this.bSi;
 	}
@@ -155,6 +160,11 @@ public class Programme {
 		this.alSi = alSi;
 	}
 
+	/**
+	 * Accesseur de ligneActive
+	 * 
+	 * @return indice de la ligne active
+	 */
 	public int getLigneActive() {
 		return this.ligneActive;
 	}
@@ -162,7 +172,7 @@ public class Programme {
 	/**
 	 * Accesseur de lignesFichier
 	 * 
-	 * @return ArrayList<String>
+	 * @return ArrayList contenant les lignes du fichier
 	 */
 	public ArrayList<String> getLignesFichier() {
 		return this.lignesFichier;
@@ -171,7 +181,7 @@ public class Programme {
 	/**
 	 * Accesseur de lignesFichierColorie
 	 * 
-	 * @return ArrayList<String>
+	 * @return ArrayList contenant les lignes du fichier colorées
 	 */
 	public ArrayList<String> getLignesFichierColorie() {
 		return this.lignesFichierColorie;
@@ -180,7 +190,7 @@ public class Programme {
 	/**
 	 * Accesseur de listeVarSuivies
 	 * 
-	 * @return ArrayList<String>
+	 * @return ArrayList contenant les variables suivies
 	 */
 	public ArrayList<String> getVariablesSuivies() {
 		return this.listeVarSuivies;
@@ -189,28 +199,48 @@ public class Programme {
 	/**
 	 * Accesseur de listeBreakPoints
 	 * 
-	 * @return ArrayList<Integer>
+	 * @return ArrayList contenant la liste des breakpoints
 	 */
 	public ArrayList<Integer> getListeBreakPoints() {
 		return this.listeBreakPoints;
 	}
 
+	/**
+	 * Méthode changeant le nom du programme
+	 * @param nom
+	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
+	/**
+	 * Méthode changeant bsi
+	 * @param bSi
+	 */
 	public void setBSi(boolean bSi) {
 		this.bSi = bSi;
 	}
 
+	/**
+	 * Méthode changeant nbSi
+	 * @param nbSi
+	 */
 	public void setNbSi(int nbSi) {
 		this.nombreSi = nbSi;
 	}
 
+	/**
+	 * Méthode changeant siImbrique
+	 * @param nbSi
+	 */
 	public void setSiImbrique(int nbSi) {
 		this.siImbrique = nbSi;
 	}
 
+	/**
+	 * Accesseur du nombre de si
+	 * @return nombre de si
+	 */
 	public int getNbSi() {
 		return this.nombreSi;
 	}
@@ -219,7 +249,7 @@ public class Programme {
 	 * Accesseur de valeur
 	 * 
 	 * @param nom
-	 * @return String
+	 * @return valeur sous forme de string
 	 */
 	public String getValeur(String nom) {
 		if( this.donnees.rechercheParNom(nom) == null ) return null;
