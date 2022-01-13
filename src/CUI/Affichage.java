@@ -68,7 +68,7 @@ public class Affichage {
 
     /**
      * Méthode de création de l'entete commun à chaque affichage
-     * @return String entête de l'affichage
+     * @return entête de l'affichage
      */
     private String entete() {
         return String.format("%-80s", "┌" + "─".repeat(9) + "┐") + "┌" + "─".repeat(9) + "┐\n" // Ligne 1
@@ -80,7 +80,7 @@ public class Affichage {
     /**
      * Méthode de création du corps de l'affichage
      * Le corps évolue en fonction de l'indice de la ligne courante
-     * @return String corps de l'affichage
+     * @return corps de l'affichage
      */
     private String corps() {
         ArrayList<String > fichier  = this.ctrl.getLignesFichierColorie();
@@ -183,7 +183,7 @@ public class Affichage {
 
     /**
      * Méthode de création de la partie console de l'affichage
-     * @return String console de l'affichage
+     * @return console de l'affichage
      */
     private String console() {
         // Entête de la console
